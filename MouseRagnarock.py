@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'untitled.ui'
-#
-# Created by: PyQt5 UI code generator 5.10.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 #from pymsgbox import *
 from xml.dom import minidom
@@ -14,7 +7,6 @@ from threading import Thread
 import time
 from yattag import Doc, indent
 
-#energy = 1
 energy_max = 100
 
 
