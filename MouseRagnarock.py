@@ -121,7 +121,6 @@ class Ui_MainWindow(object):
         self.move.setObjectName("move")
         self.gridLayout.addWidget(self.move, 4, 1, 1, 1)
         self.shop = QtWidgets.QPushButton(self.layoutWidget)
-        self.shop.setEnabled(False)
         self.shop.setObjectName("shop")
         self.gridLayout.addWidget(self.shop, 4, 2, 1, 1)
         self.inventory = QtWidgets.QPushButton(self.layoutWidget)
@@ -178,23 +177,30 @@ class Ui_MainWindow(object):
 
         self.pipe.clicked.connect(self.pipe_click)
 
+
     def catch_mouse(self):
-        global money, cheese_amount
+        global money, cheese_amount, mouse_name, mouse_cost
 
         number = 1 + int(random()*10)
 
-        self.mousename.setText(GameLogic.ReadXML(self, "mice", "name", number, 0))
-        self.mousecost.setText(GameLogic.ReadXML(self, "mice", "cost", number, 0))
-        money += int(GameLogic.ReadXML(self, "mice", "cost", number, 0))
+        mouse_name =  GameLogic.ReadXML(self, "mice", "name", number, 0)
+        mouse_cost = GameLogic.ReadXML(self, "mice", "cost", number, 0)
+        self.mousename.setText(mouse_name)
+        self.mousecost.setText(mouse_cost)
+        money += int(mouse_cost)
         self.moneylabel.setText(str(money))
-        if money !=10:
-            cheese_amount-=1
+        if money != 10:
+            cheese_amount -= 1
 
     def update_ui(self):
 
         global energy
         self.energybar.setValue(energy)
-        self.cheese_label.setText("Cheese: "+str(cheese_amount))
+        self.cheese_label.setText(cheese+" "+str(cheese_amount))
+        self.diamondslabel.setText(str(diamonds))
+        self.moneylabel.setText(str(money))
+        self.mousename.setText(mouse_name)
+        self.mousecost.setText(mouse_cost)
 
     def pipe_click(self):
 
@@ -229,7 +235,10 @@ class GameLogic(object):
 
     def WriteFile(self):
         doc, tag, text = Doc().tagtext()
-        with tag('user', energy=str(energy), money=str(money), cheese_amount=str(cheese_amount)):
+        with tag('user', energy=str(energy), money=str(money),
+                 diamonds=str(diamonds), cheese=cheese,
+                 cheese_amount=str(cheese_amount),
+                 last_mouse=mouse_name, last_cost=mouse_cost):
             text(str(energy))
 
         result = indent(
@@ -257,10 +266,13 @@ class EnergyThread(Thread):
         energy += 1
         #Ui_MainWindow.energybar.setText(str(energy))
 
-
 energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
+diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
+cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
 cheese_amount = int(GameLogic.ReadFile(GameLogic, "cheese_amount", 0))
+mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
+mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 
 if __name__ == "__main__":
     import sys
