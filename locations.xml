@@ -31,8 +31,8 @@
         <mice10  name="Nothing"
             cost="0"
             />
-        <mice11 name="Nothing"
-            cost="0"
+        <mice11 name="Eshkere Mouse"
+            cost="10"
             />
     </location1>
 </resources>
