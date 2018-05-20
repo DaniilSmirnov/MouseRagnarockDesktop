@@ -112,6 +112,11 @@ class Ui_MainWindow(object):
         self.pipe.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.pipe.setObjectName("pipe")
         self.gridLayout.addWidget(self.pipe, 0, 1, 1, 2)
+        self.location_label = QtWidgets.QLabel(self.layoutWidget)
+        self.location_label.setSizePolicy(sizePolicy)
+        self.location_label.setMaximumSize(QtCore.QSize(6777215, 16777215))
+        self.location_label.setObjectName("location_label")
+        self.gridLayout.addWidget(self.location_label, 2, 0, 1, 2)
         self.energybar = QtWidgets.QProgressBar(self.layoutWidget)
         self.energybar.setProperty("value", 10)
         self.energybar.setObjectName("energybar")
@@ -174,9 +179,9 @@ class Ui_MainWindow(object):
         self.move.setText(_translate("MainWindow", "Locations"))
         self.shop.setText(_translate("MainWindow", "Shop"))
         self.inventory.setText(_translate("MainWindow", "Inventory"))
+        self.location_label.setText(_translate("MainWindow", "Location"))
 
         self.pipe.clicked.connect(self.pipe_click)
-
 
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost
@@ -201,6 +206,7 @@ class Ui_MainWindow(object):
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
+        self.location_label.setText(location_name)
 
     def pipe_click(self):
 
@@ -235,7 +241,7 @@ class GameLogic(object):
 
     def WriteFile(self):
         doc, tag, text = Doc().tagtext()
-        with tag('user', energy=str(energy), money=str(money),
+        with tag('user', energy=str(energy), location=str(location), money=str(money),
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
                  last_mouse=mouse_name, last_cost=mouse_cost):
@@ -266,6 +272,7 @@ class EnergyThread(Thread):
         energy += 1
         #Ui_MainWindow.energybar.setText(str(energy))
 
+
 energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
@@ -273,6 +280,8 @@ cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
 cheese_amount = int(GameLogic.ReadFile(GameLogic, "cheese_amount", 0))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
+location = int(GameLogic.ReadFile(GameLogic, "location", 0))
+location_name = GameLogic.ReadXML(GameLogic, "location", "name", location, 0)
 
 if __name__ == "__main__":
     import sys
