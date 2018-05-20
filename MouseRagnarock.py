@@ -184,9 +184,10 @@ class Ui_MainWindow(object):
         self.pipe.clicked.connect(self.pipe_click)
 
     def catch_mouse(self):
-        global money, cheese_amount, mouse_name, mouse_cost
+        global money, cheese_amount, mouse_name, mouse_cost, location
 
-        number = 1 + int(random()*10)
+        amount = int(GameLogic.ReadXML(self, "location", "amount", location, 0))
+        number = 1 + int(random()*(amount-1))
 
         mouse_name =  GameLogic.ReadXML(self, "mice", "name", number, 0)
         mouse_cost = GameLogic.ReadXML(self, "mice", "cost", number, 0)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <location1 name="Apartment">
+    <location1 name="Apartment" amount="11">
         <mice1  name="Grey mouse"
                 cost="100"
         />
@@ -35,4 +35,5 @@
             cost="10"
             />
     </location1>
+    <location2 name="Outdoors" amount="0"></location2>
 </resources>
