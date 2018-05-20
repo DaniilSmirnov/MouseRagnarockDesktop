@@ -195,7 +195,7 @@ class Ui_MainWindow(object):
         self.mousecost.setText(mouse_cost)
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
-        if money != 10:
+        if number != 10:
             cheese_amount -= 1
 
     def update_ui(self):
