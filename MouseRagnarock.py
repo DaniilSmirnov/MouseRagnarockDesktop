@@ -402,13 +402,14 @@ class Journal(object):
         lines = myfile.readlines()
         myfile.close()
 
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line != "</res>" + "\n":
-                myfile.write(line)
-        myfile.close()
         global i
         i = int(self.ReadI(Journal))
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line != "</res>":
+                myfile.write(line)
+        myfile.close()
 
     def Close(self):
         global i
@@ -420,15 +421,15 @@ class Journal(object):
 
         myfile = open(filename, 'w')
         for line in lines:
-            if line == "<res" + "\n":
-                myfile.write("<res " + "i=" + str(i))
+            if line.find("<res") != -1:
+                myfile.write("<res " + "i=" + '"' + str(i) + '"' + ">" + "\n")
             else:
                 myfile.write(line)
         myfile.close()
 
         filename = 'journal.xml'
         myfile = open(filename, 'a')
-        #myfile.write("</res>")
+        myfile.write("</res>")
         myfile.close()
 
 

@@ -1,5 +1,10 @@
-<res i="2">
-
-<position1 mouse_name="Robber Mouse" mouse_cost="300">6</position1>
+<res i="9">
 <position2 mouse_name="Grey mouse" mouse_cost="100">5</position2>
+<position3 mouse_name="Dr.Spider Mouse" mouse_cost="200">6</position3>
+<position4 mouse_name="Grey mouse" mouse_cost="100">6</position4>
+<position5 mouse_name="Brown mouse" mouse_cost="100">6</position5>
+<position6 mouse_name="Grey mouse" mouse_cost="100">5</position6>
+<position7 mouse_name="Poor mouse" mouse_cost="50">4</position7>
+<position8 mouse_name="Dr.Spider Mouse" mouse_cost="200">5</position8>
+<position9 mouse_name="Brown mouse" mouse_cost="100">4</position9>
 </res>
