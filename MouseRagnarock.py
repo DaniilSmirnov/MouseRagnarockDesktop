@@ -237,7 +237,7 @@ class Ui_MainWindow(object):
 
     def open_shop(self):
 
-        shop = Shop()
+        shop = ShopWindow()
         shop.exec_()
         self.update_ui()
 
@@ -289,11 +289,11 @@ class ShopWindowUi(object):
         self.money_label.setText(_translate("ShopWindowUi", "TextLabel"))
 
 
-class Shop(QtWidgets.QDialog, ShopWindowUi):
+class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
     def __init__(self, parent=None):
         global cost
 
-        super(Shop, self).__init__(parent)
+        super(ShopWindow, self).__init__(parent)
         self.setupUi(self)
         self.update_ui()
 
