@@ -73,9 +73,6 @@ class Ui_MainWindow(object):
         self.mouseview.setObjectName("mouseview")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.mouseview)
         self.gridLayout_6.setObjectName("gridLayout_6")
-        self.mousecost = QtWidgets.QLabel(self.mouseview)
-        self.mousecost.setObjectName("mousecost")
-        self.gridLayout_6.addWidget(self.mousecost, 1, 1, 1, 1)
         self.mouse_image = QtWidgets.QGraphicsView(self.mouseview)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -84,12 +81,18 @@ class Ui_MainWindow(object):
         self.mouse_image.setSizePolicy(sizePolicy)
         self.mouse_image.setObjectName("mouse_image")
         self.gridLayout_6.addWidget(self.mouse_image, 0, 0, 1, 1)
+        self.mousecost = QtWidgets.QLabel(self.mouseview)
+        self.mousecost.setObjectName("mousecost")
+        self.gridLayout_6.addWidget(self.mousecost, 1, 1, 1, 1)
         self.mousename = QtWidgets.QLabel(self.mouseview)
         self.mousename.setObjectName("mousename")
         self.gridLayout_6.addWidget(self.mousename, 0, 1, 1, 1)
+        self.journal_button = QtWidgets.QPushButton(self.mouseview)
+        self.journal_button.setObjectName("pushButton")
+        self.gridLayout_6.addWidget(self.journal_button, 2, 1, 1, 1)
         self.mouseattachment = QtWidgets.QLabel(self.mouseview)
         self.mouseattachment.setObjectName("mouseattachment")
-        self.gridLayout_6.addWidget(self.mouseattachment, 2, 0, 1, 2)
+        self.gridLayout_6.addWidget(self.mouseattachment, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.mouseview, 7, 2, 1, 2)
         self.graphicsView = QtWidgets.QGraphicsView(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -112,11 +115,6 @@ class Ui_MainWindow(object):
         self.pipe.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.pipe.setObjectName("pipe")
         self.gridLayout.addWidget(self.pipe, 0, 1, 1, 2)
-        self.location_label = QtWidgets.QLabel(self.layoutWidget)
-        self.location_label.setSizePolicy(sizePolicy)
-        self.location_label.setMaximumSize(QtCore.QSize(6777215, 16777215))
-        self.location_label.setObjectName("location_label")
-        self.gridLayout.addWidget(self.location_label, 2, 0, 1, 2)
         self.energybar = QtWidgets.QProgressBar(self.layoutWidget)
         self.energybar.setProperty("value", 10)
         self.energybar.setObjectName("energybar")
@@ -126,6 +124,7 @@ class Ui_MainWindow(object):
         self.move.setObjectName("move")
         self.gridLayout.addWidget(self.move, 4, 1, 1, 1)
         self.shop = QtWidgets.QPushButton(self.layoutWidget)
+        self.shop.setEnabled(False)
         self.shop.setObjectName("shop")
         self.gridLayout.addWidget(self.shop, 4, 2, 1, 1)
         self.inventory = QtWidgets.QPushButton(self.layoutWidget)
@@ -142,6 +141,10 @@ class Ui_MainWindow(object):
         self.filler.setText("")
         self.filler.setObjectName("filler")
         self.gridLayout.addWidget(self.filler, 6, 2, 1, 2)
+        self.location_label = QtWidgets.QLabel(self.layoutWidget)
+        self.location_label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.location_label.setObjectName("label")
+        self.gridLayout.addWidget(self.location_label, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 795, 21))
@@ -173,16 +176,18 @@ class Ui_MainWindow(object):
         self.mouseview.setTitle(_translate("MainWindow", "Journal"))
         self.mousecost.setText(_translate("MainWindow", "TextLabel"))
         self.mousename.setText(_translate("MainWindow", "TextLabel"))
+        self.journal_button.setText(_translate("MainWindow", "Open Journal"))
         self.mouseattachment.setText(_translate("MainWindow", "TextLabel"))
         self.clans.setText(_translate("MainWindow", "Clans"))
         self.pipe.setText(_translate("MainWindow", "pipe"))
         self.move.setText(_translate("MainWindow", "Locations"))
         self.shop.setText(_translate("MainWindow", "Shop"))
         self.inventory.setText(_translate("MainWindow", "Inventory"))
-        self.location_label.setText(_translate("MainWindow", "Location"))
+        self.location_label.setText(_translate("MainWindow", "TextLabel"))
 
         self.pipe.clicked.connect(self.pipe_click)
         self.shop.clicked.connect(self.open_shop)
+        self.journal_button.clicked.connect(self.open_journal)
 
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location
@@ -231,6 +236,10 @@ class Ui_MainWindow(object):
 
         widget = Shop()
         widget.exec_()
+
+    def open_journal(self):
+        journal = Journal()
+        journal.exec_()
 
 
 class ShopWindowUi(object):
@@ -308,6 +317,32 @@ class Shop(QtWidgets.QDialog, ShopWindowUi):
             alert(text='Not enough money', title='Alert', button='OK')
 
         self.update_ui()
+
+
+class JournalWindowUi(object):
+
+    def setupUi(self, JournalWindowUi):
+        JournalWindowUi.setObjectName("JournalWindowUi")
+        JournalWindowUi.resize(600, 564)
+        self.gridLayout = QtWidgets.QGridLayout(JournalWindowUi)
+        self.gridLayout.setObjectName("gridLayout")
+        self.ok_button = QtWidgets.QPushButton(JournalWindowUi)
+        self.ok_button.setObjectName("ok_button")
+        self.gridLayout.addWidget(self.ok_button, 0, 0, 1, 1)
+
+        self.retranslateUi(JournalWindowUi)
+        QtCore.QMetaObject.connectSlotsByName(JournalWindowUi)
+
+    def retranslateUi(self, JournalWindowUi):
+        _translate = QtCore.QCoreApplication.translate
+        JournalWindowUi.setWindowTitle(_translate("JournalWindowUi", "Dialog"))
+        self.ok_button.setText(_translate("JournalWindowUi", "OK"))
+
+
+class Journal(QtWidgets.QDialog, JournalWindowUi):
+    def __init__(self, parent=None):
+        super(Journal, self).__init__(parent)
+        self.setupUi(self)
 
 
 class GameLogic(object):
