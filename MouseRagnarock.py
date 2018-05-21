@@ -198,6 +198,7 @@ class Ui_MainWindow(object):
         self.moneylabel.setText(str(money))
         if number != 10:
             cheese_amount -= 1
+        Journal.Write(self, mouse_name, mouse_cost)
 
     def update_ui(self):
 
@@ -362,6 +363,75 @@ class EnergyThread(Thread):
         #Ui_MainWindow.energybar.setText(str(energy))
 
 
+class Journal(object):
+    global i
+
+    def Read(self, position, index):
+        xmldoc = minidom.parse('journal.xml')
+        itemlist = xmldoc.getElementsByTagName(str("position")+str(index))
+        return itemlist[index].attributes[position].value
+
+    def ReadI(self):
+
+        xmldoc = minidom.parse('journal.xml')
+        itemlist = xmldoc.getElementsByTagName(str("res"))
+        return itemlist[0].attributes["i"].value
+
+    def Write(self, name, cost):
+        global i
+        i += 1
+        doc, tag, text = Doc().tagtext()
+        with tag('position'+str(i), mouse_name=name, mouse_cost=cost):
+            text(str(energy))
+
+        result = indent(
+            doc.getvalue(),
+            indentation=' ' * 4,
+            newline='\r\n')
+
+        filename = 'journal.xml'
+        myfile = open(filename, 'a')
+        myfile.write(result)
+        myfile.write("\n")
+        myfile.close()
+        print(result)
+
+    def Init(self):
+        filename = 'journal.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line != "</res>" + "\n":
+                myfile.write(line)
+        myfile.close()
+        global i
+        i = int(self.ReadI(Journal))
+
+    def Close(self):
+        global i
+
+        filename = 'journal.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line == "<res" + "\n":
+                myfile.write("<res " + "i=" + str(i))
+            else:
+                myfile.write(line)
+        myfile.close()
+
+        filename = 'journal.xml'
+        myfile = open(filename, 'a')
+        #myfile.write("</res>")
+        myfile.close()
+
+
 energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
@@ -372,6 +442,8 @@ mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 
+Journal.Init(Journal)
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -379,4 +451,4 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic))
+    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal))
