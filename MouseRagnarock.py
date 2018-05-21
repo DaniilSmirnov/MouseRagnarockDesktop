@@ -187,11 +187,11 @@ class Ui_MainWindow(object):
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location
 
-        amount = int(GameLogic.ReadXML(self, "location", "amount", location, 0))
+        amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
         number = 1 + int(random()*(amount-1))
 
-        mouse_name =  GameLogic.ReadXML(self, "mice", "name", number, 0)
-        mouse_cost = GameLogic.ReadXML(self, "mice", "cost", number, 0)
+        mouse_name =  GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
+        mouse_cost = GameLogic.ReadMiceDataFromXML(self, "mice", "cost", number, 0)
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         money += int(mouse_cost)
@@ -274,16 +274,51 @@ class ShopWindowUi(object):
 
 class Shop(QtWidgets.QDialog, ShopWindowUi):
     def __init__(self, parent=None):
+        global cost
+
         super(Shop, self).__init__(parent)
         self.setupUi(self)
+        self.update_ui()
+
+        self.buy_button.clicked.connect(self.buy)
+
+        cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
+
+    def update_ui(self):
+
+        global cost, cheese_amount
+
+        cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
+
+        self.money_label.setText("You have: " + str(money))
+        self.amount_label.setText(GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "name", 1, 0) + ": " + str(cheese_amount))
+        self.cost_label.setText(str(cost))
+
+    def buy(self):
+
+        global cost, money, cheese_amount
+
+        if money - int(cost) > 0:
+            money -= int(cost)
+            cheese_amount += 1
+        else:
+            alert(text='Not enough money', title='Alert', button='OK')
+
+        self.update_ui()
+
 
 
 class GameLogic(object):
 
     global energy, money
 
-    def ReadXML(self, tag, name, number, index):
+    def ReadMiceDataFromXML(self, tag, name, number, index):
         xmldoc = minidom.parse('locations.xml')
+        itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
+        return itemlist[index].attributes[str(name)].value
+
+    def ReadCheeseDataFromXML(self, tag, name, number, index):
+        xmldoc = minidom.parse('cheese.xml')
         itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
         return itemlist[index].attributes[str(name)].value
 
@@ -334,7 +369,7 @@ cheese_amount = int(GameLogic.ReadFile(GameLogic, "cheese_amount", 0))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
-location_name = GameLogic.ReadXML(GameLogic, "location", "name", location, 0)
+location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 
 if __name__ == "__main__":
     import sys
