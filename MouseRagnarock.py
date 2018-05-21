@@ -182,6 +182,7 @@ class Ui_MainWindow(object):
         self.location_label.setText(_translate("MainWindow", "Location"))
 
         self.pipe.clicked.connect(self.pipe_click)
+        self.shop.clicked.connect(self.open_win)
 
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location
@@ -224,6 +225,35 @@ class Ui_MainWindow(object):
             thread.start()
 
         self.update_ui()
+
+    def open_win(self):
+        #SecondWindow = QtWidgets.QDialog()
+        #ui = SecondWindow()
+        #ui.setupUi.SecondWindow()
+        SecondWindow.show()
+        #self.child_win = SecondWindow(self)
+        #self.child_win.show()
+
+class SecondWindow():
+
+    def setupUi(self, SecondWindow):
+        SecondWindow.setObjectName("Dialog")
+        SecondWindow.resize(400, 300)
+        SecondWindow = QtWidgets.QDialog()
+        self.buttonBox = QtWidgets.QDialogButtonBox(SecondWindow)
+        self.buttonBox.setGeometry(QtCore.QRect(30, 240, 341, 32))
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+
+        self.retranslateUi(SecondWindow)
+        self.buttonBox.accepted.connect(SecondWindow.accept)
+        self.buttonBox.rejected.connect(SecondWindow.reject)
+        QtCore.QMetaObject.connectSlotsByName(SecondWindow)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
 
 
 class GameLogic(object):

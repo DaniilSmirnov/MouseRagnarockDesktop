@@ -36,7 +36,15 @@
             />
     </location1>
     <location2 name="Outdoors" amount="0"></location2>
-    <location3 name="Outdoors" amount="0"></location3>
-    <location4 name="Outdoors" amount="0"></location4>
-    <location5 name="Outdoors" amount="0"></location5>
+    <location3 name="Park" amount="0"></location3>
+    <location4 name="Shopping Centre" amount="0"></location4>
+    <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0"></location5>
+    <location6 name="Science Centre" amount="0"></location6>
+	<location7 name="Labaratory" amount="0"></location7>
+	<location8 name="Entrance" amount="0"></location8>
+    <location9 name="Catacombs" amount="0"></location9>
+	<location10 name="Underground Lake" amount="0"></location10>
+	<location11 name="Railway platform 'Airport'" amount="0"></location11>
+    <location12 name="Airport" amount="0"></location12>
+
 </zone1>
