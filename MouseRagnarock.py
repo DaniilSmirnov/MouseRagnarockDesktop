@@ -227,6 +227,7 @@ class Ui_MainWindow(object):
         self.update_ui()
 
     def open_shop(self):
+
         widget = Shop()
         widget.exec_()
 
@@ -281,6 +282,7 @@ class Shop(QtWidgets.QDialog, ShopWindowUi):
         self.update_ui()
 
         self.buy_button.clicked.connect(self.buy)
+        self.ok_button.clicked.connect(self.close)
 
         cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
 
@@ -305,7 +307,6 @@ class Shop(QtWidgets.QDialog, ShopWindowUi):
             alert(text='Not enough money', title='Alert', button='OK')
 
         self.update_ui()
-
 
 
 class GameLogic(object):
