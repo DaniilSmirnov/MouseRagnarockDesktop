@@ -382,6 +382,7 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
             j += 1
         Journal.Init(Journal)
 
+
 class GameLogic(object):
 
     global energy, money
