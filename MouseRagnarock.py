@@ -353,7 +353,10 @@ class JournalWindowUi(object):
         self.gridLayout.setObjectName("gridLayout")
         self.ok_button = QtWidgets.QPushButton(JournalWindowUi)
         self.ok_button.setObjectName("ok_button")
-        self.gridLayout.addWidget(self.ok_button, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.ok_button, 1, 0, 1, 1)
+        self.textBrowser = QtWidgets.QTextBrowser(JournalWindowUi)
+        self.textBrowser.setObjectName("textBrowser")
+        self.gridLayout.addWidget(self.textBrowser, 0, 0, 1, 1)
 
         self.retranslateUi(JournalWindowUi)
         QtCore.QMetaObject.connectSlotsByName(JournalWindowUi)
@@ -369,6 +372,15 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
         super(JournalWindow, self).__init__(parent)
         self.setupUi(self)
 
+        self.ok_button.clicked.connect(self.close)
+
+        Journal.Close(Journal)
+        i = int(Journal.ReadI(Journal))
+        j = 1
+        while j <= i:
+            self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j))
+            j += 1
+        Journal.Init(Journal)
 
 class GameLogic(object):
 
@@ -428,8 +440,8 @@ class Journal(object):
 
     def Read(self, position, index):
         xmldoc = minidom.parse('journal.xml')
-        itemlist = xmldoc.getElementsByTagName(str("position")+str(index))
-        return itemlist[index].attributes[position].value
+        itemlist = xmldoc.getElementsByTagName("position"+str(index))
+        return itemlist[0].attributes[str(position)].value
 
     def ReadI(self):
 
