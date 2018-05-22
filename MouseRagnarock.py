@@ -10,12 +10,25 @@ from yattag import Doc, indent
 energy_max = 100
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtWidgets.QMainWindow):
+
     def setupUi(self, MainWindow):
+
+        self.window_width = 600
+        self.window_height = 800
+
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(795, 600)
+        MainWindow.resize(800, 600)
+
+        oImage = QtGui.QImage("mainback.jpg")
+        sImage = oImage.scaled(QtCore.QSize(self.window_height, self.window_width))
+        palette = QtGui.QPalette()
+        palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
+        self.setPalette(palette)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.centralwidget.setPalette(palette)
         self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(0, 0, 791, 551))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -192,6 +205,7 @@ class Ui_MainWindow(object):
         self.shop.clicked.connect(self.open_shop)
         self.journal_button.clicked.connect(self.open_journal)
 
+
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location
 
@@ -251,8 +265,13 @@ class Ui_MainWindow(object):
 class ShopWindowUi(object):
 
     def setupUi(self, ShopWindowUi):
+
+        self.window_height = 300
+        self.window_width = 300
+
         ShopWindowUi.setObjectName("ShopWindowUi")
-        ShopWindowUi.resize(400, 300)
+        ShopWindowUi.resize(self.window_height, self.window_width)
+
         self.gridLayout = QtWidgets.QGridLayout(ShopWindowUi)
         self.gridLayout.setObjectName("gridLayout")
         self.amount_label = QtWidgets.QLabel(ShopWindowUi)
@@ -493,4 +512,11 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+
+    oImage = QtGui.QImage("mainback.jpg")
+    sImage = oImage.scaled(QtCore.QSize(800, 600))
+    palette = QtGui.QPalette()
+    palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
+
+    MainWindow.setPalette(palette)
     sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal))
