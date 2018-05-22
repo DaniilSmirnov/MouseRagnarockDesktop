@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zone1>
-    <location1 name="Apartment" amount="11">
+    <location1 name="Apartment" amount="11" drop_amount="1">
         <mice1  name="Grey mouse"
                 cost="100"
         />
@@ -34,6 +34,8 @@
         <mice11 name="Eshkere Mouse"
             cost="10"
             />
+        <drop1 name="Test drop"></drop1>
+
     </location1>
     <location2 name="Outdoors" amount="0"></location2>
     <location3 name="Park" amount="0"></location3>

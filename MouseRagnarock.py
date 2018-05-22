@@ -207,15 +207,17 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
 
     def catch_mouse(self):
-        global money, cheese_amount, mouse_name, mouse_cost, location
+        global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop
 
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
         number = 1 + int(random()*(amount-1))
+        mouse_drop = GameLogic.ReadMiceDataFromXML(self, "drop", "name", 1, 0)
 
-        mouse_name =  GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
+        mouse_name = GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
         mouse_cost = GameLogic.ReadMiceDataFromXML(self, "mice", "cost", number, 0)
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
+        self.mouseattachment.setText(mouse_drop)
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 10:
