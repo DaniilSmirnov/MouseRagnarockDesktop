@@ -201,7 +201,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
         number = 1 + int(random()*(amount-1))
-        mouse_drop = GameLogic.ReadMiceDataFromXML(self, "drop", "name", 1, 0)
+
+        if number != 1 and (1+int(random()*5) > 4) :
+            mouse_drop = GameLogic.ReadMiceDataFromXML(self, "mice", "drop", number, 0)
+            Inventory.Write(self, mouse_drop)
+        else:
+            mouse_drop = " "
 
         mouse_name = GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
         mouse_cost = GameLogic.ReadMiceDataFromXML(self, "mice", "cost", number, 0)
@@ -212,7 +217,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.moneylabel.setText(str(money))
         if number != 10:
             cheese_amount -= 1
-        Journal.Write(self, mouse_name, mouse_cost)
+        Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
 
@@ -224,6 +229,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         self.location_label.setText(location_name)
+        self.mouseattachment.setText(mouse_drop)
 
     def pipe_click(self):
 
@@ -374,7 +380,7 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
         i = int(Journal.ReadI(Journal))
         j = 1
         while j <= i:
-            self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j))
+            self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j) + " " + Journal.Read(Journal, "mouse_drop", j))
             j += 1
         Journal.Init(Journal)
 
@@ -403,7 +409,8 @@ class GameLogic(object):
         with tag('user', energy=str(energy), location=str(location), money=str(money),
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
-                 last_mouse=mouse_name, last_cost=mouse_cost):
+                 last_mouse=mouse_name, last_cost=mouse_cost,
+                 last_drop=mouse_drop):
             text(str(energy))
 
         result = indent(
@@ -446,11 +453,11 @@ class Journal(object):
         itemlist = xmldoc.getElementsByTagName(str("res"))
         return itemlist[0].attributes["i"].value
 
-    def Write(self, name, cost):
+    def Write(self, name, cost, drop):
         global i
         i += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(i), mouse_name=name, mouse_cost=cost):
+        with tag('position'+str(i), mouse_name=name, mouse_cost=cost, mouse_drop=drop):
             text(str(energy))
 
         result = indent(
@@ -502,6 +509,73 @@ class Journal(object):
         myfile.close()
 
 
+class Inventory(object):
+
+    def ReadI(self):
+
+        xmldoc = minidom.parse('inventory.xml')
+        itemlist = xmldoc.getElementsByTagName(str("res"))
+        return itemlist[0].attributes["i"].value
+
+    def Read(self, position, index):
+        xmldoc = minidom.parse('inventory.xml')
+        itemlist = xmldoc.getElementsByTagName("position"+str(index))
+        return itemlist[0].attributes[str(position)].value
+
+    def Init(self):
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        global i
+        i = int(self.ReadI(Inventory))
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line != "</res>":
+                myfile.write(line)
+        myfile.close()
+
+    def Close(self):
+        global i
+
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line.find("<res") != -1:
+                myfile.write("<res " + "i=" + '"' + str(i) + '"' + ">" + "\n")
+            else:
+                myfile.write(line)
+        myfile.close()
+
+        myfile = open(filename, 'a')
+        myfile.write("</res>")
+        myfile.close()
+
+    def Write(self, drop):
+        global i
+        i += 1
+        doc, tag, text = Doc().tagtext()
+        with tag('position'+str(i), mouse_drop=drop):
+            text(str(energy))
+
+        result = indent(
+            doc.getvalue(),
+            indentation=' ' * 4,
+            newline='\r\n')
+
+        filename = 'inventory.xml'
+        myfile = open(filename, 'a')
+        myfile.write(result)
+        myfile.write("\n")
+        myfile.close()
+        print(result)
+
 energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
@@ -509,10 +583,12 @@ cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
 cheese_amount = int(GameLogic.ReadFile(GameLogic, "cheese_amount", 0))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
+mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 
 Journal.Init(Journal)
+Inventory.Init(Inventory)
 
 if __name__ == "__main__":
     import sys
@@ -528,4 +604,4 @@ if __name__ == "__main__":
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
 
     MainWindow.setPalette(palette)
-    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal))
+    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory))

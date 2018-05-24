@@ -1,40 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zone1>
     <location1 name="Apartment" amount="11" drop_amount="1">
-        <mice1  name="Grey mouse"
-                cost="100"
+        <mice1  name="Nothing"
+                cost="0"
         />
         <mice2  name="Brown mouse"
                 cost="100"
+                drop="Test drop"
+
             />
         <mice3 name="Black mouse"
                 cost="150"
+               drop="Test drop"
+
         />
         <mice4  name="Poor mouse"
                 cost="50"
+                drop="Test drop"
+
             />
         <mice5  name="Shadow  mouse"
                 cost="200"
+                drop="Test drop"
+
             />
         <mice6 name="Felt mouse"
-                cost="200"
+               cost="200"
+               drop="Test drop"
+
             />
         <mice7  name="Dr.Spider Mouse"
-            cost="200"
+                cost="200"
+                drop="Test drop"
+
             />
         <mice8  name="Portal mouse"
-            cost="250"
+                cost="250"
+                drop="Test drop"
+
             />
         <mice9 name="Robber Mouse"
-            cost="300"
+               cost="300"
+               drop="Test drop"
+
             />
-        <mice10  name="Nothing"
-            cost="0"
+        <mice10  name="Grey Mouse"
+                 cost="100"
+                 drop="Test drop"
+
             />
         <mice11 name="Eshkere Mouse"
-            cost="10"
+                cost="10"
+                drop="Test drop"
+
             />
-        <drop1 name="Test drop"></drop1>
 
     </location1>
     <location2 name="Outdoors" amount="0"></location2>
