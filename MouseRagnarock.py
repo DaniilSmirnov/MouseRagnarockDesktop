@@ -194,6 +194,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.pipe.clicked.connect(self.pipe_click)
         self.shop.clicked.connect(self.open_shop)
         self.journal_button.clicked.connect(self.open_journal)
+        self.inventory.clicked.connect(self.open_inventory)
 
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop
@@ -259,8 +260,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.update_ui()
 
     def open_inventory(self):
-        journal = JournalWindow()
-        journal.exec_()
+        inventory = InventoryWindow()
+        inventory.exec_()
         self.update_ui()
 
 
@@ -383,6 +384,45 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
             self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j) + " " + Journal.Read(Journal, "mouse_drop", j))
             j += 1
         Journal.Init(Journal)
+
+
+class InventoryWindowUi(object):
+
+    def setupUi(self, InventoryWindowUi):
+        InventoryWindowUi.setObjectName("JournalWindowUi")
+        InventoryWindowUi.resize(600, 564)
+        self.gridLayout = QtWidgets.QGridLayout(InventoryWindowUi)
+        self.gridLayout.setObjectName("gridLayout")
+        self.ok_button = QtWidgets.QPushButton(InventoryWindowUi)
+        self.ok_button.setObjectName("ok_button")
+        self.gridLayout.addWidget(self.ok_button, 1, 0, 1, 1)
+        self.textBrowser = QtWidgets.QTextBrowser(InventoryWindowUi)
+        self.textBrowser.setObjectName("textBrowser")
+        self.gridLayout.addWidget(self.textBrowser, 0, 0, 1, 1)
+
+        self.retranslateUi(InventoryWindowUi)
+        QtCore.QMetaObject.connectSlotsByName(InventoryWindowUi)
+
+    def retranslateUi(self, InventoryWindowUi):
+        _translate = QtCore.QCoreApplication.translate
+        InventoryWindowUi.setWindowTitle(_translate("JournalWindowUi", "Dialog"))
+        self.ok_button.setText(_translate("JournalWindowUi", "OK"))
+
+
+class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
+    def __init__(self, parent=None):
+        super(InventoryWindow, self).__init__(parent)
+        self.setupUi(self)
+
+        self.ok_button.clicked.connect(self.close)
+
+        Inventory.Close(Inventory)
+        i = int(Inventory.ReadI(Inventory))
+        j = 1
+        while j <= i:
+            self.textBrowser.append(Inventory.Read(Inventory, "mouse_drop", j))
+            j += 1
+        Inventory.Init(Inventory)
 
 
 class GameLogic(object):
