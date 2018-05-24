@@ -264,6 +264,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         journal.exec_()
         self.update_ui()
 
+
 class ShopWindowUi(object):
 
     def setupUi(self, ShopWindowUi):
@@ -558,10 +559,10 @@ class Inventory(object):
         myfile.close()
 
     def Write(self, drop):
-        global i
-        i += 1
+        global k
+        k += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(i), mouse_drop=drop):
+        with tag('position'+str(k), mouse_drop=drop):
             text(str(energy))
 
         result = indent(
