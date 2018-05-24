@@ -195,7 +195,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.shop.clicked.connect(self.open_shop)
         self.journal_button.clicked.connect(self.open_journal)
 
-
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop
 
@@ -529,8 +528,8 @@ class Inventory(object):
         lines = myfile.readlines()
         myfile.close()
 
-        global i
-        i = int(self.ReadI(Inventory))
+        global k
+        k = int(self.ReadI(Inventory))
 
         myfile = open(filename, 'w')
         for line in lines:
@@ -539,7 +538,7 @@ class Inventory(object):
         myfile.close()
 
     def Close(self):
-        global i
+        global k
 
         filename = 'inventory.xml'
         myfile = open(filename, 'r')
@@ -549,7 +548,7 @@ class Inventory(object):
         myfile = open(filename, 'w')
         for line in lines:
             if line.find("<res") != -1:
-                myfile.write("<res " + "i=" + '"' + str(i) + '"' + ">" + "\n")
+                myfile.write("<res " + "i=" + '"' + str(k) + '"' + ">" + "\n")
             else:
                 myfile.write(line)
         myfile.close()

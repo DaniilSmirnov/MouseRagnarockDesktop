@@ -1,3 +1,6 @@
-<res i="4">
+<res i="3">
 
+<position1 mouse_drop="Test drop">98</position1>
+<position2 mouse_drop="Test drop">98</position2>
+<position3 mouse_drop="Test drop">98</position3>
 </res>
