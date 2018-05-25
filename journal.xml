@@ -1,4 +1,4 @@
-<res i="34">
+<res i="66">
 <position1 mouse_name="Brown mouse" mouse_cost="100" mouse_drop=" ">99</position1>
 <position2 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">98</position2>
 <position3 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">98</position3>
@@ -33,4 +33,67 @@
 <position32 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">98</position32>
 <position33 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop="Test drop">98</position33>
 <position34 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">98</position34>
+<position35 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">99</position35>
+<position36 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">99</position36>
+<position37 mouse_name="Brown mouse" mouse_cost="100" mouse_drop="Test drop">98</position37>
+<position38 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position38>
+<position39 mouse_name="Black mouse" mouse_cost="150" mouse_drop="Test drop">98</position39>
+<position40 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position40>
+<position41 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position41>
+<position42 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">98</position42>
+<position43 mouse_name="Brown mouse" mouse_cost="100" mouse_drop=" ">98</position43>
+<position44 mouse_name="Brown mouse" mouse_cost="100" mouse_drop=" ">99</position44>
+<position45 mouse_name="Felt mouse" mouse_cost="200" mouse_drop="Test drop">98</position45>
+<position46 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">99</position46>
+<position47 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position47>
+<position48 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop="Test drop">99</position48>
+<position49 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">98</position49>
+<position50 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">98</position50>
+<position51 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">98</position51>
+<position52 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position52>
+<position53 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">98</position53>
+<position54 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">98</position54>
+<position55 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">98</position55>
+<position56 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop="Test drop">98</position56>
+<position57 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop="Test drop">98</position57>
+<position58 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position58>
+<position59 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position59>
+<position60 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position60>
+<position61 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position61>
+<position62 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">98</position62>
+<position63 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">98</position63>
+<position64 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position64>
+<position65 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position65>
+<position66 mouse_name="Poor mouse" mouse_cost="50" mouse_drop="Test drop">98</position66>
+<position44 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">99</position44>
+<position45 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">99</position45>
+<position46 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position46>
+<position47 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop="Test drop">98</position47>
+<position48 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position48>
+<position49 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">98</position49>
+<position50 mouse_name="Brown mouse" mouse_cost="100" mouse_drop=" ">98</position50>
+<position51 mouse_name="Portal mouse" mouse_cost="250" mouse_drop="Test drop">98</position51>
+<position52 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">98</position52>
+<position45 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">99</position45>
+<position46 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position46>
+<position47 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">98</position47>
+<position48 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">97</position48>
+<position49 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position49>
+<position50 mouse_name="Portal mouse" mouse_cost="250" mouse_drop="Test drop">98</position50>
+<position51 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop="Test drop">98</position51>
+<position52 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">98</position52>
+<position53 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop="Test drop">98</position53>
+<position54 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position54>
+<position55 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">98</position55>
+<position56 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position56>
+<position57 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position57>
+<position58 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">99</position58>
+<position59 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">98</position59>
+<position60 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">98</position60>
+<position61 mouse_name="Brown mouse" mouse_cost="100" mouse_drop=" ">98</position61>
+<position62 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">98</position62>
+<position63 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">98</position63>
+<position64 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">98</position64>
+<position65 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">98</position65>
+<position66 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">99</position66>
 </res>

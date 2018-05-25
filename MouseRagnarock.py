@@ -210,9 +210,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         mouse_name = GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
         mouse_cost = GameLogic.ReadMiceDataFromXML(self, "mice", "cost", number, 0)
+        mouse_icon = GameLogic.ReadMiceDataFromXML(self, "mice", "icon", number, 0)
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         self.mouseattachment.setText(mouse_drop)
+        pixmap = QtGui.QPixmap(mouse_icon)
+        self.mouse_image.setPixmap(pixmap)
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 10:

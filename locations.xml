@@ -3,55 +3,66 @@
     <location1 name="Apartment" amount="11" drop_amount="1">
         <mice1  name="Nothing"
                 cost="0"
+                icon="mice11.jpg"
         />
         <mice2  name="Brown mouse"
                 cost="100"
                 drop="Test drop"
+                icon="mice2.jpg"
 
             />
         <mice3 name="Black mouse"
                 cost="150"
                drop="Test drop"
+                icon="mice3.jpg"
 
         />
         <mice4  name="Poor mouse"
                 cost="50"
                 drop="Test drop"
+                icon="mice4.jpg"
 
             />
         <mice5  name="Shadow  mouse"
                 cost="200"
                 drop="Test drop"
+                icon="mice5.jpg"
 
             />
         <mice6 name="Felt mouse"
                cost="200"
                drop="Test drop"
+                icon="mice6.jpg"
 
             />
         <mice7  name="Dr.Spider Mouse"
                 cost="200"
                 drop="Test drop"
+                icon="mice7.jpg"
 
             />
         <mice8  name="Portal mouse"
                 cost="250"
                 drop="Test drop"
+                icon="mice8.jpg"
 
             />
         <mice9 name="Robber Mouse"
                cost="300"
                drop="Test drop"
+                icon="mice9.jpg"
 
             />
         <mice10  name="Grey Mouse"
                  cost="100"
                  drop="Test drop"
+                icon="mice10.jpg"
 
             />
         <mice11 name="Eshkere Mouse"
                 cost="10"
                 drop="Test drop"
+                icon="mice1.jpg"
 
             />
 
