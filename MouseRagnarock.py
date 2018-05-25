@@ -197,7 +197,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.inventory.clicked.connect(self.open_inventory)
 
     def catch_mouse(self):
-        global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop
+        global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
         number = 1 + int(random()*(amount-1))
@@ -233,6 +233,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mousecost.setText(mouse_cost)
         self.location_label.setText(location_name)
         self.mouseattachment.setText(mouse_drop)
+        pixmap = QtGui.QPixmap(mouse_icon)
+        self.mouse_image.setPixmap(pixmap)
 
     def pipe_click(self):
 
@@ -453,7 +455,7 @@ class GameLogic(object):
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
                  last_mouse=mouse_name, last_cost=mouse_cost,
-                 last_drop=mouse_drop):
+                 last_drop=mouse_drop, last_icon=mouse_icon):
             text(str(energy))
 
         result = indent(
@@ -629,6 +631,7 @@ mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
+mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
