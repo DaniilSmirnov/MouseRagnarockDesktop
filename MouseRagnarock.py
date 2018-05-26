@@ -6,7 +6,7 @@ from random import *
 from threading import Thread
 import time
 from yattag import Doc, indent
-from PIL import Image, ImageOps
+from PIL import Image
 
 energy_max = 100
 
