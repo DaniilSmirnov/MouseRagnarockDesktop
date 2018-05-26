@@ -249,12 +249,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         device_img = Image.open(device+".png")
         back_img = Image.open(location_name+".jpg")
-        #device_img = Image.open("mice1.jpg")
 
-
-        img = Image.new('RGBA', (400, 300))
         back_img.paste(device_img, (0, 0), device_img)
-        #img.paste(device_img, (0, 0))
         back_img.save('result.png')
         devpix = QtGui.QPixmap("result.png")
 
