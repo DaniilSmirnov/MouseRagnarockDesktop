@@ -6,6 +6,7 @@ from random import *
 from threading import Thread
 import time
 from yattag import Doc, indent
+from PIL import Image, ImageOps
 
 energy_max = 100
 
@@ -28,10 +29,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        self.location_label = QtWidgets.QLabel(self.layoutWidget)
-        self.location_label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.location_label.setObjectName("location_label")
-        self.gridLayout.addWidget(self.location_label, 2, 0, 1, 1)
         self.energybar = QtWidgets.QProgressBar(self.layoutWidget)
         self.energybar.setProperty("value", 10)
         self.energybar.setFormat("")
@@ -121,9 +118,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.diamondslabel.setObjectName("diamondslabel")
         self.gridLayout_2.addWidget(self.diamondslabel, 2, 0, 1, 1)
         self.gridLayout.addWidget(self.MoneyBox, 0, 3, 1, 1)
-        self.label = QtWidgets.QLabel(self.layoutWidget)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 6, 0, 2, 2)
         self.inventory = QtWidgets.QPushButton(self.layoutWidget)
         self.inventory.setEnabled(True)
         self.inventory.setObjectName("inventory")
@@ -149,6 +143,21 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.clans.setEnabled(False)
         self.clans.setObjectName("clans")
         self.gridLayout.addWidget(self.clans, 4, 3, 1, 1)
+        self.bossesbutton = QtWidgets.QPushButton(self.layoutWidget)
+        self.bossesbutton.setEnabled(False)
+        self.bossesbutton.setObjectName("bossesbutton")
+        self.gridLayout.addWidget(self.bossesbutton, 2, 3, 1, 1)
+        self.location_label = QtWidgets.QLabel(self.layoutWidget)
+        self.location_label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.location_label.setObjectName("location_label")
+        self.gridLayout.addWidget(self.location_label, 0, 0, 1, 1)
+        self.questsbutton = QtWidgets.QPushButton(self.layoutWidget)
+        self.questsbutton.setEnabled(False)
+        self.questsbutton.setObjectName("questsbutton")
+        self.gridLayout.addWidget(self.questsbutton, 2, 0, 1, 1)
+        self.label = QtWidgets.QLabel(self.layoutWidget)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 5, 0, 3, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 795, 21))
@@ -166,7 +175,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.location_label.setText(_translate("MainWindow", "TextLabel"))
         self.devicesbox.setTitle(_translate("MainWindow", "Devices"))
         self.cheese_label.setText(_translate("MainWindow", "TextLabel"))
         self.board_label.setText(_translate("MainWindow", "TextLabel"))
@@ -184,12 +192,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.MoneyBox.setTitle(_translate("MainWindow", "Money"))
         self.moneylabel.setText(_translate("MainWindow", "TextLabel"))
         self.diamondslabel.setText(_translate("MainWindow", "TextLabel"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
         self.inventory.setText(_translate("MainWindow", "Inventory"))
         self.move.setText(_translate("MainWindow", "Locations"))
         self.shop.setText(_translate("MainWindow", "Shop"))
         self.pipe.setText(_translate("MainWindow", "pipe"))
         self.clans.setText(_translate("MainWindow", "Clans"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.bossesbutton.setText(_translate("MainWindow", "Bosses"))
+        self.location_label.setText(_translate("MainWindow", "TextLabel"))
+        self.questsbutton.setText(_translate("MainWindow", "Quests"))
 
         self.pipe.clicked.connect(self.pipe_click)
         self.shop.clicked.connect(self.open_shop)
@@ -235,6 +246,20 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mouseattachment.setText(mouse_drop)
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
+
+        device_img = Image.open(device+".png")
+        back_img = Image.open(location_name+".jpg")
+        #device_img = Image.open("mice1.jpg")
+
+
+        img = Image.new('RGBA', (400, 300))
+        back_img.paste(device_img, (0, 0), device_img)
+        #img.paste(device_img, (0, 0))
+        back_img.save('result.png')
+        devpix = QtGui.QPixmap("result.png")
+
+        self.label.setPixmap(devpix)
+        self.device_label.setText("Device: " + device)
 
     def pipe_click(self):
 
@@ -455,7 +480,8 @@ class GameLogic(object):
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
                  last_mouse=mouse_name, last_cost=mouse_cost,
-                 last_drop=mouse_drop, last_icon=mouse_icon):
+                 last_drop=mouse_drop, last_icon=mouse_icon,
+                 device=device):
             text(str(energy))
 
         result = indent(
@@ -632,6 +658,7 @@ mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
+device = GameLogic.ReadFile(GameLogic, "device", 0)
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)

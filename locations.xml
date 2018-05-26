@@ -13,7 +13,7 @@
             />
         <mice3 name="Black mouse"
                 cost="150"
-               drop="Test drop"
+                drop="Test drop"
                 icon="mice3.jpg"
 
         />
@@ -32,7 +32,7 @@
         <mice6 name="Felt mouse"
                cost="200"
                drop="Test drop"
-                icon="mice6.jpg"
+               icon="mice6.jpg"
 
             />
         <mice7  name="Dr.Spider Mouse"
@@ -50,13 +50,13 @@
         <mice9 name="Robber Mouse"
                cost="300"
                drop="Test drop"
-                icon="mice9.jpg"
+               icon="mice9.jpg"
 
             />
         <mice10  name="Grey Mouse"
                  cost="100"
                  drop="Test drop"
-                icon="mice10.jpg"
+                 icon="mice10.jpg"
 
             />
         <mice11 name="Eshkere Mouse"
@@ -72,7 +72,7 @@
     <location4 name="Shopping Centre" amount="0"></location4>
     <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0"></location5>
     <location6 name="Science Centre" amount="0"></location6>
-	<location7 name="Labaratory" amount="0"></location7>
+	<location7 name="Laboratory" amount="0"></location7>
 	<location8 name="Entrance" amount="0"></location8>
     <location9 name="Catacombs" amount="0"></location9>
 	<location10 name="Underground Lake" amount="0"></location10>
