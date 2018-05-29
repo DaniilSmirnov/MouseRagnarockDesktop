@@ -170,7 +170,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.update_ui()
+        self.init()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -206,6 +206,18 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.shop.clicked.connect(self.open_shop)
         self.journal_button.clicked.connect(self.open_journal)
         self.inventory.clicked.connect(self.open_inventory)
+
+    def init(self):
+        global login, password
+
+        try:
+            login = GameLogic.ReadFile(GameLogic, "login", 0)
+            password = GameLogic.ReadFile(GameLogic, "password", 0)
+        except BaseException:
+            login = LoginWindow()
+            login.exec_()
+
+        self.update_ui()
 
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
@@ -289,6 +301,103 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         inventory = InventoryWindow()
         inventory.exec_()
         self.update_ui()
+
+
+class Ui_Login(object):
+    def setupUi(self, Login):
+        Login.setObjectName("Login")
+        Login.resize(400, 106)
+        self.widget = QtWidgets.QWidget(Login)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 401, 106))
+        self.widget.setObjectName("widget")
+        self.gridLayout = QtWidgets.QGridLayout(self.widget)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+        self.password = QtWidgets.QLabel(self.widget)
+        self.password.setObjectName("password")
+        self.gridLayout.addWidget(self.password, 1, 0, 1, 1)
+        self.login_enter = QtWidgets.QLineEdit(self.widget)
+        self.login_enter.setObjectName("login_enter")
+        self.gridLayout.addWidget(self.login_enter, 0, 1, 1, 2)
+        self.password_login = QtWidgets.QLineEdit(self.widget)
+        self.password_login.setObjectName("password_login")
+        self.gridLayout.addWidget(self.password_login, 1, 1, 1, 2)
+        self.login = QtWidgets.QLabel(self.widget)
+        self.login.setObjectName("login")
+        self.gridLayout.addWidget(self.login, 0, 0, 1, 1)
+        self.login_button = QtWidgets.QPushButton(self.widget)
+        self.login_button.setObjectName("login_button")
+        self.gridLayout.addWidget(self.login_button, 2, 2, 1, 1)
+        self.checkBox = QtWidgets.QCheckBox(self.widget)
+        self.checkBox.setObjectName("checkBox")
+        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
+        self.terms_button = QtWidgets.QPushButton(self.widget)
+        self.terms_button.setObjectName("terms_button")
+        self.gridLayout.addWidget(self.terms_button, 2, 1, 1, 1)
+
+        self.retranslateUi(Login)
+        QtCore.QMetaObject.connectSlotsByName(Login)
+
+    def retranslateUi(self, Login):
+        _translate = QtCore.QCoreApplication.translate
+        Login.setWindowTitle(_translate("Login", "Dialog"))
+        self.password.setText(_translate("Login", "Password"))
+        self.login.setText(_translate("Login", "Login"))
+        self.login_button.setText(_translate("Login", "Login"))
+        self.checkBox.setText(_translate("Login", "CheckBox"))
+        self.terms_button.setText(_translate("Login", "Terms"))
+
+
+class Ui_Login(object):
+    def setupUi(self, Login):
+        Login.setObjectName("Login")
+        Login.resize(400, 106)
+        self.widget = QtWidgets.QWidget(Login)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 401, 106))
+        self.widget.setObjectName("widget")
+        self.gridLayout = QtWidgets.QGridLayout(self.widget)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+        self.password = QtWidgets.QLabel(self.widget)
+        self.password.setObjectName("password")
+        self.gridLayout.addWidget(self.password, 1, 0, 1, 1)
+        self.login_enter = QtWidgets.QLineEdit(self.widget)
+        self.login_enter.setObjectName("login_enter")
+        self.gridLayout.addWidget(self.login_enter, 0, 1, 1, 2)
+        self.password_login = QtWidgets.QLineEdit(self.widget)
+        self.password_login.setObjectName("password_login")
+        self.gridLayout.addWidget(self.password_login, 1, 1, 1, 2)
+        self.login = QtWidgets.QLabel(self.widget)
+        self.login.setObjectName("login")
+        self.gridLayout.addWidget(self.login, 0, 0, 1, 1)
+        self.login_button = QtWidgets.QPushButton(self.widget)
+        self.login_button.setObjectName("login_button")
+        self.gridLayout.addWidget(self.login_button, 2, 2, 1, 1)
+        self.checkBox = QtWidgets.QCheckBox(self.widget)
+        self.checkBox.setObjectName("checkBox")
+        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
+        self.terms_button = QtWidgets.QPushButton(self.widget)
+        self.terms_button.setObjectName("terms_button")
+        self.gridLayout.addWidget(self.terms_button, 2, 1, 1, 1)
+
+        self.retranslateUi(Login)
+        QtCore.QMetaObject.connectSlotsByName(Login)
+
+    def retranslateUi(self, Login):
+        _translate = QtCore.QCoreApplication.translate
+        Login.setWindowTitle(_translate("Login", "Dialog"))
+        self.password.setText(_translate("Login", "Password"))
+        self.login.setText(_translate("Login", "Login"))
+        self.login_button.setText(_translate("Login", "Login"))
+        self.checkBox.setText(_translate("Login", "CheckBox"))
+        self.terms_button.setText(_translate("Login", "Terms"))
+
+
+class LoginWindow(QtWidgets.QDialog, Ui_Login):
+    def __init__(self, parent=None):
+
+        super(LoginWindow, self).__init__(parent)
+        self.setupUi(self)
 
 
 class ShopWindowUi(object):
@@ -643,6 +752,75 @@ class Inventory(object):
         myfile.close()
         print(result)
 
+
+class Quests(object):
+
+    def ReadI(self):
+
+        xmldoc = minidom.parse('inventory.xml')
+        itemlist = xmldoc.getElementsByTagName(str("res"))
+        return itemlist[0].attributes["i"].value
+
+    def Read(self, position, index):
+        xmldoc = minidom.parse('inventory.xml')
+        itemlist = xmldoc.getElementsByTagName("position"+str(index))
+        return itemlist[0].attributes[str(position)].value
+
+    def Init(self):
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        global k
+        k = int(self.ReadI(Inventory))
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line != "</res>":
+                myfile.write(line)
+        myfile.close()
+
+    def Close(self):
+        global k
+
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        myfile = open(filename, 'w')
+        for line in lines:
+            if line.find("<res") != -1:
+                myfile.write("<res " + "i=" + '"' + str(k) + '"' + ">" + "\n")
+            else:
+                myfile.write(line)
+        myfile.close()
+
+        myfile = open(filename, 'a')
+        myfile.write("</res>")
+        myfile.close()
+
+    def Write(self, drop):
+        global k
+        k += 1
+        doc, tag, text = Doc().tagtext()
+        with tag('position'+str(k), mouse_drop=drop):
+            text(str(energy))
+
+        result = indent(
+            doc.getvalue(),
+            indentation=' ' * 4,
+            newline='\r\n')
+
+        filename = 'inventory.xml'
+        myfile = open(filename, 'a')
+        myfile.write(result)
+        myfile.write("\n")
+        myfile.close()
+        print(result)
+
+
 energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
@@ -655,6 +833,7 @@ location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
 device = GameLogic.ReadFile(GameLogic, "device", 0)
+
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
