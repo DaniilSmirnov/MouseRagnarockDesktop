@@ -211,8 +211,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         global login, password
 
         try:
-            login = GameLogic.ReadFile(GameLogic, "login", 0)
-            password = GameLogic.ReadFile(GameLogic, "password", 0)
+            login = LoginData.ReadFile(LoginData, "login", 0)
+            password = LoginData.ReadFile(LoginData, "password", 0)
         except BaseException:
             login = LoginWindow()
             login.exec_()
@@ -344,52 +344,7 @@ class Ui_Login(object):
         self.password.setText(_translate("Login", "Password"))
         self.login.setText(_translate("Login", "Login"))
         self.login_button.setText(_translate("Login", "Login"))
-        self.checkBox.setText(_translate("Login", "CheckBox"))
-        self.terms_button.setText(_translate("Login", "Terms"))
-
-
-class Ui_Login(object):
-    def setupUi(self, Login):
-        Login.setObjectName("Login")
-        Login.resize(400, 106)
-        self.widget = QtWidgets.QWidget(Login)
-        self.widget.setGeometry(QtCore.QRect(0, 0, 401, 106))
-        self.widget.setObjectName("widget")
-        self.gridLayout = QtWidgets.QGridLayout(self.widget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
-        self.password = QtWidgets.QLabel(self.widget)
-        self.password.setObjectName("password")
-        self.gridLayout.addWidget(self.password, 1, 0, 1, 1)
-        self.login_enter = QtWidgets.QLineEdit(self.widget)
-        self.login_enter.setObjectName("login_enter")
-        self.gridLayout.addWidget(self.login_enter, 0, 1, 1, 2)
-        self.password_login = QtWidgets.QLineEdit(self.widget)
-        self.password_login.setObjectName("password_login")
-        self.gridLayout.addWidget(self.password_login, 1, 1, 1, 2)
-        self.login = QtWidgets.QLabel(self.widget)
-        self.login.setObjectName("login")
-        self.gridLayout.addWidget(self.login, 0, 0, 1, 1)
-        self.login_button = QtWidgets.QPushButton(self.widget)
-        self.login_button.setObjectName("login_button")
-        self.gridLayout.addWidget(self.login_button, 2, 2, 1, 1)
-        self.checkBox = QtWidgets.QCheckBox(self.widget)
-        self.checkBox.setObjectName("checkBox")
-        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
-        self.terms_button = QtWidgets.QPushButton(self.widget)
-        self.terms_button.setObjectName("terms_button")
-        self.gridLayout.addWidget(self.terms_button, 2, 1, 1, 1)
-
-        self.retranslateUi(Login)
-        QtCore.QMetaObject.connectSlotsByName(Login)
-
-    def retranslateUi(self, Login):
-        _translate = QtCore.QCoreApplication.translate
-        Login.setWindowTitle(_translate("Login", "Dialog"))
-        self.password.setText(_translate("Login", "Password"))
-        self.login.setText(_translate("Login", "Login"))
-        self.login_button.setText(_translate("Login", "Login"))
-        self.checkBox.setText(_translate("Login", "CheckBox"))
+        self.checkBox.setText(_translate("Login", "Agree"))
         self.terms_button.setText(_translate("Login", "Terms"))
 
 
@@ -398,6 +353,13 @@ class LoginWindow(QtWidgets.QDialog, Ui_Login):
 
         super(LoginWindow, self).__init__(parent)
         self.setupUi(self)
+        self.login_button.clicked.connect(self.write_login)
+
+    def write_login(self):
+        global login, password
+        login = self.login_enter.text()
+        password = self.password_login.text()
+        LoginData.WriteFile(LoginData)
 
 
 class ShopWindowUi(object):
@@ -595,6 +557,30 @@ class GameLogic(object):
             newline='\r\n')
 
         filename = 'userdata.xml'
+        myfile = open(filename, 'w')
+        myfile.write(result)
+        myfile.close()
+        print(result)
+
+
+class LoginData(object):
+
+    def ReadFile(self, position, index):
+        xmldoc = minidom.parse('logindata.xml')
+        itemlist = xmldoc.getElementsByTagName(str("user"))
+        return itemlist[index].attributes[position].value
+
+    def WriteFile(self):
+        doc, tag, text = Doc().tagtext()
+        with tag('user', login=str(login), password=str(password)):
+            text(str(energy))
+
+        result = indent(
+            doc.getvalue(),
+            indentation=' ' * 4,
+            newline='\r\n')
+
+        filename = 'logindata.xml'
         myfile = open(filename, 'w')
         myfile.write(result)
         myfile.close()
