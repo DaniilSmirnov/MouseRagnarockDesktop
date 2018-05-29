@@ -820,7 +820,7 @@ location = int(GameLogic.ReadFile(GameLogic, "location", 0))
 location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
 mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
 device = GameLogic.ReadFile(GameLogic, "device", 0)
-
+energy_max = int(GameLogic.ReadFile(GameLogic, "energy_max", 0))
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
