@@ -360,6 +360,7 @@ class LoginWindow(QtWidgets.QDialog, Ui_Login):
         login = self.login_enter.text()
         password = self.password_login.text()
         LoginData.WriteFile(LoginData)
+        self.close()
 
 
 class ShopWindowUi(object):
