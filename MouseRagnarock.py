@@ -8,7 +8,7 @@ import time
 from yattag import Doc, indent
 from PIL import Image
 
-energy_max = 100
+exec = False
 
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
@@ -349,18 +349,29 @@ class Ui_Login(object):
 
 
 class LoginWindow(QtWidgets.QDialog, Ui_Login):
+
     def __init__(self, parent=None):
 
         super(LoginWindow, self).__init__(parent)
         self.setupUi(self)
         self.login_button.clicked.connect(self.write_login)
+        self.checkBox.stateChanged.connect(self.set_state)
+
+    def set_state(self, state):
+        global exec
+
+        if state == QtCore.Qt.Checked:
+            exec = True
+        else:
+            exec = False
 
     def write_login(self):
-        global login, password
+        global login, password, exec
         login = self.login_enter.text()
         password = self.password_login.text()
-        LoginData.WriteFile(LoginData)
-        self.close()
+        if exec:
+            LoginData.WriteFile(LoginData)
+            self.close()
 
 
 class ShopWindowUi(object):
