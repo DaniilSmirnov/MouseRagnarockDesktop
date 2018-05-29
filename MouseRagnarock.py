@@ -261,6 +261,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def update_ui(self):
 
         global energy
+        self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
         self.cheese_label.setText(cheese+" "+str(cheese_amount))
         self.diamondslabel.setText(str(diamonds))
@@ -272,7 +273,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
         self.board_label.setText("Board: " + str(board))
-
         self.device_label.setText("Device: " + device)
 
     def pipe_click(self):
