@@ -221,6 +221,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             login = LoginWindow()
             login.exec_()
 
+        device_img = Image.open(device + ".png")
+        back_img = Image.open(location_name + ".jpg")
+
+        back_img.paste(device_img, (0, 0), device_img)
+        back_img.save('result.png')
+        devpix = QtGui.QPixmap("result.png")
+
+        self.label.setPixmap(devpix)
+
         self.update_ui()
 
     def catch_mouse(self):
@@ -264,16 +273,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mouse_image.setPixmap(pixmap)
         self.board_label.setText("Board: " + str(board))
 
-        device_img = Image.open(device+".png")
-        back_img = Image.open(location_name+".jpg")
-
-        back_img.paste(device_img, (0, 0), device_img)
-        back_img.save('result.png')
-        devpix = QtGui.QPixmap("result.png")
-
-        self.label.setPixmap(devpix)
         self.device_label.setText("Device: " + device)
-
 
     def pipe_click(self):
 
