@@ -1,3 +1,4 @@
 <resources>
     <cheese1 name="Russian Cheese" cost="100"/>
+    <cheese2 name="Cheese 'Дружба'" cost="25"/>
 </resources>

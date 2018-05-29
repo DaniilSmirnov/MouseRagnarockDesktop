@@ -135,10 +135,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pipe.sizePolicy().hasHeightForWidth())
+
         self.pipe.setSizePolicy(sizePolicy)
         self.pipe.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.pipe.setObjectName("pipe")
         self.gridLayout.addWidget(self.pipe, 0, 1, 1, 2)
+        self.pipe.setIcon(QtGui.QIcon('pipe.png'))
+        self.pipe.setIconSize(QtCore.QSize(392, 101))
+
         self.clans = QtWidgets.QPushButton(self.layoutWidget)
         self.clans.setEnabled(False)
         self.clans.setObjectName("clans")
@@ -195,7 +199,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.inventory.setText(_translate("MainWindow", "Inventory"))
         self.move.setText(_translate("MainWindow", "Locations"))
         self.shop.setText(_translate("MainWindow", "Shop"))
-        self.pipe.setText(_translate("MainWindow", "pipe"))
+        self.pipe.setText(_translate("MainWindow", " "))
         self.clans.setText(_translate("MainWindow", "Clans"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.bossesbutton.setText(_translate("MainWindow", "Bosses"))
@@ -258,6 +262,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mouseattachment.setText(mouse_drop)
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
+        self.board_label.setText("Board: " + str(board))
 
         device_img = Image.open(device+".png")
         back_img = Image.open(location_name+".jpg")
@@ -268,6 +273,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.label.setPixmap(devpix)
         self.device_label.setText("Device: " + device)
+
 
     def pipe_click(self):
 
@@ -555,12 +561,13 @@ class GameLogic(object):
 
     def WriteFile(self):
         doc, tag, text = Doc().tagtext()
-        with tag('user', energy=str(energy), location=str(location), money=str(money),
+        with tag('user', energy=str(energy),energy_max=str(energy_max),
+                 location=str(location), money=str(money),
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
                  last_mouse=mouse_name, last_cost=mouse_cost,
                  last_drop=mouse_drop, last_icon=mouse_icon,
-                 device=device):
+                 device=device, board=board):
             text(str(energy))
 
         result = indent(
@@ -832,6 +839,7 @@ location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", loc
 mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
 device = GameLogic.ReadFile(GameLogic, "device", 0)
 energy_max = int(GameLogic.ReadFile(GameLogic, "energy_max", 0))
+board = GameLogic.ReadFile(GameLogic, "board", 0)
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
