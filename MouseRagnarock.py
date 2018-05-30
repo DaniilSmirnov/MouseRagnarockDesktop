@@ -383,35 +383,24 @@ class LoginWindow(QtWidgets.QDialog, Ui_Login):
 class ShopWindowUi(object):
 
     def setupUi(self, ShopWindowUi):
-
-        self.window_height = 300
-        self.window_width = 300
-
         ShopWindowUi.setObjectName("ShopWindowUi")
-        ShopWindowUi.resize(self.window_height, self.window_width)
-
+        ShopWindowUi.resize(289, 479)
         self.gridLayout = QtWidgets.QGridLayout(ShopWindowUi)
         self.gridLayout.setObjectName("gridLayout")
-        self.amount_label = QtWidgets.QLabel(ShopWindowUi)
-        self.amount_label.setObjectName("amount_label")
-        self.gridLayout.addWidget(self.amount_label, 1, 3, 1, 1)
         self.ok_button = QtWidgets.QPushButton(ShopWindowUi)
         self.ok_button.setObjectName("ok_button")
-        self.gridLayout.addWidget(self.ok_button, 2, 1, 1, 1)
-        self.buy_button = QtWidgets.QPushButton(ShopWindowUi)
-        self.buy_button.setObjectName("buy_button")
-        self.gridLayout.addWidget(self.buy_button, 1, 1, 1, 1)
-        self.cost_label = QtWidgets.QLabel(ShopWindowUi)
-        self.cost_label.setObjectName("cost_label")
-        self.gridLayout.addWidget(self.cost_label, 1, 2, 1, 1)
-        self.money_label = QtWidgets.QLabel(ShopWindowUi)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addWidget(self.ok_button, 2, 0, 1, 2)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 2)
+        self.amount_label = QtWidgets.QLabel(ShopWindowUi)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.money_label.sizePolicy().hasHeightForWidth())
-        self.money_label.setSizePolicy(sizePolicy)
-        self.money_label.setObjectName("money_label")
-        self.gridLayout.addWidget(self.money_label, 0, 3, 1, 1)
+        sizePolicy.setHeightForWidth(self.amount_label.sizePolicy().hasHeightForWidth())
+        self.amount_label.setSizePolicy(sizePolicy)
+        self.amount_label.setObjectName("amount_label")
+        self.gridLayout.addWidget(self.amount_label, 0, 0, 1, 2)
 
         self.retranslateUi(ShopWindowUi)
         QtCore.QMetaObject.connectSlotsByName(ShopWindowUi)
@@ -419,11 +408,8 @@ class ShopWindowUi(object):
     def retranslateUi(self, ShopWindowUi):
         _translate = QtCore.QCoreApplication.translate
         ShopWindowUi.setWindowTitle(_translate("ShopWindowUi", "Dialog"))
-        self.amount_label.setText(_translate("ShopWindowUi", "TextLabel"))
         self.ok_button.setText(_translate("ShopWindowUi", "OK"))
-        self.buy_button.setText(_translate("ShopWindowUi", "Buy"))
-        self.cost_label.setText(_translate("ShopWindowUi", "TextLabel"))
-        self.money_label.setText(_translate("ShopWindowUi", "TextLabel"))
+        self.amount_label.setText(_translate("ShopWindowUi", "TextLabel"))
 
 
 class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
@@ -433,8 +419,6 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         super(ShopWindow, self).__init__(parent)
         self.setupUi(self)
         self.update_ui()
-
-        self.buy_button.clicked.connect(self.buy)
         self.ok_button.clicked.connect(self.close)
 
         cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
@@ -445,9 +429,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
 
-        self.money_label.setText("You have: " + str(money))
         self.amount_label.setText(GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "name", 1, 0) + ": " + str(cheese_amount))
-        self.cost_label.setText(str(cost))
 
     def buy(self):
 
