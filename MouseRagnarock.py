@@ -450,14 +450,11 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
             self.item_button.clicked.connect(lambda state, button=self.item_button: self.buy(button))
 
     def update_ui(self):
-
-        global cost
-
         self.amount_label.setText(str(money))
 
     def buy(self, button):
 
-        global cost, money, cheese_amount
+        global money, cheese_amount
 
         i = 1
 
