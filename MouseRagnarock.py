@@ -422,6 +422,8 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         self.update_ui()
         self.ok_button.clicked.connect(self.close)
 
+        self.update_ui()
+
         self.items = {}
 
         i = 0
@@ -457,10 +459,18 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         global cost, money, cheese_amount
 
-        if (str(button.text())[4:]) == "Russian Cheese":
-            money -= int(self.items.get("Russian Cheese"))
-            GameLogic.editXML(self, 1)
-            self.update_ui()
+        i = 1
+
+        while i < 3:
+
+            item = GameLogic.ReadCheeseDataFromXML(GameLogic, "name", i)
+
+            if (str(button.text())[4:]) == item:
+                money -= int(self.items.get(item))
+                GameLogic.editXML(self, i)
+                self.update_ui()
+
+            i += 1
 
         self.update_ui()
 
