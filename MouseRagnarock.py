@@ -264,7 +264,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         global energy
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese+" "+str(cheese_amount))
+        self.cheese_label.setText(cheese+" "+GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", 1))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -444,10 +444,9 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
             self.item_button.clicked.connect(lambda state, button=self.item_button: self.buy(button))
 
-
     def update_ui(self):
 
-        global cost, cheese_amount
+        global cost
 
         self.amount_label.setText(str(money))
 
@@ -456,7 +455,6 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         global cost, money, cheese_amount
 
         if (str(button.text())[4:]) == "Russian Cheese":
-            cheese_amount += 1
             money -= int(self.items.get("Russian Cheese"))
             GameLogic.editXML(self, 1)
             self.update_ui()
@@ -590,7 +588,6 @@ class GameLogic(object):
         frag_xml_tree = ET.parse("shop.xml")
         root = frag_xml_tree.getroot()
         for elem in root.iter('item'+str(index)):
-            print(elem.get('amount'))
             amount = int(elem.get('amount'))
             amount += 1
             elem.set('amount', str(amount))
@@ -600,7 +597,6 @@ class GameLogic(object):
         xmldoc = minidom.parse('shop.xml')
         itemlist = xmldoc.getElementsByTagName("item" + str(number))
         return itemlist[0].attributes[str(name)].value
-
 
 
 class LoginData(object):
