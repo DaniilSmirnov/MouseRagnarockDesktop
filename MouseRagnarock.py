@@ -254,7 +254,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.mouse_image.setPixmap(pixmap)
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
-        if number != 10:
+        if number != 1:
             cheese_amount -= 1
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
@@ -394,11 +394,11 @@ class ShopWindowUi(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 2)
         self.amount_label = QtWidgets.QLabel(ShopWindowUi)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.amount_label.sizePolicy().hasHeightForWidth())
-        self.amount_label.setSizePolicy(sizePolicy)
+        self.sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.sizePolicy.setHorizontalStretch(0)
+        self.sizePolicy.setVerticalStretch(0)
+        self.sizePolicy.setHeightForWidth(self.amount_label.sizePolicy().hasHeightForWidth())
+        self.amount_label.setSizePolicy(self.sizePolicy)
         self.amount_label.setObjectName("amount_label")
         self.gridLayout.addWidget(self.amount_label, 0, 0, 1, 2)
 
@@ -423,11 +423,6 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         items = {}
 
-        filename = 'journal.xml'
-        myfile = open(filename, 'r')
-        lines = myfile.readlines()
-        myfile.close()
-
         i = 0
 
         while i < 2:
@@ -435,6 +430,17 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
             items.update({str(key): str(value)})
+
+        for item in items:
+            self.verticalLayout.q_label = QtWidgets.QLabel(item)
+            self.verticalLayout.q_button = QtWidgets.QPushButton("Buy")
+
+            self.verticalLayout.q_label.setSizePolicy(self.sizePolicy)
+            self.verticalLayout.q_button.setSizePolicy(self.sizePolicy)
+
+            self.verticalLayout.addWidget(self.verticalLayout.q_label)
+            self.verticalLayout.addWidget(self.verticalLayout.q_button)
+
 
     def update_ui(self):
 
