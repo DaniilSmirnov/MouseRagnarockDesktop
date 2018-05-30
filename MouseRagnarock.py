@@ -261,10 +261,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def update_ui(self):
 
-        global energy
+        global energy, cheese_index
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese+" "+GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", 1))
+        self.cheese_label.setText(cheese+" "+GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -426,14 +426,17 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < 3:
+        while i < 3: #hardcode
             i += 1
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
             self.items.update({str(key): str(value)})
 
+        i = 0
         for item in self.items:
-            self.item_label = QtWidgets.QLabel(item + " " + self.items.get(item))
+            i += 1
+
+            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", i))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -847,7 +850,21 @@ energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
 cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
-cheese_amount = int(GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", 1))
+
+filename = 'shop.xml'
+myfile = open(filename, 'r')
+lines = myfile.readlines()
+myfile.close()
+
+cheese_index = 0
+
+for line in lines:
+    if line.find(cheese) != -1:
+        break
+    cheese_index += 1
+
+
+cheese_amount = int(GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
