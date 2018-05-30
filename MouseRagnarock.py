@@ -19,7 +19,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.window_height = 800
 
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.setFixedSize(800, 600)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -432,32 +432,33 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
             items.update({str(key): str(value)})
 
         for item in items:
-            self.verticalLayout.q_label = QtWidgets.QLabel(item)
-            self.verticalLayout.q_button = QtWidgets.QPushButton("Buy")
+            self.item_label = QtWidgets.QLabel(item)
+            self.item_button = QtWidgets.QPushButton("Buy " + item)
 
-            self.verticalLayout.q_label.setSizePolicy(self.sizePolicy)
-            self.verticalLayout.q_button.setSizePolicy(self.sizePolicy)
+            self.item_label.setSizePolicy(self.sizePolicy)
+            self.item_button.setSizePolicy(self.sizePolicy)
 
-            self.verticalLayout.addWidget(self.verticalLayout.q_label)
-            self.verticalLayout.addWidget(self.verticalLayout.q_button)
+            self.verticalLayout.addWidget(self.item_label)
+            self.verticalLayout.addWidget(self.item_button)
+
+            self.item_button.clicked.connect(lambda state, button=self.item_button: self.buy(button))
 
 
     def update_ui(self):
 
         global cost, cheese_amount
 
-    def buy(self):
+        self.amount_label.setText(str(money))
+
+    def buy(self, button):
 
         global cost, money, cheese_amount
 
-        if money - int(cost) > 0:
-            money -= int(cost)
+        if (str(button.text())[4:]) == "Russian Cheese":
             cheese_amount += 1
-        else:
-            alert(text='Not enough money', title='Alert', button='OK')
+            self.update_ui()
 
         self.update_ui()
-
 
 class JournalWindowUi(object):
 
@@ -532,7 +533,7 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
         i = int(Inventory.ReadI(Inventory))
         j = 1
         while j <= i:
-            self.textBrowser.append(Inventory.Read(Inventory, "mouse_drop", j))
+            self.textBrowser.append(Inventory.Read(Inventory, "item", j))
             j += 1
         Inventory.Init(Inventory)
 
@@ -739,7 +740,7 @@ class Inventory(object):
         global k
         k += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(k), mouse_drop=drop):
+        with tag('position'+str(k), item=drop):
             text(str(energy))
 
         result = indent(
