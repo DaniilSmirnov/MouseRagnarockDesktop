@@ -421,15 +421,24 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         self.update_ui()
         self.ok_button.clicked.connect(self.close)
 
-        cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
+        items = {}
+
+        filename = 'journal.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        i = 0
+
+        while i < 2:
+            i += 1
+            key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
+            value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
+            items.update({str(key): str(value)})
 
     def update_ui(self):
 
         global cost, cheese_amount
-
-        cost = GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "cost", 1, 0)
-
-        self.amount_label.setText(GameLogic.ReadCheeseDataFromXML(ShopWindowUi, "cheese", "name", 1, 0) + ": " + str(cheese_amount))
 
     def buy(self):
 
@@ -531,8 +540,8 @@ class GameLogic(object):
         itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
         return itemlist[index].attributes[str(name)].value
 
-    def ReadCheeseDataFromXML(self, tag, name, number, index):
-        xmldoc = minidom.parse('cheese.xml')
+    def ReadShopDataFromXML(self, tag, name, number, index):
+        xmldoc = minidom.parse('shop.xml')
         itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
         return itemlist[index].attributes[str(name)].value
 
