@@ -7,6 +7,7 @@ from threading import Thread
 import time
 from yattag import Doc, indent
 from PIL import Image
+import xml.etree.cElementTree as ET
 
 exec = False
 
@@ -421,18 +422,18 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         self.update_ui()
         self.ok_button.clicked.connect(self.close)
 
-        items = {}
+        self.items = {}
 
         i = 0
 
-        while i < 2:
+        while i < 3:
             i += 1
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
-            items.update({str(key): str(value)})
+            self.items.update({str(key): str(value)})
 
-        for item in items:
-            self.item_label = QtWidgets.QLabel(item)
+        for item in self.items:
+            self.item_label = QtWidgets.QLabel(item + " " + self.items.get(item))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -456,9 +457,12 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         if (str(button.text())[4:]) == "Russian Cheese":
             cheese_amount += 1
+            money -= int(self.items.get("Russian Cheese"))
+            GameLogic.editXML(self, 1)
             self.update_ui()
 
         self.update_ui()
+
 
 class JournalWindowUi(object):
 
@@ -578,6 +582,25 @@ class GameLogic(object):
         myfile.write(result)
         myfile.close()
         print(result)
+
+    def editXML(self, index):
+        """
+        Редактируем XML атрибут.
+        """
+        frag_xml_tree = ET.parse("shop.xml")
+        root = frag_xml_tree.getroot()
+        for elem in root.iter('item'+str(index)):
+            print(elem.get('amount'))
+            amount = int(elem.get('amount'))
+            amount += 1
+            elem.set('amount', str(amount))
+        frag_xml_tree.write("shop.xml")
+
+    def ReadCheeseDataFromXML(self, name, number):
+        xmldoc = minidom.parse('shop.xml')
+        itemlist = xmldoc.getElementsByTagName("item" + str(number))
+        return itemlist[0].attributes[str(name)].value
+
 
 
 class LoginData(object):
@@ -828,7 +851,7 @@ energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
 money = int(GameLogic.ReadFile(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
 cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
-cheese_amount = int(GameLogic.ReadFile(GameLogic, "cheese_amount", 0))
+cheese_amount = int(GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", 1))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)

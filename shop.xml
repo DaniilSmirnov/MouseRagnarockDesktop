@@ -1,5 +1,5 @@
 <resources>
-    <item1 name="Russian Cheese" cost="100" type="cheese"/>
-    <item2 name="Cheese 'Дружба'" cost="25" type="cheese"/>
-    <item3 name="Test item" cost="1000" type="test"/>
+    <item1 amount="30" cost="100" name="Russian Cheese" type="cheese" />
+    <item2 amount="0" cost="25" name="Cheese Druzhba" type="cheese" />
+    <item3 amount="0" cost="1000" name="Test item" type="test" />
 </resources>
