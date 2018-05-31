@@ -12,7 +12,7 @@ import xml.etree.cElementTree as ET
 exec = False
 
 
-class Ui_MainWindow(QtWidgets.QMainWindow):
+class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
 
@@ -239,7 +239,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
         number = 1 + int(random()*(amount-1))
 
-        if number != 1 and (1+int(random()*5) > 4) :
+        if number != 1 and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadMiceDataFromXML(self, "mice", "drop", number, 0)
             Inventory.Write(self, mouse_drop)
         else:
@@ -256,15 +256,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 1:
-            cheese_amount -= 1
+            GameLogic.editXML(GameLogic, cheese_index, -1)
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
 
-        global energy, cheese_index
+        global energy, cheese_index, cheese_amount
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese+" "+GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
+        self.cheese_label.setText(cheese + " " + GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -280,7 +280,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         global energy, energy_max
 
-        if energy > 0 and cheese_amount > 0:
+        if energy > 0 and int((GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))) > 0:
             energy -= 1
             self.catch_mouse()
         else:
@@ -452,18 +452,17 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         global money, cheese_amount
 
-        i = 1
+        i = 0
 
         while i < 3:
 
+            i += 1
             item = GameLogic.ReadCheeseDataFromXML(GameLogic, "name", i)
 
             if (str(button.text())[4:]) == item:
                 money -= int(self.items.get(item))
-                GameLogic.editXML(self, i)
+                GameLogic.editXML(self, i, 1)
                 self.update_ui()
-
-            i += 1
 
         self.update_ui()
 
@@ -500,7 +499,11 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
 
         Journal.Close(Journal)
         i = int(Journal.ReadI(Journal))
-        j = 1
+
+        if i > 10:
+            j = i-10
+        else:
+            j = 1
         while j <= i:
             self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j) + " " + Journal.Read(Journal, "mouse_drop", j))
             j += 1
@@ -587,7 +590,7 @@ class GameLogic(object):
         myfile.close()
         print(result)
 
-    def editXML(self, index):
+    def editXML(self, index, sign):
         """
         Редактируем XML атрибут.
         """
@@ -595,7 +598,7 @@ class GameLogic(object):
         root = frag_xml_tree.getroot()
         for elem in root.iter('item'+str(index)):
             amount = int(elem.get('amount'))
-            amount += 1
+            amount += sign
             elem.set('amount', str(amount))
         frag_xml_tree.write("shop.xml")
 
@@ -883,12 +886,14 @@ board = GameLogic.ReadFile(GameLogic, "board", 0)
 Journal.Init(Journal)
 Inventory.Init(Inventory)
 
+
 def setter(exec):
     global energy_exec
     if exec:
         return True
     else:
         energy_exec = False
+
 
 energy_exec = setter(True)
 thread = EnergyThread()
