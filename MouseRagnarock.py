@@ -276,7 +276,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.board_label.setText("Board: " + str(board))
         self.device_label.setText("Device: " + device)
 
-
     def pipe_click(self):
 
         global energy, energy_max
@@ -638,11 +637,12 @@ class EnergyThread(Thread):
 
     def run(self):
         """Запуск потока"""
-        global energy, energy_max
-        while True:
+        global energy, energy_max, energy_exec
+        while energy_exec:
             if energy <= energy_max:
                 time.sleep(1)
                 energy += 1
+                #Ui_MainWindow.energybar.setValue(energy)
 
 
 class Journal(object):
@@ -883,6 +883,14 @@ board = GameLogic.ReadFile(GameLogic, "board", 0)
 Journal.Init(Journal)
 Inventory.Init(Inventory)
 
+def setter(exec):
+    global energy_exec
+    if exec:
+        return True
+    else:
+        energy_exec = False
+
+energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
 
@@ -901,4 +909,4 @@ if __name__ == "__main__":
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
 
     MainWindow.setPalette(palette)
-    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory))
+    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory), setter(False))
