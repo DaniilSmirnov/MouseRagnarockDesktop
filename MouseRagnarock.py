@@ -286,10 +286,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         else:
             alert(text='Not enough energy or cheese', title='Alert', button='OK')
 
-        if energy < energy_max:
-            thread = EnergyThread()
-            thread.start()
-
         self.update_ui()
 
     def open_shop(self):
@@ -641,10 +637,10 @@ class EnergyThread(Thread):
 
     def run(self):
         """Запуск потока"""
-        global energy
-        time.sleep(1)
-        energy += 1
-        #Ui_MainWindow.energybar.setText(str(energy))
+        global energy, energy_max
+        while energy <= energy_max:
+            time.sleep(1)
+            energy += 1
 
 
 class Journal(object):
@@ -884,6 +880,10 @@ board = GameLogic.ReadFile(GameLogic, "board", 0)
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
+
+thread = EnergyThread()
+thread.start()
+
 
 if __name__ == "__main__":
     import sys
