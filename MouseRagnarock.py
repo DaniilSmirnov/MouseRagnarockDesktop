@@ -276,6 +276,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.board_label.setText("Board: " + str(board))
         self.device_label.setText("Device: " + device)
 
+
     def pipe_click(self):
 
         global energy, energy_max
@@ -638,9 +639,10 @@ class EnergyThread(Thread):
     def run(self):
         """Запуск потока"""
         global energy, energy_max
-        while energy <= energy_max:
-            time.sleep(1)
-            energy += 1
+        while True:
+            if energy <= energy_max:
+                time.sleep(1)
+                energy += 1
 
 
 class Journal(object):
