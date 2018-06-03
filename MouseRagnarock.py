@@ -12,7 +12,8 @@ import xml.etree.cElementTree as ET
 exec = False
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtCore.QObject):
+    updateProgress = QtCore.pyqtSignal(int)
 
     def setupUi(self, MainWindow):
 
@@ -212,6 +213,8 @@ class Ui_MainWindow(object):
         self.journal_button.clicked.connect(self.open_journal)
         self.inventory.clicked.connect(self.open_inventory)
 
+        self.updateProgress.connect(self.energybar.setValue)
+
     def init(self):
         global login, password
 
@@ -264,7 +267,7 @@ class Ui_MainWindow(object):
         global energy, cheese_index, cheese_amount
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese + " " + GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
+        self.cheese_label.setText(cheese + " " + GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -424,7 +427,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < 3: #hardcode
+        while i < int(GameLogic.ReadShopI(GameLogic)): #hardcode
             i += 1
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
@@ -434,7 +437,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         for item in self.items:
             i += 1
 
-            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", i))
+            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", i, 0))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -454,7 +457,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < 3:
+        while i < int(GameLogic.ReadShopI(GameLogic)):
 
             i += 1
             item = GameLogic.ReadCheeseDataFromXML(GameLogic, "name", i)
@@ -602,10 +605,10 @@ class GameLogic(object):
             elem.set('amount', str(amount))
         frag_xml_tree.write("shop.xml")
 
-    def ReadCheeseDataFromXML(self, name, number):
+    def ReadShopI(self):
         xmldoc = minidom.parse('shop.xml')
-        itemlist = xmldoc.getElementsByTagName("item" + str(number))
-        return itemlist[0].attributes[str(name)].value
+        itemlist = xmldoc.getElementsByTagName(str("resources"))
+        return itemlist[0].attributes["i"].value
 
 
 class LoginData(object):
@@ -645,7 +648,7 @@ class EnergyThread(Thread):
             if energy <= energy_max:
                 time.sleep(1)
                 energy += 1
-                #Ui_MainWindow.energybar.setValue(energy)
+                #Ui_MainWindow.update_ui()
 
 
 class Journal(object):
@@ -871,8 +874,7 @@ for line in lines:
         break
     cheese_index += 1
 
-
-cheese_amount = int(GameLogic.ReadCheeseDataFromXML(GameLogic, "amount", cheese_index))
+cheese_amount = int(GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", cheese_index, 0))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
