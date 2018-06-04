@@ -1,5 +1,5 @@
-<resources i="3">
-    <item1 amount="1270" cost="100" name="Russian Cheese" type="cheese" />
-    <item2 amount="20" cost="25" name="Cheese Druzhba" type="cheese" />
-    <item3 amount="5" cost="1000" name="Test item" type="test" />
-</resources>
+<res i="3">
+    <item1 amount="1273" cost="100" name="Russian Cheese" type="cheese" />
+    <item2 amount="22" cost="25" name="Cheese Druzhba" type="cheese" />
+    <item3 amount="7" cost="1000" name="Test item" type="test" />
+</res>

@@ -474,7 +474,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < int(GameLogic.ReadShopI(GameLogic)):
+        while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
             i += 1
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
@@ -518,7 +518,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < int(GameLogic.ReadShopI(GameLogic)):
+        while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
 
             i += 1
             item = GameLogic.ReadShopDataFromXML(GameLogic, "item", "name", i, 0)
@@ -560,7 +560,7 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
         self.ok_button.clicked.connect(self.close)
 
         Journal.Close(Journal)
-        i = int(Journal.ReadI(Journal))
+        i = int(GameLogic.ReadI(GameLogic, 'journal.xml'))
 
         if i > 10:
             j = i-10
@@ -603,7 +603,7 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
         self.ok_button.clicked.connect(self.close)
 
         Inventory.Close(Inventory)
-        i = int(Inventory.ReadI(Inventory))
+        i = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
         j = 1
         while j <= i:
             self.textBrowser.append(Inventory.Read(Inventory, "item", j))
@@ -664,11 +664,6 @@ class GameLogic(object):
             elem.set('amount', str(amount))
         frag_xml_tree.write("shop.xml")
 
-    def ReadShopI(self):
-        xmldoc = minidom.parse('shop.xml')
-        itemlist = xmldoc.getElementsByTagName(str("resources"))
-        return itemlist[0].attributes["i"].value
-
     def ReadI(self, file):
         xmldoc = minidom.parse(file)
         itemlist = xmldoc.getElementsByTagName(str("res"))
@@ -723,12 +718,6 @@ class Journal(object):
         itemlist = xmldoc.getElementsByTagName("position"+str(index))
         return itemlist[0].attributes[str(position)].value
 
-    def ReadI(self):
-
-        xmldoc = minidom.parse('journal.xml')
-        itemlist = xmldoc.getElementsByTagName(str("res"))
-        return itemlist[0].attributes["i"].value
-
     def Write(self, name, cost, drop):
         global i
         i += 1
@@ -755,7 +744,7 @@ class Journal(object):
         myfile.close()
 
         global i
-        i = int(self.ReadI(Journal))
+        i = int(GameLogic.ReadI(GameLogic, "journal.xml"))
 
         myfile = open(filename, 'w')
         for line in lines:
@@ -787,12 +776,6 @@ class Journal(object):
 
 class Inventory(object):
 
-    def ReadI(self):
-
-        xmldoc = minidom.parse('inventory.xml')
-        itemlist = xmldoc.getElementsByTagName(str("res"))
-        return itemlist[0].attributes["i"].value
-
     def Read(self, position, index):
         xmldoc = minidom.parse('inventory.xml')
         itemlist = xmldoc.getElementsByTagName("position"+str(index))
@@ -805,7 +788,7 @@ class Inventory(object):
         myfile.close()
 
         global k
-        k = int(self.ReadI(Inventory))
+        k = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
 
         myfile = open(filename, 'w')
         for line in lines:
