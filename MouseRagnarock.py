@@ -288,7 +288,7 @@ class Ui_MainWindow(QtCore.QObject):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
-        number = 1 + int(random()*(amount-1))
+        number = int(GameLogic.ReadMiceDataFromXML(self, "location", "start", location, 0)) + int(random()*(amount-1))
 
         if number != 1 and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadMiceDataFromXML(self, "mice", "drop", number, 0)
