@@ -226,7 +226,7 @@ class Ui_MainWindow(QtCore.QObject):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Mouse Ragnarok"))
         self.questsbutton.setText(_translate("MainWindow", "Quests"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.move.setText(_translate("MainWindow", "Locations"))
@@ -242,18 +242,18 @@ class Ui_MainWindow(QtCore.QObject):
         self.mousecost.setText(_translate("MainWindow", "TextLabel"))
         self.mouse_image.setText(_translate("MainWindow", "TextLabel"))
         self.devicesbox.setTitle(_translate("MainWindow", "Devices"))
-        self.cheese_label.setText(_translate("MainWindow", "TextLabel"))
-        self.board_label.setText(_translate("MainWindow", "TextLabel"))
-        self.device_label.setText(_translate("MainWindow", "TextLabel"))
+        self.cheese_label.setText(_translate("MainWindow", " "))
+        self.board_label.setText(_translate("MainWindow", " "))
+        self.device_label.setText(_translate("MainWindow", " "))
         self.switchbox.setTitle(_translate("MainWindow", "Devices"))
         self.cheese_button.setText(_translate("MainWindow", "Cheese"))
         self.board_button.setText(_translate("MainWindow", "Board"))
         self.device_button.setText(_translate("MainWindow", "Device"))
         self.MoneyBox.setTitle(_translate("MainWindow", "Money"))
-        self.moneylabel.setText(_translate("MainWindow", "TextLabel"))
-        self.diamondslabel.setText(_translate("MainWindow", "TextLabel"))
+        self.moneylabel.setText(_translate("MainWindow", " "))
+        self.diamondslabel.setText(_translate("MainWindow", " "))
         self.groupBox.setTitle(_translate("MainWindow", "Location Info"))
-        self.location_label.setText(_translate("MainWindow", "TextLabel"))
+        self.location_label.setText(_translate("MainWindow", " "))
         self.about_location_button.setText(_translate("MainWindow", "About Location"))
 
         self.pipe.clicked.connect(self.pipe_click)
@@ -288,9 +288,9 @@ class Ui_MainWindow(QtCore.QObject):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
         amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
-        number = int(GameLogic.ReadMiceDataFromXML(self, "location", "start", location, 0)) + int(random()*(amount-1))
+        number = int(GameLogic.ReadMiceDataFromXML(self, "location", "start", location, 0)) + int(random()*(amount))
 
-        if number != 1 and (1+int(random()*5) > 4):
+        if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadMiceDataFromXML(self, "mice", "drop", number, 0)
             Inventory.Write(self, mouse_drop)
         else:

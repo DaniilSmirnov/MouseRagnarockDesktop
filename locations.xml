@@ -67,7 +67,17 @@
             />
 
     </location1>
-    <location2 name="Outdoors" amount="0"></location2>
+    <location2 name="Outdoors" amount="2" start="12" drop_amount="1">
+        <mice12  name="Nothing"
+                cost="0"
+                icon="mice11.jpg"
+        />
+        <mice13 name="Cable Mouse"
+                cost="1000"
+                icon="mice1.jpg"
+                drop="Cable"
+        />
+    </location2>
     <location3 name="Park" amount="0"></location3>
     <location4 name="Shopping Centre" amount="0"></location4>
     <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0"></location5>
