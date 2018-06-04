@@ -466,26 +466,29 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         super(ShopWindow, self).__init__(parent)
         self.setupUi(self)
-        self.update_ui()
         self.ok_button.clicked.connect(self.close)
-
-        self.update_ui()
+        self.amount_label.setText(str(money))
 
         self.items = {}
+        self.list = []
 
         i = 0
 
-        while i < int(GameLogic.ReadShopI(GameLogic)): #hardcode
+        while i < int(GameLogic.ReadShopI(GameLogic)):
             i += 1
             key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
             value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
             self.items.update({str(key): str(value)})
 
+        self.create()
+
+    def create(self):
+
         i = 0
         for item in self.items:
             i += 1
 
-            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", i, 0))
+            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -496,8 +499,18 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
             self.item_button.clicked.connect(lambda state, button=self.item_button: self.buy(button))
 
+            self.list.append(self.item_button)
+            self.list.append(self.item_label)
+
     def update_ui(self):
         self.amount_label.setText(str(money))
+
+        for item in self.list:
+            item.close()
+
+        self.list.clear()
+
+        self.create()
 
     def buy(self, button):
 
@@ -508,14 +521,12 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         while i < int(GameLogic.ReadShopI(GameLogic)):
 
             i += 1
-            item = GameLogic.ReadCheeseDataFromXML(GameLogic, "name", i)
+            item = GameLogic.ReadShopDataFromXML(GameLogic, "item", "name", i, 0)
 
             if (str(button.text())[4:]) == item:
                 money -= int(self.items.get(item))
                 GameLogic.editXML(self, i, 1)
                 self.update_ui()
-
-        self.update_ui()
 
 
 class JournalWindowUi(object):
