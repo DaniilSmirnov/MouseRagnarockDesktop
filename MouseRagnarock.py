@@ -669,6 +669,11 @@ class GameLogic(object):
         itemlist = xmldoc.getElementsByTagName(str("resources"))
         return itemlist[0].attributes["i"].value
 
+    def ReadI(self, file):
+        xmldoc = minidom.parse(file)
+        itemlist = xmldoc.getElementsByTagName(str("res"))
+        return itemlist[0].attributes["i"].value
+
 
 class LoginData(object):
 
