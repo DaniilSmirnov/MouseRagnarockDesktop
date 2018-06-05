@@ -1,4 +1,5 @@
-<res i="2">
+<res i="3">
 <position1 amount="1" item="AlphaDevice">0</position1>
-<position2 amount="3" item="Test drop">8</position2>
+<position2 amount="5" item="Test drop">8</position2>
+<position3 amount="2" item="Key">8</position3>
 </res>

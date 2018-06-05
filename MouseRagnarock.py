@@ -295,8 +295,11 @@ class Ui_MainWindow(QtCore.QObject):
         if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
 
-            thread = InventoryThread()
-            thread.start()
+            if mouse_drop.find("Coins") != -1:
+                money += 100
+            else:
+                thread = InventoryThread()
+                thread.start()
 
         else:
             mouse_drop = " "

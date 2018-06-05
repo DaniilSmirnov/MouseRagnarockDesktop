@@ -7,19 +7,19 @@
         />
         <mice2  name="Brown mouse"
                 cost="100"
-                drop="Test drop"
+                drop="Coins"
                 icon="mice2.jpg"
 
             />
         <mice3 name="Black mouse"
                 cost="150"
-                drop="Test drop"
+                drop="Coins"
                 icon="mice3.jpg"
 
         />
         <mice4  name="Poor mouse"
                 cost="50"
-                drop="Test drop"
+                drop="Coins"
                 icon="mice4.jpg"
 
             />
@@ -61,7 +61,7 @@
             />
         <mice11 name="Eshkere Mouse"
                 cost="10"
-                drop="Test drop"
+                drop="Key"
                 icon="mice1.jpg"
 
             />
