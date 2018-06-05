@@ -623,12 +623,12 @@ class GameLogic(object):
         itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
         return itemlist[index].attributes[str(name)].value
 
-    def ReadFile(self, position, index):
+    def ReadUserData(self, position, index):
         xmldoc = minidom.parse('userdata.xml')
         itemlist = xmldoc.getElementsByTagName(str("user"))
         return itemlist[index].attributes[position].value
 
-    def WriteFile(self):
+    def WriteUserData(self):
         doc, tag, text = Doc().tagtext()
         with tag('user', energy=str(energy),energy_max=str(energy_max),
                  location=str(location), money=str(money),
@@ -934,10 +934,10 @@ class Quests(object):
         print(result)
 
 
-energy = int(GameLogic.ReadFile(GameLogic, "energy", 0))
-money = int(GameLogic.ReadFile(GameLogic, "money", 0))
-diamonds = int(GameLogic.ReadFile(GameLogic, "diamonds", 0))
-cheese = GameLogic.ReadFile(GameLogic, "cheese", 0)
+energy = int(GameLogic.ReadUserData(GameLogic, "energy", 0))
+money = int(GameLogic.ReadUserData(GameLogic, "money", 0))
+diamonds = int(GameLogic.ReadUserData(GameLogic, "diamonds", 0))
+cheese = GameLogic.ReadUserData(GameLogic, "cheese", 0)
 
 filename = 'shop.xml'
 myfile = open(filename, 'r')
@@ -952,15 +952,15 @@ for line in lines:
     cheese_index += 1
 
 cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "shop.xml","item", "amount", cheese_index, 0))
-mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
-mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
-mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
-location = int(GameLogic.ReadFile(GameLogic, "location", 0))
+mouse_cost = GameLogic.ReadData(GameLogic, "last_cost", 0)
+mouse_name = GameLogic.ReadUserData(GameLogic, "last_mouse", 0)
+mouse_drop = GameLogic.ReadUserData(GameLogic, "last_drop", 0)
+location = int(GameLogic.ReadUserData(GameLogic, "location", 0))
 location_name = GameLogic.ReadDataFromXML(GameLogic,"locations.xml", "location", "name", location, 0)
-mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
-device = GameLogic.ReadFile(GameLogic, "device", 0)
-energy_max = int(GameLogic.ReadFile(GameLogic, "energy_max", 0))
-board = GameLogic.ReadFile(GameLogic, "board", 0)
+mouse_icon = GameLogic.ReadUserData(GameLogic, "last_icon", 0)
+device = GameLogic.ReadUserData(GameLogic, "device", 0)
+energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
+board = GameLogic.ReadUserData(GameLogic, "board", 0)
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
@@ -993,4 +993,4 @@ if __name__ == "__main__":
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
 
     MainWindow.setPalette(palette)
-    sys.exit(app.exec_(), GameLogic.WriteFile(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory), setter(False))
+    sys.exit(app.exec_(), GameLogic.WriteUserData(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory), setter(False))
