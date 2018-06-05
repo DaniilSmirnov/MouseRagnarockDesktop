@@ -591,11 +591,13 @@ class InventoryWindowUi(object):
         self.gridLayout.setObjectName("gridLayout")
         self.ok_button = QtWidgets.QPushButton(InventoryWindowUi)
         self.ok_button.setObjectName("ok_button")
-        self.gridLayout.addWidget(self.ok_button, 1, 0, 1, 1)
-        self.textBrowser = QtWidgets.QTextBrowser(InventoryWindowUi)
-        self.textBrowser.setObjectName("textBrowser")
-        self.gridLayout.addWidget(self.textBrowser, 0, 0, 1, 1)
-
+        self.gridLayout.addWidget(self.ok_button, 2, 0, 1, 2)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 2)
+        self.sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.sizePolicy.setHorizontalStretch(0)
+        self.sizePolicy.setVerticalStretch(0)
         self.retranslateUi(InventoryWindowUi)
         QtCore.QMetaObject.connectSlotsByName(InventoryWindowUi)
 
@@ -616,7 +618,10 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
         i = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
         j = 1
         while j <= i:
-            self.textBrowser.append(Inventory.Read(Inventory, "item", j) + " " + Inventory.Read(Inventory, "amount", j) + "x")
+            self.item_label = QtWidgets.QLabel(Inventory.Read(Inventory, "item", j) + " " + Inventory.Read(Inventory, "amount", j) + "x")
+            self.item_label.setSizePolicy(self.sizePolicy)
+            self.verticalLayout.addWidget(self.item_label)
+
             j += 1
         Inventory.Init(Inventory)
 
