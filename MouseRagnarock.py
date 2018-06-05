@@ -716,7 +716,6 @@ class InventoryThread(Thread):
     def run(self):
         """Запуск потока"""
         global mouse_drop
-        #GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0)
 
         filename = 'inventory.xml'
         myfile = open(filename, 'r')
@@ -725,16 +724,20 @@ class InventoryThread(Thread):
 
         index = 0
 
+        i = 0
+
         for line in lines:
             if line.find(mouse_drop) != -1:
                 break
             index += 1
+            i += 1
 
-        print(index)
-
-        Inventory.Close(Inventory)
-        GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
-        Inventory.Init(Inventory)
+        if index == len(lines):
+            Inventory.Write(Inventory, mouse_drop)
+        else:
+            Inventory.Close(Inventory)
+            GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
+            Inventory.Init(Inventory)
 
 
 class Journal(object):
@@ -847,7 +850,7 @@ class Inventory(object):
         global k
         k += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(k), item=drop):
+        with tag('position'+str(k), item=drop, amount="1"):
             text(str(energy))
 
         result = indent(
