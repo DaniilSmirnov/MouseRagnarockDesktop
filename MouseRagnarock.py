@@ -292,7 +292,10 @@ class Ui_MainWindow(QtCore.QObject):
 
         if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
-            Inventory.Write(self, mouse_drop)
+
+            thread = InventoryThread()
+            thread.start()
+
         else:
             mouse_drop = " "
 
@@ -315,7 +318,7 @@ class Ui_MainWindow(QtCore.QObject):
         global energy, cheese_index, cheese_amount
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese + " " + GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", cheese_index, 0))
+        self.cheese_label.setText(cheese + " " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -331,7 +334,7 @@ class Ui_MainWindow(QtCore.QObject):
 
         global energy, energy_max
 
-        if energy > 0 and int((GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", cheese_index, 0))) > 0:
+        if energy > 0 and int((GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))) > 0:
             energy -= 1
             self.catch_mouse()
         else:
@@ -521,7 +524,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
 
             i += 1
-            item = GameLogic.ReadDataFromXML(GameLogic, "shop", "item", "name", i, 0)
+            item = GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", i, 0)
 
             if (str(button.text())[4:]) == item:
                 money -= int(self.items.get(item))
@@ -657,7 +660,7 @@ class GameLogic(object):
             amount = int(elem.get('amount'))
             amount += sign
             elem.set('amount', str(amount))
-        frag_xml_tree.write("shop.xml")
+        frag_xml_tree.write(file)
 
     def ReadI(self, file):
         xmldoc = minidom.parse(file)
@@ -713,8 +716,25 @@ class InventoryThread(Thread):
     def run(self):
         """Запуск потока"""
         global mouse_drop
-        GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0)
+        #GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0)
 
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
+
+        index = 0
+
+        for line in lines:
+            if line.find(mouse_drop) != -1:
+                break
+            index += 1
+
+        print(index)
+
+        Inventory.Close(Inventory)
+        GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
+        Inventory.Init(Inventory)
 
 
 class Journal(object):
