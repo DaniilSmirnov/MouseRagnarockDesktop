@@ -287,18 +287,18 @@ class Ui_MainWindow(QtCore.QObject):
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
-        amount = int(GameLogic.ReadMiceDataFromXML(self, "location", "amount", location, 0))
-        number = int(GameLogic.ReadMiceDataFromXML(self, "location", "start", location, 0)) + int(random()*(amount))
+        amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
+        number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*(amount))
 
         if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
-            mouse_drop = GameLogic.ReadMiceDataFromXML(self, "mice", "drop", number, 0)
+            mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
             Inventory.Write(self, mouse_drop)
         else:
             mouse_drop = " "
 
-        mouse_name = GameLogic.ReadMiceDataFromXML(self, "mice", "name", number, 0)
-        mouse_cost = GameLogic.ReadMiceDataFromXML(self, "mice", "cost", number, 0)
-        mouse_icon = GameLogic.ReadMiceDataFromXML(self, "mice", "icon", number, 0)
+        mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0)
+        mouse_cost = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
+        mouse_icon = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "icon", number, 0)
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         self.mouseattachment.setText(mouse_drop)
@@ -307,7 +307,7 @@ class Ui_MainWindow(QtCore.QObject):
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 1:
-            GameLogic.editXML(GameLogic, cheese_index, -1)
+            GameLogic.editXML(GameLogic,"shop.xml", "item", cheese_index, -1)
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
@@ -476,8 +476,8 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
             i += 1
-            key = GameLogic.ReadShopDataFromXML(self, "item", "name", i, 0)
-            value = GameLogic.ReadShopDataFromXML(self, "item", "cost", i, 0)
+            key = GameLogic.ReadDataFromXML(self, "shop.xml", "item", "name", i, 0)
+            value = GameLogic.ReadDataFromXML(self, "shop.xml", "item", "cost", i, 0)
             self.items.update({str(key): str(value)})
 
         self.create()
@@ -488,7 +488,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         for item in self.items:
             i += 1
 
-            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0))
+            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", i, 0))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -521,11 +521,11 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
 
             i += 1
-            item = GameLogic.ReadShopDataFromXML(GameLogic, "item", "name", i, 0)
+            item = GameLogic.ReadDataFromXML(GameLogic, "shop", "item", "name", i, 0)
 
             if (str(button.text())[4:]) == item:
                 money -= int(self.items.get(item))
-                GameLogic.editXML(self, i, 1)
+                GameLogic.editXML(self, "shop.xml", "item", i, 1)
                 self.update_ui()
 
 
@@ -606,7 +606,7 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
         i = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
         j = 1
         while j <= i:
-            self.textBrowser.append(Inventory.Read(Inventory, "item", j))
+            self.textBrowser.append(Inventory.Read(Inventory, "item", j) + " " + Inventory.Read(Inventory, "amount", j) + "x")
             j += 1
         Inventory.Init(Inventory)
 
@@ -615,13 +615,8 @@ class GameLogic(object):
 
     global energy, money
 
-    def ReadMiceDataFromXML(self, tag, name, number, index):
-        xmldoc = minidom.parse('locations.xml')
-        itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
-        return itemlist[index].attributes[str(name)].value
-
-    def ReadShopDataFromXML(self, tag, name, number, index):
-        xmldoc = minidom.parse('shop.xml')
+    def ReadDataFromXML(self, file, tag, name, number, index):
+        xmldoc = minidom.parse(file)
         itemlist = xmldoc.getElementsByTagName(str(tag) + str(number))
         return itemlist[index].attributes[str(name)].value
 
@@ -652,13 +647,13 @@ class GameLogic(object):
         myfile.close()
         print(result)
 
-    def editXML(self, index, sign):
+    def editXML(self, file, tag, index, sign):
         """
         Редактируем XML атрибут.
         """
-        frag_xml_tree = ET.parse("shop.xml")
+        frag_xml_tree = ET.parse(file)
         root = frag_xml_tree.getroot()
-        for elem in root.iter('item'+str(index)):
+        for elem in root.iter(tag+str(index)):
             amount = int(elem.get('amount'))
             amount += sign
             elem.set('amount', str(amount))
@@ -708,6 +703,18 @@ class EnergyThread(Thread):
                 time.sleep(1)
                 energy += 1
                 #Ui_MainWindow.update_ui()
+
+
+class InventoryThread(Thread):
+    def __init__(self):
+        """Инициализация потока"""
+        Thread.__init__(self)
+
+    def run(self):
+        """Запуск потока"""
+        global mouse_drop
+        GameLogic.ReadShopDataFromXML(GameLogic, "item", "amount", i, 0)
+
 
 
 class Journal(object):
@@ -921,12 +928,12 @@ for line in lines:
         break
     cheese_index += 1
 
-cheese_amount = int(GameLogic.ReadShopDataFromXML(GameLogic,"item", "amount", cheese_index, 0))
+cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "shop.xml","item", "amount", cheese_index, 0))
 mouse_cost = GameLogic.ReadFile(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadFile(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadFile(GameLogic, "last_drop", 0)
 location = int(GameLogic.ReadFile(GameLogic, "location", 0))
-location_name = GameLogic.ReadMiceDataFromXML(GameLogic, "location", "name", location, 0)
+location_name = GameLogic.ReadDataFromXML(GameLogic,"locations.xml", "location", "name", location, 0)
 mouse_icon = GameLogic.ReadFile(GameLogic, "last_icon", 0)
 device = GameLogic.ReadFile(GameLogic, "device", 0)
 energy_max = int(GameLogic.ReadFile(GameLogic, "energy_max", 0))

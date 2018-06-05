@@ -1,4 +1,4 @@
-<res i="410">
+<res i="423">
 <position1 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">4</position1>
 <position2 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">3</position2>
 <position3 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">2</position3>
@@ -409,4 +409,17 @@
 <position408 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">889</position408>
 <position409 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">888</position409>
 <position410 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">887</position410>
+<position411 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop=" ">10</position411>
+<position412 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop=" ">9</position412>
+<position413 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop=" ">9</position413>
+<position414 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop="Test drop">9</position414>
+<position415 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">8</position415>
+<position416 mouse_name="Grey Mouse" mouse_cost="100" mouse_drop=" ">10</position416>
+<position417 mouse_name="Shadow  mouse" mouse_cost="200" mouse_drop="Test drop">10</position417>
+<position418 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">9</position418>
+<position419 mouse_name="Black mouse" mouse_cost="150" mouse_drop=" ">9</position419>
+<position420 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop=" ">8</position420>
+<position421 mouse_name="Felt mouse" mouse_cost="200" mouse_drop="Test drop">8</position421>
+<position422 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">8</position422>
+<position423 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">7</position423>
 </res>
