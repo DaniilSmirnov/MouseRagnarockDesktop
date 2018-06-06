@@ -1,0 +1,7 @@
+<res>
+    <location1>
+
+        <quest1 name="Catch a mouse" condition="Catch any mouse"></quest1>
+        <quest2 name="Find a key" condition="Find a key"></quest2>
+    </location1>
+</res>

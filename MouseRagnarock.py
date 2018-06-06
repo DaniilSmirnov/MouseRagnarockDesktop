@@ -278,6 +278,16 @@ class Ui_MainWindow(QtCore.QObject):
 
             if mouse_drop.find("Coins") != -1:
                 money += 100
+            elif mouse_drop.find("Russian Cheese x10") != -1:
+                GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, 10)
+            elif mouse_drop.find("Russian Cheese x5") != -1:
+                GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, 5)
+            elif mouse_drop.find("Key") != -1:
+                frag_xml_tree = ET.parse("locations.xml")
+                root = frag_xml_tree.getroot()
+                for elem in root.iter("mice" + str(11)):
+                    elem.set('drop', "Coins")
+                frag_xml_tree.write("locations.xml")
             else:
                 thread = InventoryThread()
                 thread.start()

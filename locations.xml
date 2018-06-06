@@ -25,37 +25,37 @@
             />
         <mice5  name="Shadow  mouse"
                 cost="200"
-                drop="Test drop"
+                drop="Russian Cheese x10"
                 icon="mice5.jpg"
 
             />
         <mice6 name="Felt mouse"
                cost="200"
-               drop="Test drop"
+               drop="Russian Cheese x10"
                icon="mice6.jpg"
 
             />
         <mice7  name="Dr.Spider Mouse"
                 cost="200"
-                drop="Test drop"
+                drop="Russian Cheese x5"
                 icon="mice7.jpg"
 
             />
         <mice8  name="Portal mouse"
                 cost="250"
-                drop="Test drop"
+                drop="Coins"
                 icon="mice8.jpg"
 
             />
         <mice9 name="Robber Mouse"
                cost="300"
-               drop="Test drop"
+               drop="Russian Cheese x10"
                icon="mice9.jpg"
 
             />
         <mice10  name="Grey Mouse"
                  cost="100"
-                 drop="Test drop"
+                 drop="Coins"
                  icon="mice10.jpg"
 
             />
