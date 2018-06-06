@@ -1396,7 +1396,13 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
         else:
             self.location10.setEnabled(True)
 
+        self.location1.clicked.connect(self.loc1)
         self.location2.clicked.connect(self.loc2)
+
+    def loc1(self):
+        global location
+        location = 1
+        self.close()
 
     def loc2(self):
         global location
