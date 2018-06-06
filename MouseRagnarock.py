@@ -848,7 +848,7 @@ class QuestsThread(Thread):
         """Запуск потока"""
         global quest, energy_exec
         while energy_exec:
-            Journal.Close(Journal)
+            #Journal.Close(Journal)
             if quest == 1 and int(GameLogic.ReadI(GameLogic, "journal.xml")) > 0:
                 quest += 1
             if quest == 2 and Inventory.Check(Inventory, "Key"):
@@ -858,7 +858,7 @@ class QuestsThread(Thread):
                 for elem in root.iter("location" + "2"):
                     elem.set('state', "open")
                 frag_xml_tree.write("locations.xml")
-            Journal.Init(Journal)
+           # Journal.Init(Journal)
 
 
 class Journal(object):
@@ -1413,8 +1413,8 @@ energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
 
-#thread = QuestsThread()
-#thread.start()
+thread = QuestsThread()
+thread.start()
 
 if __name__ == "__main__":
     import sys
