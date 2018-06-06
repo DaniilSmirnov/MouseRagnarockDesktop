@@ -1,94 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <zone1>
-    <location1 name="Apartment" amount="11" drop_amount="1" start="1" cheese="Russian Cheese" state="open">
-        <mice1  name="Nothing"
-                cost="0"
-                icon="mice11.jpg"
-        />
-        <mice2  name="Brown mouse"
-                cost="100"
-                drop="Coins"
-                icon="mice2.jpg"
-
-            />
-        <mice3 name="Black mouse"
-                cost="150"
-                drop="Coins"
-                icon="mice3.jpg"
-
-        />
-        <mice4  name="Poor mouse"
-                cost="50"
-                drop="Coins"
-                icon="mice4.jpg"
-
-            />
-        <mice5  name="Shadow  mouse"
-                cost="200"
-                drop="Russian Cheese x10"
-                icon="mice5.jpg"
-
-            />
-        <mice6 name="Felt mouse"
-               cost="200"
-               drop="Russian Cheese x10"
-               icon="mice6.jpg"
-
-            />
-        <mice7  name="Dr.Spider Mouse"
-                cost="200"
-                drop="Russian Cheese x5"
-                icon="mice7.jpg"
-
-            />
-        <mice8  name="Portal mouse"
-                cost="250"
-                drop="Coins"
-                icon="mice8.jpg"
-
-            />
-        <mice9 name="Robber Mouse"
-               cost="300"
-               drop="Russian Cheese x10"
-               icon="mice9.jpg"
-
-            />
-        <mice10  name="Grey Mouse"
-                 cost="100"
-                 drop="Coins"
-                 icon="mice10.jpg"
-
-            />
-        <mice11 name="Eshkere Mouse"
-                cost="10"
-                drop="Key"
-                icon="mice1.jpg"
-
-            />
+    <location1 amount="11" cheese="Russian Cheese" drop_amount="1" name="Apartment" start="1" state="open">
+        <mice1 cost="0" icon="mice11.jpg" name="Nothing" />
+        <mice2 cost="100" drop="Coins" icon="mice2.jpg" name="Brown mouse" />
+        <mice3 cost="150" drop="Coins" icon="mice3.jpg" name="Black mouse" />
+        <mice4 cost="50" drop="Coins" icon="mice4.jpg" name="Poor mouse" />
+        <mice5 cost="200" drop="Russian Cheese x10" icon="mice5.jpg" name="Shadow  mouse" />
+        <mice6 cost="200" drop="Russian Cheese x10" icon="mice6.jpg" name="Felt mouse" />
+        <mice7 cost="200" drop="Russian Cheese x5" icon="mice7.jpg" name="Dr.Spider Mouse" />
+        <mice8 cost="250" drop="Coins" icon="mice8.jpg" name="Portal mouse" />
+        <mice9 cost="300" drop="Russian Cheese x10" icon="mice9.jpg" name="Robber Mouse" />
+        <mice10 cost="100" drop="Coins" icon="mice10.jpg" name="Grey Mouse" />
+        <mice11 cost="10" drop="Coins" icon="mice1.jpg" name="Eshkere Mouse" />
 
     </location1>
-    <location2 name="Outdoors" amount="2" start="12" drop_amount="1" state="close">
-        <mice12  name="Nothing"
-                cost="0"
-                icon="mice11.jpg"
-        />
-        <mice13 name="Cable Mouse"
-                cost="1000"
-                icon="mice1.jpg"
-                drop="Cable"
-        />
+    <location2 amount="2" drop_amount="1" name="Outdoors" start="12" state="open">
+        <mice12 cost="0" icon="mice11.jpg" name="Nothing" />
+        <mice13 cost="1000" drop="Cable" icon="mice1.jpg" name="Cable Mouse" />
     </location2>
-    <location3 name="Park" amount="0" state="close"></location3>
-    <location4 name="Shopping Centre" amount="0" state="close"></location4>
-    <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0" state="close"></location5>
-	<location6 name="Entrance" amount="0" state="close"></location6>
-    <location7 name="Catacombs" amount="0" state="close"></location7>
-	<location8 name="Underground Lake" amount="0" state="close"></location8>
-	<location9 name="Railway platform 'Airport'" amount="0" state="close"></location9>
-    <location10 name="Air Gate of North City" amount="1" state="close">
-        <mice1  name="V.V Mouse"
-                cost="10000"
-        />
+    <location3 amount="0" name="Park" state="close" />
+    <location4 amount="0" name="Shopping Centre" state="close" />
+    <location5 amount="0" name="Metro station 'Komendatskiy Prospekt'" state="close" />
+	<location6 amount="0" name="Entrance" state="close" />
+    <location7 amount="0" name="Catacombs" state="close" />
+	<location8 amount="0" name="Underground Lake" state="close" />
+	<location9 amount="0" name="Railway platform 'Airport'" state="close" />
+    <location10 amount="1" name="Air Gate of North City" state="close">
+        <mice1 cost="10000" name="V.V Mouse" />
     </location10>
 
 </zone1>

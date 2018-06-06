@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pymsgbox import *
 from xml.dom import minidom
 from random import *
 from threading import Thread
@@ -312,7 +311,7 @@ class Ui_MainWindow(QtCore.QObject):
 
     def update_ui(self):
 
-        global energy, cheese_index, cheese_amount
+        global energy, cheese_index, cheese_amount, quest
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
         self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
@@ -327,6 +326,16 @@ class Ui_MainWindow(QtCore.QObject):
         self.board_label.setText("Board: " + str(board))
         self.device_label.setText("Device: " + device)
 
+        if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
+            quest += 1
+        if quest == 2 and Inventory.Check(Inventory, "Key"):
+            quest += 1
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("location" + "2"):
+                elem.set('state', "open")
+            frag_xml_tree.write("locations.xml")
+
     def pipe_click(self):
 
         global energy, energy_max
@@ -335,7 +344,7 @@ class Ui_MainWindow(QtCore.QObject):
             energy -= 1
             self.catch_mouse()
         else:
-            alert_exec = alert(text='Not enough energy or cheese', title='Alert', button='OK')
+            self.alert()
 
         self.update_ui()
 
@@ -371,6 +380,42 @@ class Ui_MainWindow(QtCore.QObject):
         locations.exec_()
         self.update_ui()
 
+    def alert(self):
+        locations = AlertWindow()
+        locations.exec_()
+        self.update_ui()
+
+
+class Ui_Alert(object):
+    def setupUi(self, Alert):
+        Alert.setObjectName("Alert")
+        Alert.resize(225, 63)
+        self.gridLayout = QtWidgets.QGridLayout(Alert)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label = QtWidgets.QLabel(Alert)
+        self.label.setText("You do not have enough energy or cheese")
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(Alert)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
+
+        self.retranslateUi(Alert)
+        QtCore.QMetaObject.connectSlotsByName(Alert)
+
+    def retranslateUi(self, Alert):
+        _translate = QtCore.QCoreApplication.translate
+        Alert.setWindowTitle(_translate("Alert", "Dialog"))
+        self.pushButton.setText(_translate("Alert", "OK"))
+
+
+class AlertWindow(QtWidgets.QDialog, Ui_Alert):
+
+    def __init__(self, parent=None):
+
+        super(AlertWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.close)
 
 class Ui_Login(object):
     def setupUi(self, Login):
@@ -848,8 +893,7 @@ class QuestsThread(Thread):
         """Запуск потока"""
         global quest, energy_exec
         while energy_exec:
-            #Journal.Close(Journal)
-            if quest == 1 and int(GameLogic.ReadI(GameLogic, "journal.xml")) > 0:
+            if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
                 quest += 1
             if quest == 2 and Inventory.Check(Inventory, "Key"):
                 quest += 2
@@ -858,7 +902,7 @@ class QuestsThread(Thread):
                 for elem in root.iter("location" + "2"):
                     elem.set('state', "open")
                 frag_xml_tree.write("locations.xml")
-           # Journal.Init(Journal)
+        Journal.Init(Journal)
 
 
 class Journal(object):
@@ -1413,9 +1457,18 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
 class Quests(object):
 
     def LoadQuest(self, attr):
+        global quest
         xmldoc = minidom.parse('quests.xml')
         itemlist = xmldoc.getElementsByTagName(str("quest")+str(quest))
         return itemlist[0].attributes[str(attr)].value
+
+    def GetJournalI(self):
+        Journal.Close(Journal)
+        xmldoc = minidom.parse('journal.xml')
+        itemlist = xmldoc.getElementsByTagName("res")
+        returner = itemlist[0].attributes["i"].value
+        Journal.Init(Journal)
+        return returner
 
 
 energy = int(GameLogic.ReadUserData(GameLogic, "energy", 0))
@@ -1464,8 +1517,8 @@ energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
 
-thread = QuestsThread()
-thread.start()
+#thread = QuestsThread()
+#thread.start()
 
 if __name__ == "__main__":
     import sys
