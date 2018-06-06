@@ -319,7 +319,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
-        self.location_label.setText(location_name)
+        self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "name", location, 0))
         self.mouseattachment.setText(mouse_drop)
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
@@ -416,6 +416,7 @@ class AlertWindow(QtWidgets.QDialog, Ui_Alert):
         super(AlertWindow, self).__init__(parent)
         self.setupUi(self)
         self.pushButton.clicked.connect(self.close)
+
 
 class Ui_Login(object):
     def setupUi(self, Login):
@@ -708,10 +709,13 @@ class AboutLocationWindow(QtWidgets.QDialog, AboutLocationWindowUi):
 
         self.ok_button.clicked.connect(self.close)
 
-        i = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
+        amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
 
-        j = 1
-        while j <= i:
+        start = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0))
+
+        amount += start-1
+        j = start
+        while j <= amount:
             self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "mice", "name", j, 0) + " " + GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "cheese", location, 0))
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -1467,7 +1471,7 @@ for line in lines:
         break
     cheese_index += 1
 
-cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "shop.xml","item", "amount", cheese_index, 0))
+cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
 mouse_cost = GameLogic.ReadUserData(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadUserData(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadUserData(GameLogic, "last_drop", 0)
