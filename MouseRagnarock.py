@@ -376,13 +376,13 @@ class Ui_MainWindow(QtCore.QObject):
         self.update_ui()
 
     def open_quests(self):
-        locations = QuestsWindow()
-        locations.exec_()
+        quests = QuestsWindow()
+        quests.exec_()
         self.update_ui()
 
     def alert(self):
-        locations = AlertWindow()
-        locations.exec_()
+        alert = AlertWindow()
+        alert.exec_()
         self.update_ui()
 
 
