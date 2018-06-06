@@ -52,7 +52,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.energybar.setObjectName("energybar")
         self.gridLayout.addWidget(self.energybar, 2, 1, 1, 2)
         self.questsbutton = QtWidgets.QPushButton(self.layoutWidget)
-        self.questsbutton.setEnabled(False)
+        self.questsbutton.setEnabled(True)
         self.questsbutton.setObjectName("questsbutton")
         self.gridLayout.addWidget(self.questsbutton, 2, 0, 1, 1)
         self.label = QtWidgets.QLabel(self.layoutWidget)
@@ -242,7 +242,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.inventory.clicked.connect(self.open_inventory)
         self.move.clicked.connect(self.open_locations)
         self.about_location_button.clicked.connect(self.open_about_locations)
-
+        self.questsbutton.clicked.connect(self.open_quests)
 
         self.updateProgress.connect(self.energybar.setValue)
 
@@ -271,7 +271,7 @@ class Ui_MainWindow(QtCore.QObject):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
         amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
-        number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*(amount))
+        number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*amount)
 
         if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
             mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
@@ -287,13 +287,12 @@ class Ui_MainWindow(QtCore.QObject):
                 thread.start()
                 frag_xml_tree = ET.parse("locations.xml")
                 root = frag_xml_tree.getroot()
-                for elem in root.iter("mice" + str(11)):
+                for elem in root.iter("mice" + "11"):
                     elem.set('drop', "Coins")
                 frag_xml_tree.write("locations.xml")
             else:
                 thread = InventoryThread()
                 thread.start()
-
         else:
             mouse_drop = " "
 
@@ -367,6 +366,10 @@ class Ui_MainWindow(QtCore.QObject):
         locations.exec_()
         self.update_ui()
 
+    def open_quests(self):
+        locations = QuestsWindow()
+        locations.exec_()
+        self.update_ui()
 
 class Ui_Login(object):
     def setupUi(self, Login):
@@ -671,6 +674,41 @@ class AboutLocationWindow(QtWidgets.QDialog, AboutLocationWindowUi):
             j += 1
 
 
+class Ui_Quests(object):
+    def setupUi(self, Quests):
+        Quests.setObjectName("Quests")
+        Quests.resize(438, 104)
+        self.gridLayout = QtWidgets.QGridLayout(Quests)
+        self.gridLayout.setObjectName("gridLayout")
+        self.name_label = QtWidgets.QLabel(Quests)
+        self.name_label.setObjectName("name_label")
+        self.gridLayout.addWidget(self.name_label, 0, 0, 1, 1)
+        self.condition_label = QtWidgets.QLabel(Quests)
+        self.condition_label.setObjectName("condition_label")
+        self.gridLayout.addWidget(self.condition_label, 0, 1, 1, 1)
+        self.ok_button = QtWidgets.QPushButton(Quests)
+        self.ok_button.setObjectName("ok_button")
+        self.gridLayout.addWidget(self.ok_button, 1, 2, 1, 1)
+
+        self.retranslateUi(Quests)
+        QtCore.QMetaObject.connectSlotsByName(Quests)
+
+    def retranslateUi(self, Quests):
+        _translate = QtCore.QCoreApplication.translate
+        Quests.setWindowTitle(_translate("Quests", "Dialog"))
+        self.name_label.setText(_translate("Quests", "TextLabel"))
+        self.condition_label.setText(_translate("Quests", "TextLabel"))
+        self.ok_button.setText(_translate("Quests", "OK"))
+
+
+class QuestsWindow(QtWidgets.QDialog, Ui_Quests):
+    def __init__(self, parent=None):
+        super(QuestsWindow, self).__init__(parent)
+        self.setupUi(self)
+
+        self.ok_button.clicked.connect(self.close)
+
+
 class GameLogic(object):
 
     global energy, money
@@ -693,7 +731,7 @@ class GameLogic(object):
                  cheese_amount=str(cheese_amount),
                  last_mouse=mouse_name, last_cost=mouse_cost,
                  last_drop=mouse_drop, last_icon=mouse_icon,
-                 device=device, board=board):
+                 device=device, board=board, quest=str(quest)):
             text(str(energy))
 
         result = indent(
@@ -1273,70 +1311,10 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
 
 class Quests(object):
 
-    def ReadI(self):
-
-        xmldoc = minidom.parse('inventory.xml')
-        itemlist = xmldoc.getElementsByTagName(str("res"))
-        return itemlist[0].attributes["i"].value
-
-    def Read(self, position, index):
-        xmldoc = minidom.parse('inventory.xml')
-        itemlist = xmldoc.getElementsByTagName("position"+str(index))
-        return itemlist[0].attributes[str(position)].value
-
-    def Init(self):
-        filename = 'inventory.xml'
-        myfile = open(filename, 'r')
-        lines = myfile.readlines()
-        myfile.close()
-
-        global k
-        k = int(self.ReadI(Inventory))
-
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line != "</res>":
-                myfile.write(line)
-        myfile.close()
-
-    def Close(self):
-        global k
-
-        filename = 'inventory.xml'
-        myfile = open(filename, 'r')
-        lines = myfile.readlines()
-        myfile.close()
-
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line.find("<res") != -1:
-                myfile.write("<res " + "i=" + '"' + str(k) + '"' + ">" + "\n")
-            else:
-                myfile.write(line)
-        myfile.close()
-
-        myfile = open(filename, 'a')
-        myfile.write("</res>")
-        myfile.close()
-
-    def Write(self, drop):
-        global k
-        k += 1
-        doc, tag, text = Doc().tagtext()
-        with tag('position'+str(k), mouse_drop=drop):
-            text(str(energy))
-
-        result = indent(
-            doc.getvalue(),
-            indentation=' ' * 4,
-            newline='\r\n')
-
-        filename = 'inventory.xml'
-        myfile = open(filename, 'a')
-        myfile.write(result)
-        myfile.write("\n")
-        myfile.close()
-        print(result)
+    def LoadQuest(self, attr):
+        xmldoc = minidom.parse('quests.xml')
+        itemlist = xmldoc.getElementsByTagName(str("quest")+str(quest))
+        return itemlist[0].attributes[str(attr)].value
 
 
 energy = int(GameLogic.ReadUserData(GameLogic, "energy", 0))
@@ -1366,6 +1344,8 @@ mouse_icon = GameLogic.ReadUserData(GameLogic, "last_icon", 0)
 device = GameLogic.ReadUserData(GameLogic, "device", 0)
 energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
 board = GameLogic.ReadUserData(GameLogic, "board", 0)
+quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
+
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
