@@ -371,6 +371,20 @@ class Ui_MainWindow(QtCore.QObject):
         locations.exec_()
         self.update_ui()
 
+    def check_quests(self):
+        global quest
+
+        if quest == 1 and GameLogic.ReadI(GameLogic, "journal.xml") > 0:
+            quest += 1
+        if quest == 2 and Inventory.Check(Inventory, "Key"):
+            quest += 2
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("location" + "2"):
+                elem.set('state', "open")
+            frag_xml_tree.write("locations.xml")
+
+
 class Ui_Login(object):
     def setupUi(self, Login):
         Login.setObjectName("Login")
@@ -708,6 +722,10 @@ class QuestsWindow(QtWidgets.QDialog, Ui_Quests):
 
         self.ok_button.clicked.connect(self.close)
 
+        self.name_label.setText(Quests.LoadQuest(Quests, "name"))
+        self.condition_label.setText(Quests.LoadQuest(Quests, "condition"))
+
+
 
 class GameLogic(object):
 
@@ -960,7 +978,22 @@ class Inventory(object):
         myfile.close()
         print(result)
 
+    def Check(self, item):
+        filename = 'inventory.xml'
+        myfile = open(filename, 'r')
+        lines = myfile.readlines()
+        myfile.close()
 
+        index = 0
+
+        i = 0
+
+        for line in lines:
+            if line.find(item) != -1:
+                return True
+            index += 1
+            i += 1
+        return False
 class Ui_Locations(object):
     def setupUi(self, Locations):
         Locations.setObjectName("Locations")
