@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zone1>
-    <location1 name="Apartment" amount="11" drop_amount="1" start="1">
+    <location1 name="Apartment" amount="11" drop_amount="1" start="1" cheese="Russian Cheese">
         <mice1  name="Nothing"
                 cost="0"
                 icon="mice11.jpg"

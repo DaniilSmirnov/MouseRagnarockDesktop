@@ -261,6 +261,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.journal_button.clicked.connect(self.open_journal)
         self.inventory.clicked.connect(self.open_inventory)
         self.move.clicked.connect(self.open_locations)
+        self.about_location_button.clicked.connect(self.open_about_locations)
 
 
         self.updateProgress.connect(self.energybar.setValue)
@@ -323,7 +324,7 @@ class Ui_MainWindow(QtCore.QObject):
         global energy, cheese_index, cheese_amount
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese + " " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
+        self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
@@ -343,7 +344,7 @@ class Ui_MainWindow(QtCore.QObject):
             energy -= 1
             self.catch_mouse()
         else:
-            alert(text='Not enough energy or cheese', title='Alert', button='OK')
+            alert_exec = alert(text='Not enough energy or cheese', title='Alert', button='OK')
 
         self.update_ui()
 
@@ -366,6 +367,11 @@ class Ui_MainWindow(QtCore.QObject):
 
     def open_locations(self):
         locations = LocationsWindow()
+        locations.exec_()
+        self.update_ui()
+
+    def open_about_locations(self):
+        locations = AboutLocationWindow()
         locations.exec_()
         self.update_ui()
 
@@ -561,7 +567,7 @@ class JournalWindowUi(object):
 
     def retranslateUi(self, JournalWindowUi):
         _translate = QtCore.QCoreApplication.translate
-        JournalWindowUi.setWindowTitle(_translate("JournalWindowUi", "Dialog"))
+        JournalWindowUi.setWindowTitle(_translate("JournalWindowUi", "Journal"))
         self.ok_button.setText(_translate("JournalWindowUi", "OK"))
 
 
@@ -627,6 +633,50 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
 
             j += 1
         Inventory.Init(Inventory)
+
+
+class AboutLocationWindowUi(object):
+
+    def setupUi(self, AboutLocationWindowUi):
+        AboutLocationWindowUi.setObjectName("JournalWindowUi")
+        AboutLocationWindowUi.resize(600, 564)
+        self.gridLayout = QtWidgets.QGridLayout(AboutLocationWindowUi)
+        self.gridLayout.setObjectName("gridLayout")
+        self.ok_button = QtWidgets.QPushButton(AboutLocationWindowUi)
+        self.ok_button.setObjectName("ok_button")
+        self.gridLayout.addWidget(self.ok_button, 2, 0, 1, 2)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 2)
+        self.sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.sizePolicy.setHorizontalStretch(0)
+        self.sizePolicy.setVerticalStretch(0)
+        self.retranslateUi(AboutLocationWindowUi)
+        QtCore.QMetaObject.connectSlotsByName(AboutLocationWindowUi)
+
+    def retranslateUi(self, AboutLocationWindowUi):
+        _translate = QtCore.QCoreApplication.translate
+        AboutLocationWindowUi.setWindowTitle(_translate("JournalWindowUi", "Dialog"))
+        self.ok_button.setText(_translate("JournalWindowUi", "OK"))
+
+
+class AboutLocationWindow(QtWidgets.QDialog, AboutLocationWindowUi):
+    def __init__(self, parent=None):
+        super(AboutLocationWindow, self).__init__(parent)
+        self.setupUi(self)
+
+        self.ok_button.clicked.connect(self.close)
+
+        i = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
+
+        j = 1
+        while j <= i:
+            self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "mice", "name", j, 0) + " " + GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "cheese", location, 0))
+
+            self.item_label.setSizePolicy(self.sizePolicy)
+            self.verticalLayout.addWidget(self.item_label)
+
+            j += 1
 
 
 class GameLogic(object):
