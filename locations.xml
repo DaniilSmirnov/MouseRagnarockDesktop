@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zone1>
-    <location1 name="Apartment" amount="11" drop_amount="1" start="1" cheese="Russian Cheese">
+    <location1 name="Apartment" amount="11" drop_amount="1" start="1" cheese="Russian Cheese" state="open">
         <mice1  name="Nothing"
                 cost="0"
                 icon="mice11.jpg"
@@ -67,7 +67,7 @@
             />
 
     </location1>
-    <location2 name="Outdoors" amount="2" start="12" drop_amount="1">
+    <location2 name="Outdoors" amount="2" start="12" drop_amount="1" state="close">
         <mice12  name="Nothing"
                 cost="0"
                 icon="mice11.jpg"
@@ -78,14 +78,14 @@
                 drop="Cable"
         />
     </location2>
-    <location3 name="Park" amount="0"></location3>
-    <location4 name="Shopping Centre" amount="0"></location4>
-    <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0"></location5>
-	<location6 name="Entrance" amount="0"></location6>
-    <location7 name="Catacombs" amount="0"></location7>
-	<location8 name="Underground Lake" amount="0"></location8>
-	<location9 name="Railway platform 'Airport'" amount="0"></location9>
-    <location10 name="Air Gate of North City" amount="1">
+    <location3 name="Park" amount="0" state="close"></location3>
+    <location4 name="Shopping Centre" amount="0" state="close"></location4>
+    <location5 name="Metro station 'Komendatskiy Prospekt'" amount="0" state="close"></location5>
+	<location6 name="Entrance" amount="0" state="close"></location6>
+    <location7 name="Catacombs" amount="0" state="close"></location7>
+	<location8 name="Underground Lake" amount="0" state="close"></location8>
+	<location9 name="Railway platform 'Airport'" amount="0" state="close"></location9>
+    <location10 name="Air Gate of North City" amount="1" state="close">
         <mice1  name="V.V Mouse"
                 cost="10000"
         />
