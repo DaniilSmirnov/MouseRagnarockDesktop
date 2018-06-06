@@ -1013,7 +1013,7 @@ class Ui_Locations(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1148, 572))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1225, 572))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -1253,6 +1253,14 @@ class Ui_Locations(object):
         self.groupBox_4.setObjectName("groupBox_4")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.groupBox_4)
         self.gridLayout_5.setObjectName("gridLayout_5")
+        self.location8 = QtWidgets.QPushButton(self.groupBox_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.location8.sizePolicy().hasHeightForWidth())
+        self.location8.setSizePolicy(sizePolicy)
+        self.location8.setObjectName("location8")
+        self.gridLayout_5.addWidget(self.location8, 2, 1, 4, 1)
         self.location7 = QtWidgets.QPushButton(self.groupBox_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -1269,14 +1277,9 @@ class Ui_Locations(object):
         self.label_18.setText("")
         self.label_18.setObjectName("label_18")
         self.gridLayout_5.addWidget(self.label_18, 1, 1, 1, 1)
-        self.location8 = QtWidgets.QPushButton(self.groupBox_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.location8.sizePolicy().hasHeightForWidth())
-        self.location8.setSizePolicy(sizePolicy)
-        self.location8.setObjectName("location8")
-        self.gridLayout_5.addWidget(self.location8, 2, 1, 4, 1)
+        self.location9 = QtWidgets.QPushButton(self.groupBox_4)
+        self.location9.setObjectName("location9")
+        self.gridLayout_5.addWidget(self.location9, 1, 2, 1, 1)
         self.gridLayout.addWidget(self.groupBox_4, 3, 2, 1, 1)
         self.groupBox_7 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_7.setObjectName("groupBox_7")
@@ -1331,8 +1334,9 @@ class Ui_Locations(object):
         self.location10.setText(_translate("Locations", "Platform"))
         self.location5.setText(_translate("Locations", "Metro"))
         self.location6.setText(_translate("Locations", "Entrance"))
-        self.location7.setText(_translate("Locations", "Catacombs"))
         self.location8.setText(_translate("Locations", "Underground lake"))
+        self.location7.setText(_translate("Locations", "Catacombs"))
+        self.location9.setText(_translate("Locations", "Swamp"))
         self.groupBox_7.setTitle(_translate("Locations", "Yiggdrassil"))
         self.Svartalheim.setText(_translate("Locations", "Svartalheim"))
         self.Niflheim.setText(_translate("Locations", "Niflheim"))
@@ -1350,6 +1354,47 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
     def __init__(self, parent=None):
         super(LocationsWindow, self).__init__(parent)
         self.setupUi(self)
+
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 1, 0) == "close":
+            self.location1.setEnabled(False)
+        else:
+            self.location1.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 2, 0) == "close":
+            self.location2.setEnabled(False)
+        else:
+            self.location2.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 3, 0) == "close":
+            self.location3.setEnabled(False)
+        else:
+            self.location3.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 4, 0) == "close":
+            self.location4.setEnabled(False)
+        else:
+            self.location4.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 5, 0) == "close":
+            self.location5.setEnabled(False)
+        else:
+            self.location5.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 6, 0) == "close":
+            self.location6.setEnabled(False)
+        else:
+            self.location6.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 7, 0) == "close":
+            self.location7.setEnabled(False)
+        else:
+            self.location7.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 8, 0) == "close":
+            self.location8.setEnabled(False)
+        else:
+            self.location8.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 9, 0) == "close":
+            self.location9.setEnabled(False)
+        else:
+            self.location9.setEnabled(True)
+        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 10, 0) == "close":
+            self.location10.setEnabled(False)
+        else:
+            self.location10.setEnabled(True)
 
         self.location2.clicked.connect(self.loc2)
 
