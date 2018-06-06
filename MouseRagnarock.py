@@ -884,27 +884,6 @@ class InventoryThread(Thread):
             Inventory.Init(Inventory)
 
 
-class QuestsThread(Thread):
-    def __init__(self):
-        """Инициализация потока"""
-        Thread.__init__(self)
-
-    def run(self):
-        """Запуск потока"""
-        global quest, energy_exec
-        while energy_exec:
-            if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
-                quest += 1
-            if quest == 2 and Inventory.Check(Inventory, "Key"):
-                quest += 2
-                frag_xml_tree = ET.parse("locations.xml")
-                root = frag_xml_tree.getroot()
-                for elem in root.iter("location" + "2"):
-                    elem.set('state', "open")
-                frag_xml_tree.write("locations.xml")
-        Journal.Init(Journal)
-
-
 class Journal(object):
     global i
 
@@ -1516,9 +1495,6 @@ def setter(exec):
 energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
-
-#thread = QuestsThread()
-#thread.start()
 
 if __name__ == "__main__":
     import sys
