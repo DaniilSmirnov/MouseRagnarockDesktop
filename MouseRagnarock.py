@@ -307,7 +307,7 @@ class Ui_MainWindow(QtCore.QObject):
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 1:
-            GameLogic.editXML(GameLogic,"shop.xml", "item", cheese_index, -1)
+            GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, -1)
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
@@ -713,7 +713,6 @@ class QuestsWindow(QtWidgets.QDialog, Ui_Quests):
         self.condition_label.setText(Quests.LoadQuest(Quests, "condition"))
 
 
-
 class GameLogic(object):
 
     global energy, money
@@ -849,7 +848,8 @@ class QuestsThread(Thread):
         """Запуск потока"""
         global quest, energy_exec
         while energy_exec:
-            if quest == 1 and GameLogic.ReadI(GameLogic, "journal.xml") > 0:
+            Journal.Close(Journal)
+            if quest == 1 and int(GameLogic.ReadI(GameLogic, "journal.xml")) > 0:
                 quest += 1
             if quest == 2 and Inventory.Check(Inventory, "Key"):
                 quest += 2
@@ -858,6 +858,7 @@ class QuestsThread(Thread):
                 for elem in root.iter("location" + "2"):
                     elem.set('state', "open")
                 frag_xml_tree.write("locations.xml")
+            Journal.Init(Journal)
 
 
 class Journal(object):
@@ -1350,6 +1351,13 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
         super(LocationsWindow, self).__init__(parent)
         self.setupUi(self)
 
+        self.location2.clicked.connect(self.loc2)
+
+    def loc2(self):
+        global location
+        location = 2
+        self.close()
+
 
 class Quests(object):
 
@@ -1405,8 +1413,8 @@ energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
 
-thread = QuestsThread()
-thread.start()
+#thread = QuestsThread()
+#thread.start()
 
 if __name__ == "__main__":
     import sys
