@@ -295,6 +295,14 @@ class Ui_MainWindow(QtCore.QObject):
                     for elem in root.iter("mice" + "11"):
                         elem.set('drop', "Coins")
                     frag_xml_tree.write("locations.xml")
+                elif mouse_drop.find("Catcher 2000") != -1:
+                    power = GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", 3, 0)
+                    Inventory.WriteDevice(Inventory, mouse_drop, power)
+                    frag_xml_tree = ET.parse("locations.xml")
+                    root = frag_xml_tree.getroot()
+                    for elem in root.iter("mice" + "16"):
+                        elem.set('drop', "Twilight Cheese x5")
+                    frag_xml_tree.write("locations.xml")
                 else:
                     thread = InventoryThread()
                     thread.start()
@@ -912,14 +920,6 @@ class InventoryThread(Thread):
 
         if index == len(lines):
             Inventory.Write(Inventory, mouse_drop)
-            if mouse_drop.find("Cathcer 2000") != -1:
-                power = GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", 3, 0)
-                Inventory.WriteDevice(Inventory, mouse_drop, power)
-                frag_xml_tree = ET.parse("locations.xml")
-                root = frag_xml_tree.getroot()
-                for elem in root.iter("mice" + "16"):
-                    elem.set('drop', "Twilight Cheese x5")
-                frag_xml_tree.write("locations.xml")
         else:
             Inventory.Close(Inventory)
             GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
@@ -1051,7 +1051,6 @@ class Inventory(object):
         myfile.close()
         print(result)
 
-
     def WriteDevice(self, drop, power):
         global k
         k += 1
@@ -1070,7 +1069,6 @@ class Inventory(object):
         myfile.write("\n")
         myfile.close()
         print(result)
-
 
     def Check(self, item):
         filename = 'inventory.xml'

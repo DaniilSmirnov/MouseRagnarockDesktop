@@ -9,6 +9,6 @@
     <quest8 name="Asign new device" condition="Go to devices and select it!"></quest8>
     <quest9 name="I am Cable" condition="Find at least 30 Cables"></quest9>
     <quest10 name="The Journey Begins" condition="Find map of Park"></quest10>
-    <quest11 name="Preparations" condition="Find at least Twilight Cheese 30x"></quest11>
+    <quest11 name="Preparations" condition="Find at least Twilight Cheese 50x"></quest11>
     <quest11 name="What are you waiting now?" condition="Go to Park"></quest11>
 </res>
