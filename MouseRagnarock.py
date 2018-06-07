@@ -424,6 +424,7 @@ class AlertWindow(QtWidgets.QDialog, Ui_Alert):
         self.setupUi(self)
         self.pushButton.clicked.connect(self.close)
 
+
 class QuestAlertWindow(QtWidgets.QDialog, Ui_Alert):
 
     def __init__(self, parent=None):
@@ -898,6 +899,9 @@ class InventoryThread(Thread):
 
         if index == len(lines):
             Inventory.Write(Inventory, mouse_drop)
+            if mouse_drop.find("Cathcer 2000") != -1:
+                power = GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", 3, 0)
+                Inventory.WriteDevice(Inventory, mouse_drop, power)
         else:
             Inventory.Close(Inventory)
             GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
@@ -1028,6 +1032,27 @@ class Inventory(object):
         myfile.write("\n")
         myfile.close()
         print(result)
+
+
+    def WriteDevice(self, drop, power):
+        global k
+        k += 1
+        doc, tag, text = Doc().tagtext()
+        with tag('position'+str(k), item=drop, amount="1", power=str(power)):
+            text(str(energy))
+
+        result = indent(
+            doc.getvalue(),
+            indentation=' ' * 4,
+            newline='\r\n')
+
+        filename = 'inventory.xml'
+        myfile = open(filename, 'a')
+        myfile.write(result)
+        myfile.write("\n")
+        myfile.close()
+        print(result)
+
 
     def Check(self, item):
         filename = 'inventory.xml'
@@ -1498,7 +1523,6 @@ device = GameLogic.ReadUserData(GameLogic, "device", 0)
 energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
 board = GameLogic.ReadUserData(GameLogic, "board", 0)
 quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
-
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
