@@ -274,7 +274,7 @@ class Ui_MainWindow(QtCore.QObject):
         amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
         number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*amount)
 
-        if int(GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "power", number, 0)) >= power:
+        if int(GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "power", number, 0)) <= power:
 
             if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
                 mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
@@ -282,9 +282,11 @@ class Ui_MainWindow(QtCore.QObject):
                 if mouse_drop.find("Coins") != -1:
                     money += 100
                 elif mouse_drop.find("Russian Cheese x10") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, 10)
+                    GameLogic.editXML(GameLogic, "shop.xml", "item", 1, 10)
                 elif mouse_drop.find("Russian Cheese x5") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, 5)
+                    GameLogic.editXML(GameLogic, "shop.xml", "item", 1, 5)
+                elif mouse_drop.find("Twilight Cheese x5") != -1:
+                    GameLogic.editXML(GameLogic, "shop.xml", "item", 3, 5)
                 elif mouse_drop.find("Key") != -1:
                     thread = InventoryThread()
                     thread.start()
@@ -301,9 +303,9 @@ class Ui_MainWindow(QtCore.QObject):
             mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0)
             mouse_cost = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
         else:
-            mouse_name = "Mouse" + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + "Was not Catched"
-            mouse_drop = " "
-            mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
+            mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + " Was not Catched"
+            mouse_drop = "Mouse had eat your cheese!"
+            mouse_cost = "0"
 
         mouse_icon = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "icon", number, 0)
         pixmap = QtGui.QPixmap(mouse_icon)
@@ -337,14 +339,16 @@ class Ui_MainWindow(QtCore.QObject):
 
         if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
             quest += 1
-        if quest == 2 and Inventory.Check(Inventory, "Key"):
+        if quest == 2 and money > 15000:
+            quest += 1
+        if quest == 3 and Inventory.Check(Inventory, "Key"):
             quest += 1
             frag_xml_tree = ET.parse("locations.xml")
             root = frag_xml_tree.getroot()
             for elem in root.iter("location" + "2"):
                 elem.set('state', "open")
             frag_xml_tree.write("locations.xml")
-        if quest == 3 and location == 2:
+        if quest == 4 and location == 2:
             quest += 1
 
     def pipe_click(self):
@@ -911,6 +915,11 @@ class InventoryThread(Thread):
             if mouse_drop.find("Cathcer 2000") != -1:
                 power = GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", 3, 0)
                 Inventory.WriteDevice(Inventory, mouse_drop, power)
+                frag_xml_tree = ET.parse("locations.xml")
+                root = frag_xml_tree.getroot()
+                for elem in root.iter("mice" + "16"):
+                    elem.set('drop', "Twilight Cheese x5")
+                frag_xml_tree.write("locations.xml")
         else:
             Inventory.Close(Inventory)
             GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)

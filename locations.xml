@@ -19,7 +19,7 @@
         <mice14 cost="400" drop="Russian Cheese x5" icon="mice7.jpg" name="Alco Mouse" power="500" />
         <mice15 cost="250" drop="Coins" icon="mice8.jpg" name="Portal mouse" power="300"/>
         <mice16 cost="1500" drop="Catcher 2000 Device" icon="mice8.jpg" name="Ninja mouse" power="500"/>
-
+        <mice17 cost="1500" drop="Map of Park" icon="mice8.jpg" name="Guide Mouse" power="1000"/>
     </location2>
     <location3 amount="0" name="Park" state="close" />
     <location4 amount="0" name="Shopping Centre" state="close" />

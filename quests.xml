@@ -1,8 +1,14 @@
 <res>
-    <location1>
-        <quest1 name="Catch a mouse" condition="Catch any mouse"></quest1>
-        <quest2 name="Find a key" condition="Find a key"></quest2>
-        <quest3 name="Go out" condition="Move to Outdoors"></quest3>
-        <quest4 name="WIP" condition="WIP"></quest4>
-    </location1>
+    <quest1 name="Catch a mouse" condition="Catch any mouse"></quest1>
+    <quest2 name="Money Maker" condition="Earn 15000"></quest2>
+    <quest3 name="Find a key" condition="Find a key"></quest3>
+    <quest4 name="Go out" condition="Move to Outdoors"></quest4>
+    <quest5 name="I need more power!!!" condition="Find new device"></quest5>
+    <quest6 name="Party maker" condition="Catch Alco Mouse"></quest6>
+    <quest7 name="I need more power!!!" condition="Find new device"></quest7>
+    <quest8 name="Asign new device" condition="Go to devices and select it!"></quest8>
+    <quest9 name="I am Cable" condition="Find at least 30 Cables"></quest9>
+    <quest10 name="The Journey Begins" condition="Find map of Park"></quest10>
+    <quest11 name="Preparations" condition="Find at least Twilight Cheese 30x"></quest11>
+    <quest11 name="What are you waiting now?" condition="Go to Park"></quest11>
 </res>

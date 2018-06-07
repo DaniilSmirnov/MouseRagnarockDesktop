@@ -1,4 +1,4 @@
-<res i="214">
+<res i="229">
 <position1 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">10</position1>
 <position2 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">10</position2>
 <position3 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">9</position3>
@@ -213,4 +213,19 @@
 <position212 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">810</position212>
 <position213 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">809</position213>
 <position214 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">808</position214>
+<position215 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">807</position215>
+<position216 mouse_name="MousePortal mouseWas not Catched" mouse_cost="-250" mouse_drop=" ">806</position216>
+<position217 mouse_name="Cable Mouse" mouse_cost="1000" mouse_drop=" ">805</position217>
+<position218 mouse_name="Cable Mouse" mouse_cost="1000" mouse_drop=" ">804</position218>
+<position219 mouse_name="MousePortal mouseWas not Catched" mouse_cost="-250" mouse_drop=" ">803</position219>
+<position220 mouse_name="MouseNothingWas not Catched" mouse_cost="-0" mouse_drop=" ">802</position220>
+<position221 mouse_name="MouseNothingWas not Catched" mouse_cost="-0" mouse_drop=" ">801</position221>
+<position222 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">800</position222>
+<position223 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">799</position223>
+<position224 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">798</position224>
+<position225 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">797</position225>
+<position226 mouse_name="MouseNinja mouse Was not Catched" mouse_cost="0" mouse_drop="Mouse had eat your cheese!">796</position226>
+<position227 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">795</position227>
+<position228 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">794</position228>
+<position229 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">793</position229>
 </res>
