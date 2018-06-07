@@ -301,7 +301,7 @@ class Ui_MainWindow(QtCore.QObject):
                     frag_xml_tree = ET.parse("locations.xml")
                     root = frag_xml_tree.getroot()
                     for elem in root.iter("mice" + "16"):
-                        elem.set('drop', "Twilight Cheese x5")
+                        elem.set('drop', "Map of Park")
                     frag_xml_tree.write("locations.xml")
                 else:
                     thread = InventoryThread()
