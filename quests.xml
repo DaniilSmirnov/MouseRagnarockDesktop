@@ -2,7 +2,7 @@
     <location1>
         <quest1 name="Catch a mouse" condition="Catch any mouse"></quest1>
         <quest2 name="Find a key" condition="Find a key"></quest2>
-        <quest3 name="WIP" condition="WIP"></quest3>
-
+        <quest3 name="Go out" condition="Move to Outdoors"></quest3>
+        <quest4 name="WIP" condition="WIP"></quest4>
     </location1>
 </res>

@@ -335,6 +335,8 @@ class Ui_MainWindow(QtCore.QObject):
             for elem in root.iter("location" + "2"):
                 elem.set('state', "open")
             frag_xml_tree.write("locations.xml")
+        if quest == 3 and location == 2:
+            quest += 1
 
     def pipe_click(self):
 
@@ -385,6 +387,11 @@ class Ui_MainWindow(QtCore.QObject):
         alert.exec_()
         self.update_ui()
 
+    def quest_alert(self):
+        alert = AlertWindow()
+        alert.exec_()
+        self.update_ui()
+
 
 class Ui_Alert(object):
     def setupUi(self, Alert):
@@ -415,6 +422,15 @@ class AlertWindow(QtWidgets.QDialog, Ui_Alert):
 
         super(AlertWindow, self).__init__(parent)
         self.setupUi(self)
+        self.pushButton.clicked.connect(self.close)
+
+class QuestAlertWindow(QtWidgets.QDialog, Ui_Alert):
+
+    def __init__(self, parent=None):
+
+        super(AlertWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.label.setText("You have completed Quest!")
         self.pushButton.clicked.connect(self.close)
 
 

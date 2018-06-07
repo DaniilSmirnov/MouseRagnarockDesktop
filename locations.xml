@@ -13,15 +13,17 @@
         <mice11 cost="10" drop="Coins" icon="mice1.jpg" name="Eshkere Mouse" />
 
     </location1>
-    <location2 amount="4" drop_amount="1" name="Outdoors" start="12" state="open" cheese="Russian Cheese">
+    <location2 amount="5" drop_amount="1" name="Outdoors" start="12" state="open" cheese="Russian Cheese">
         <mice12 cost="0" icon="mice11.jpg" name="Nothing" />
         <mice13 cost="1000" drop="Cable" icon="mice1.jpg" name="Cable Mouse" />
         <mice14 cost="400" drop="Russian Cheese x5" icon="mice7.jpg" name="Alco Mouse" />
         <mice15 cost="250" drop="Coins" icon="mice8.jpg" name="Portal mouse" />
+        <mice16 cost="1500" drop="Cheese x" icon="mice8.jpg" name="Ninja mouse" />
+
     </location2>
     <location3 amount="0" name="Park" state="close" />
     <location4 amount="0" name="Shopping Centre" state="close" />
-    <location5 amount="0" name="Metro station 'Komendatskiy Prospekt'" state="close" />
+    <location5 amount="0" name="Metro" state="close" />
 	<location6 amount="0" name="Entrance" state="close" />
     <location7 amount="0" name="Catacombs" state="close" />
 	<location8 amount="0" name="Underground Lake" state="close" />
