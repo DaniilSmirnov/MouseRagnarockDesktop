@@ -1,4 +1,4 @@
-<res i="213">
+<res i="214">
 <position1 mouse_name="Robber Mouse" mouse_cost="300" mouse_drop=" ">10</position1>
 <position2 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">10</position2>
 <position3 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">9</position3>
@@ -212,4 +212,5 @@
 <position211 mouse_name="Poor mouse" mouse_cost="50" mouse_drop=" ">811</position211>
 <position212 mouse_name="Dr.Spider Mouse" mouse_cost="200" mouse_drop=" ">810</position212>
 <position213 mouse_name="Portal mouse" mouse_cost="250" mouse_drop=" ">809</position213>
+<position214 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">808</position214>
 </res>
