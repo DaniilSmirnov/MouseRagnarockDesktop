@@ -19,10 +19,10 @@
         <mice14 cost="400" drop="Russian Cheese x5" icon="mice7.jpg" name="Alco Mouse" power="500" />
         <mice15 cost="250" drop="Coins" icon="mice8.jpg" name="Portal mouse" power="300"/>
         <mice16 cost="5500" drop="Catcher 2000" icon="mice8.jpg" name="Ninja mouse" power="500"/>
-        <mice17 cost="2500" drop="Twilight Cheese 5x" icon="mice8.jpg" name="Guide Mouse" power="1000"/>
-        <mice18 cost="2500" drop="Twilight Cheese 5x" icon="mice8.jpg" name="Assassin Mouse" power="1000"/>
-        <mice19 cost="2500" drop="Twilight Cheese 5x" icon="mice8.jpg" name="Graffiti Mouse" power="1000"/>
-        <mice20 cost="2500" drop="Twilight Cheese 5x" icon="mice8.jpg" name="Strange Mouse" power="1000"/>
+        <mice17 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Guide Mouse" power="1000"/>
+        <mice18 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Assassin Mouse" power="1000"/>
+        <mice19 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Graffiti Mouse" power="1000"/>
+        <mice20 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Strange Mouse" power="1000"/>
     </location2>
     <location3 amount="0" name="Park" state="close" />
     <location4 amount="0" name="Shopping Centre" state="close" />

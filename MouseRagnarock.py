@@ -629,8 +629,8 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
             i += 1
             item = GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", i, 0)
-
-            if (str(button.text())[4:]) == item:
+            money_w = money - int(self.items.get(item))
+            if (str(button.text())[4:]) == item and (money_w > 0):
                 money -= int(self.items.get(item))
                 GameLogic.editXML(self, "shop.xml", "item", i, 1)
                 self.update_ui()
@@ -1617,9 +1617,34 @@ energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
 board = GameLogic.ReadUserData(GameLogic, "board", 0)
 quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
 
-Journal.Init(Journal)
-Inventory.Init(Inventory)
+try:
+    Journal.Init(Journal)
+except BaseException:
+    filename = 'journal.xml'
+    myfile = open(filename, 'r')
+    lines = myfile.readlines()
+    myfile.close()
 
+    myfile = open(filename, 'w')
+    for line in lines:
+        myfile.write(line)
+    myfile.write("</res>")
+    myfile.close()
+    Journal.Init(Journal)
+try:
+    Inventory.Init(Inventory)
+except BaseException:
+    filename = 'inventory.xml'
+    myfile = open(filename, 'r')
+    lines = myfile.readlines()
+    myfile.close()
+
+    myfile = open(filename, 'w')
+    for line in lines:
+        myfile.write(line)
+    myfile.write("</res>")
+    myfile.close()
+    Inventory.Init(Inventory)
 
 def setter(exec):
     global energy_exec
