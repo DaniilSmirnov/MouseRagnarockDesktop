@@ -10,7 +10,7 @@
         <mice8 cost="250" drop="Coins" icon="mice8.jpg" name="Portal mouse" power="300" />
         <mice9 cost="300" drop="Russian Cheese x10" icon="mice9.jpg" name="Robber Mouse" power="100"/>
         <mice10 cost="100" drop="Coins" icon="mice10.jpg" name="Grey Mouse" power="300" />
-        <mice11 cost="10" drop="Coins" icon="mice1.jpg" name="Eshkere Mouse" power="500" />
+        <mice11 cost="10" drop="Key" icon="mice1.jpg" name="Eshkere Mouse" power="500" />
 
     </location1>
     <location2 amount="8" cheese="Russian Cheese" drop_amount="1" name="Outdoors" start="12" state="open">

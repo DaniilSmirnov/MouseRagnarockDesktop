@@ -359,7 +359,7 @@ class Ui_MainWindow(QtCore.QObject):
             quest += 1
         if quest == 6 and mouse_name == "Alco Mouse":
             quest += 1
-        if quest == 7 and device == 2:
+        if quest == 7 and device == 3:
             quest += 1
 
         # не забыть прописать карту парка
