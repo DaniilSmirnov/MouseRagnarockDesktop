@@ -1,32 +1,32 @@
 <res>
-    <quest1 name="Catch a mouse" condition="Catch any mouse"></quest1>
+    <quest1 name="First steps" condition="Catch any mouse"></quest1>
     <quest2 name="Money Maker" condition="Earn 15000"></quest2>
-    <quest3 name="Find a key" condition="Find a key"></quest3>
-    <quest4 name="Go out" condition="Go Outdoors"></quest4>
-    <quest5 name="I need more power!!!" condition="Find new device"></quest5>
-    <quest6 name="Party maker" condition="Catch Alco Mouse"></quest6>
-    <quest7 name="Place new device" condition="Go to devices and select it!"></quest7>
+    <quest3 name="Is there an exit?" condition="Find a key"></quest3>
+    <quest4 name="Fresh air" condition="Go Outdoors"></quest4>
+    <quest5 name="I need more power!" condition="Find a new device"></quest5>
+    <quest6 name="Party maker" condition="Catch an Alco Mouse"></quest6>
+    <quest7 name="An upgrade" condition="Change your active device"></quest7>
     <quest8 name="I am Cable" condition="Find at least 30 Cables"></quest8>
-    <quest9 name="The Journey Begins" condition="Find map of Park"></quest9>
-    <quest10 name="Preparations" condition="Find at least Twilight Cheese 50x"></quest10>
-    <quest11 name="What are you waiting for now?" condition="Go to the Park"></quest11>
+    <quest9 name="The Journey Begins" condition="Find the park map"></quest9>
+    <quest10 name="Preparations" condition="Find at least 50 slices of Twilight Cheese"></quest10>
+    <quest11 name="What are you waiting for?" condition="Go to the park"></quest11>
     <quest12 name="Money Maker 2" condition="Earn 100k"></quest12>
-    <quest13 name="Buy a bulb" condition="Buy a bulb"></quest13>
-    <quest14 name="Craft a flashlight" condition="Create flashlight"></quest14>
-    <quest15 name="Find your first board" condition="Find a board"></quest15>
-    <quest16 name="Go to shopping centre" condition="Move to shopping centre"></quest16>
-    <quest17 name="I need more power 2" condition="Find new device"></quest17>
-    <quest18 name="Find metro worker vest" condition="Find a vest"></quest18>
-    <quest19 name="Craft Moldy cheese" condition="Moldy cheese at least 50x"></quest19>
-    <quest20 name="We are on a highway to hell" condition="Move to metro"></quest20>
+    <quest13 name="Power shortage" condition="Buy a lightbulb"></quest13>
+    <quest14 name="A light in the darkness" condition="Create a flashlight"></quest14>
+    <quest15 name="Moving further" condition="Find a board"></quest15>
+    <quest16 name="Sale" condition="Move to the shopping centre"></quest16>
+    <quest17 name="I need more power 2" condition="Find a new device"></quest17>
+    <quest18 name="Master of disguise" condition="Find a vest"></quest18>
+    <quest19 name="A molder of cheese" condition="Craft at least 50 slices of Moldy cheese"></quest19>
+    <quest20 name="Highway to hell" condition="Move to the subway"></quest20>
     <quest21 name="Eletrcic madness  1" condition="Find Cables 30x"></quest21>
     <quest23 name="Eletrcic madness  2" condition="Find Iron plates 30x"></quest23>
     <quest24 name="Eletrcic madness  3" condition="Find Springs 5x"></quest24>
     <quest25 name="Eletrcic madness  4" condition="Find a Swiss army knife"></quest25>
-    <quest26 name="It is Alive" condition="Craft Electric Chopper"></quest26>
-    <quest27 name="Catch Necromouse" condition="Catch Necromouse"></quest27>
-    <quest28 name="Silent Hill" condition="Go to entrance"></quest28>
-    <quest29 name="WTF!?" condition="Kill Mouseshtein"></quest29>
+    <quest26 name="It is Alive" condition="Craft the Electric Chopper"></quest26>
+    <quest27 name="Here and hereafter" condition="Catch a Necromouse"></quest27>
+    <quest28 name="Silent Hill" condition="Go to the entrance"></quest28>
+    <quest29 name="Mad Science" condition="Kill Mouseshtein"></quest29>
 
 
 </res>

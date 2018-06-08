@@ -1640,7 +1640,7 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-
+    app.setStyle("windowsvista")
     oImage = QtGui.QImage("mainback.jpg")
     sImage = oImage.scaled(QtCore.QSize(800, 600))
     palette = QtGui.QPalette()
