@@ -9,6 +9,7 @@ from PIL import Image
 import xml.etree.cElementTree as ET
 
 exec = False
+starter = True
 
 
 class Ui_MainWindow(QtCore.QObject):
@@ -303,14 +304,15 @@ class Ui_MainWindow(QtCore.QObject):
                 else:
                     thread = InventoryThread()
                     thread.start()
+                mouse_drop = 'Has dropped ' + mouse_drop
             else:
                 mouse_drop = " "
             mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0)
             mouse_cost = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
         else:
-            mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + " Was not Catched"
+            mouse_name = "Whoops! " + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + "\n ate your chesse and fled"
             mouse_drop = "Mouse had eat your cheese!"
-            mouse_cost = "0"
+            mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
 
         mouse_icon = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "icon", number, 0)
         pixmap = QtGui.QPixmap(mouse_icon)
@@ -319,9 +321,6 @@ class Ui_MainWindow(QtCore.QObject):
         self.moneylabel.setText(str(money))
         if number != 1:
             GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, -1)
-        self.mousename.setText(mouse_name)
-        self.mousecost.setText(mouse_cost)
-        self.mouseattachment.setText(mouse_drop)
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
@@ -332,15 +331,26 @@ class Ui_MainWindow(QtCore.QObject):
         self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
-        self.mousename.setText(mouse_name)
+        self.mousename.setText(mouse_name + " has\n been caught!")
         self.mousecost.setText(mouse_cost)
-        self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "name", location, 0))
         self.mouseattachment.setText(mouse_drop)
+        self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "name", location, 0))
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
         self.board_label.setText("Board: " + str(board))
         self.device_label.setText("Device: " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", device, 0))
         self.devicesbox.setTitle("Devices power: " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", device, 0))
+
+        global starter
+
+        if starter:
+            starter = False
+        else:
+            self.check_quests()
+
+    def check_quests(self):
+
+        global quest
 
         if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
             quest += 1
@@ -361,7 +371,16 @@ class Ui_MainWindow(QtCore.QObject):
             quest += 1
         if quest == 7 and device == 3:
             quest += 1
-
+        if quest == 8:
+            index = 0
+            Inventory.Close(Inventory)
+            amount = GameLogic.ReadI(GameLogic, "inventory.xml")
+            Inventory.Init(Inventory)
+            while index < int(amount):
+                index += 1
+                if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", index, 0) == "Cable":
+                    if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", index, 0) == "30":
+                        quest += 1
         # не забыть прописать карту парка
 
     def pipe_click(self):
@@ -838,7 +857,7 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
             self.close()
         if str(button.text())[6:] == "Catcher 2000":
             device = 3
-            self.close
+            self.close()
 
 
 class Ui_Quests(object):
