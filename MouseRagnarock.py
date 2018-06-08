@@ -419,7 +419,7 @@ class Ui_MainWindow(QtCore.QObject):
     def open_devices(self):
         alert = DevicesWindow()
         alert.exec_()
-        self.update_ui()
+        self.init()
 
 
 class Ui_Alert(object):
