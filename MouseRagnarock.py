@@ -381,7 +381,7 @@ class Ui_MainWindow(QtCore.QObject):
                 if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", index, 0) == "Cable":
                     if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", index, 0) == "30":
                         quest += 1
-        # не забыть прописать карту парка
+        #не забыть прописать карту парка
 
     def pipe_click(self):
 
