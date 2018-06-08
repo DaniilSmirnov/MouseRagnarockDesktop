@@ -1,5 +1,5 @@
 <res i="3">
-    <item1 amount="749" cost="100" name="Russian Cheese" type="cheese" />
+    <item1 amount="740" cost="100" name="Russian Cheese" type="cheese" />
     <item2 amount="24" cost="25" name="Cheese Druzhba" type="cheese" />
-    <item3 amount="35" cost="1000" name="Twilight Cheese" type="cheese" />
+    <item3 amount="36" cost="1000" name="Twilight Cheese" type="cheese" />
 </res>

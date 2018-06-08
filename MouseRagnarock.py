@@ -285,6 +285,8 @@ class Ui_MainWindow(QtCore.QObject):
                     GameLogic.editXML(GameLogic, "shop.xml", "item", 1, 5)
                 elif mouse_drop.find("Twilight Cheese x5") != -1:
                     GameLogic.editXML(GameLogic, "shop.xml", "item", 3, 5)
+                elif mouse_drop.find("Twilight Cheese x1") != -1:
+                    GameLogic.editXML(GameLogic, "shop.xml", "item", 3, 1)
                 elif mouse_drop.find("Key") != -1:
                     thread = InventoryThread()
                     thread.start()
@@ -307,11 +309,11 @@ class Ui_MainWindow(QtCore.QObject):
                 mouse_drop = 'Has dropped ' + mouse_drop
             else:
                 mouse_drop = " "
-            mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0)
+            mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + " has\n been caught!"
             mouse_cost = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
         else:
             mouse_name = "Whoops! " + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + "\n ate your chesse and fled"
-            mouse_drop = "Mouse had eat your cheese!"
+            mouse_drop = " "
             mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
 
         mouse_icon = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "icon", number, 0)
@@ -331,7 +333,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
-        self.mousename.setText(mouse_name + " has\n been caught!")
+        self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         self.mouseattachment.setText(mouse_drop)
         self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "name", location, 0))
@@ -365,9 +367,38 @@ class Ui_MainWindow(QtCore.QObject):
             frag_xml_tree.write("locations.xml")
         if quest == 4 and location == 2:
             quest += 1
-        if quest == 5 and mouse_drop == "Catcher 2000":
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "13"):
+                elem.set('drop', "Catcher 2000")
+            frag_xml_tree.write("locations.xml")
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "14"):
+                elem.set('drop', "Catcher 2000")
+            frag_xml_tree.write("locations.xml")
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "15"):
+                elem.set('drop', "Catcher 2000")
+            frag_xml_tree.write("locations.xml")
+        if quest == 5 and Inventory.Check(Inventory, "Catcher 2000"):
             quest += 1
-        if quest == 6 and mouse_name == "Alco Mouse":
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "13"):
+                elem.set('drop', "Cable")
+            frag_xml_tree.write("locations.xml")
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "14"):
+                elem.set('drop', "Coins")
+            frag_xml_tree.write("locations.xml")
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "15"):
+                elem.set('drop', "Russian Cheese x10")
+        if quest == 6 and mouse_name.find("Alco Mouse") != -1:
             quest += 1
         if quest == 7 and device == 3:
             quest += 1
@@ -375,13 +406,39 @@ class Ui_MainWindow(QtCore.QObject):
             index = 0
             Inventory.Close(Inventory)
             amount = GameLogic.ReadI(GameLogic, "inventory.xml")
+            while index < int(amount):
+                index += 1
+                if GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", index, 0) == "Cable":
+                    if GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "amount", index, 0) == "30":
+                        quest += 1
             Inventory.Init(Inventory)
+        if quest == 9:
+            index = 0
+            Inventory.Close(Inventory)
+            amount = GameLogic.ReadI(GameLogic, "inventory.xml")
             while index < int(amount):
                 index += 1
                 if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", index, 0) == "Cable":
-                    if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", index, 0) == "30":
+                    if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", index, 0) == "50":
                         quest += 1
-        #не забыть прописать карту парка
+                        frag_xml_tree = ET.parse("locations.xml")
+                        root = frag_xml_tree.getroot()
+                        for elem in root.iter("mice" + "17"):
+                            elem.set('drop', "Map of Park")
+                        frag_xml_tree.write("locations.xml")
+            Inventory.Init(Inventory)
+        if quest == 10 and Inventory.Check(Inventory, "Map of Park"):
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("location" + "3"):
+                elem.set('state', "open")
+            frag_xml_tree.write("locations.xml")
+            frag_xml_tree = ET.parse("locations.xml")
+            root = frag_xml_tree.getroot()
+            for elem in root.iter("mice" + "17"):
+                elem.set('drop', "Twilight Cheese x5")
+            frag_xml_tree.write("locations.xml")
+            quest += 1
 
     def pipe_click(self):
 
@@ -441,6 +498,9 @@ class Ui_MainWindow(QtCore.QObject):
         alert = DevicesWindow()
         alert.exec_()
         self.init()
+
+    def close(self):
+        print(1)
 
 
 class Ui_Alert(object):
@@ -837,7 +897,7 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
                 Inventory.Close(Inventory)
                 if GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0):
                     self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", j, 0))
-                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", i, 0))
+                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0))
                     self.item_label.setSizePolicy(self.sizePolicy)
                     self.item_button.setSizePolicy(self.sizePolicy)
 

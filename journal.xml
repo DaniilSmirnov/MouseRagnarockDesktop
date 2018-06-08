@@ -1,4 +1,4 @@
-<res i="19">
+<res i="26">
 <position1 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">641</position1>
 <position2 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop="Key">640</position2>
 <position3 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop=" ">639</position3>
@@ -125,3 +125,22 @@
 <position52 mouse_name="Ninja mouse" mouse_cost="5500" mouse_drop=" ">590</position52>
 <position53 mouse_name="Graffiti Mouse" mouse_cost="2500" mouse_drop=" ">589</position53>
 <position54 mouse_name="Portal mouse" mouse_cost="250" mouse_drop="Has dropped Coins">588</position54>
+<position20 mouse_name="Whoops! Cable Mouse
+ ate your chesse and fled" mouse_cost="-1000" mouse_drop=" ">622</position20>
+<position21 mouse_name="Whoops! Graffiti Mouse
+ ate your chesse and fled" mouse_cost="-2500" mouse_drop=" ">621</position21>
+<position20 mouse_name="Alco Mouse has
+ been caught!" mouse_cost="400" mouse_drop=" ">622</position20>
+<position21 mouse_name="Guide Mouse has
+ been caught!" mouse_cost="1000" mouse_drop=" ">621</position21>
+<position22 mouse_name="Assassin Mouse has
+ been caught!" mouse_cost="1000" mouse_drop=" ">620</position22>
+<position23 mouse_name="Portal mouse has
+ been caught!" mouse_cost="250" mouse_drop=" ">619</position23>
+<position24 mouse_name="Assassin Mouse has
+ been caught!" mouse_cost="1000" mouse_drop="Has dropped Twilight Cheese x1">618</position24>
+<position25 mouse_name="Whoops! Cable Mouse
+ ate your chesse and fled" mouse_cost="-1000" mouse_drop=" ">617</position25>
+<position26 mouse_name="Whoops! Graffiti Mouse
+ ate your chesse and fled" mouse_cost="-2500" mouse_drop=" ">616</position26>
+</res>
