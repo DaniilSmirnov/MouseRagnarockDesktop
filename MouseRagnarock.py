@@ -35,10 +35,6 @@ class Ui_MainWindow(QtCore.QObject):
         self.energybar.setFormat("")
         self.energybar.setObjectName("energybar")
         self.gridLayout.addWidget(self.energybar, 2, 1, 1, 2)
-        self.questsbutton = QtWidgets.QPushButton(self.layoutWidget)
-        self.questsbutton.setEnabled(False)
-        self.questsbutton.setObjectName("questsbutton")
-        self.gridLayout.addWidget(self.questsbutton, 2, 0, 1, 1)
         self.label = QtWidgets.QLabel(self.layoutWidget)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 5, 0, 3, 2)
@@ -159,7 +155,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.board_button.setObjectName("board_button")
         self.gridLayout_5.addWidget(self.board_button, 1, 0, 1, 1)
         self.device_button = QtWidgets.QPushButton(self.switchbox)
-        self.device_button.setEnabled(False)
+        self.device_button.setEnabled(True)
         self.device_button.setObjectName("device_button")
         self.gridLayout_5.addWidget(self.device_button, 2, 0, 1, 1)
         self.gridLayout.addWidget(self.switchbox, 5, 2, 2, 1)
@@ -242,6 +238,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.move.clicked.connect(self.open_locations)
         self.about_location_button.clicked.connect(self.open_about_locations)
         self.questsbutton.clicked.connect(self.open_quests)
+        self.device_button.clicked.connect(self.open_devices)
 
         self.updateProgress.connect(self.energybar.setValue)
 
@@ -358,6 +355,12 @@ class Ui_MainWindow(QtCore.QObject):
             frag_xml_tree.write("locations.xml")
         if quest == 4 and location == 2:
             quest += 1
+        if quest == 5 and mouse_drop == "Catcher 2000":
+            quest += 1
+        if quest == 6 and mouse_name == "Alco mouse":
+            quest += 1
+        if quest == 7 and device == 2:
+            quest += 1
 
     def pipe_click(self):
 
@@ -410,6 +413,11 @@ class Ui_MainWindow(QtCore.QObject):
 
     def quest_alert(self):
         alert = AlertWindow()
+        alert.exec_()
+        self.update_ui()
+
+    def open_devices(self):
+        alert = DevicesWindow()
         alert.exec_()
         self.update_ui()
 
@@ -760,6 +768,65 @@ class AboutLocationWindow(QtWidgets.QDialog, AboutLocationWindowUi):
             self.verticalLayout.addWidget(self.item_label)
 
             j += 1
+
+
+class Ui_Devices(object):
+    def setupUi(self, Devices):
+        Devices.setObjectName("Devices")
+        Devices.resize(166, 480)
+        self.gridLayout = QtWidgets.QGridLayout(Devices)
+        self.gridLayout.setObjectName("gridLayout")
+        self.pushButton = QtWidgets.QPushButton(Devices)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 1, 2, 1, 1)
+        self.sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.sizePolicy.setHorizontalStretch(0)
+        self.sizePolicy.setVerticalStretch(0)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout.addLayout(self.verticalLayout, 0, 2, 1, 1)
+
+        self.retranslateUi(Devices)
+        QtCore.QMetaObject.connectSlotsByName(Devices)
+
+    def retranslateUi(self, Devices):
+        _translate = QtCore.QCoreApplication.translate
+        Devices.setWindowTitle(_translate("Devices", "Dialog"))
+        self.pushButton.setText(_translate("Devices", "OK"))
+
+
+class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
+    def __init__(self, parent=None):
+        super(DevicesWindow, self).__init__(parent)
+        self.setupUi(self)
+
+        self.pushButton.clicked.connect(self.close)
+        self.create()
+
+    def create(self):
+        i = 0
+        Inventory.Close(Inventory)
+        amount = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
+        Inventory.Init(Inventory)
+        while i < amount:
+            i += 1
+            j = 0
+            while j < 3:
+                j += 1
+                Inventory.Close(Inventory)
+                if GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0):
+                    self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", j, 0))
+                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", i, 0))
+                    self.item_label.setSizePolicy(self.sizePolicy)
+                    self.item_button.setSizePolicy(self.sizePolicy)
+
+                    self.verticalLayout.addWidget(self.item_label)
+                    self.verticalLayout.addWidget(self.item_button)
+                    self.item_button.clicked.connect(lambda state, button=self.item_button: self.assign(button))
+                Inventory.Init(Inventory)
+
+    def assign(self, button):
+        print(str(button))
 
 
 class Ui_Quests(object):

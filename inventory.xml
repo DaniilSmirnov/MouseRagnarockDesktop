@@ -1,4 +1,4 @@
-<res i="4">
+<res i="2">
 <position1 amount="1" item="Alpha Device" power="5000">0</position1>
-<position2 amount="1" item="Key">805</position2>
+<position2 amount="1" item="Catcher" power="500">805</position2>
 </res>
