@@ -7,8 +7,8 @@
     <quest6 name="Party maker" condition="Catch an Alco Mouse"></quest6>
     <quest7 name="An upgrade" condition="Change your active device"></quest7>
     <quest8 name="I am Cable" condition="Find at least 30 Cables"></quest8>
-    <quest9 name="The Journey Begins" condition="Find the park map"></quest9>
-    <quest10 name="Preparations" condition="Find at least 50 slices of Twilight Cheese"></quest10>
+    <quest11 name="Preparations" condition="Find at least 50 slices of Twilight Cheese"></quest11>
+    <quest10 name="The Journey Begins" condition="Find the park map"></quest10>
     <quest11 name="What are you waiting for?" condition="Go to the park"></quest11>
     <quest12 name="Money Maker 2" condition="Earn 100k"></quest12>
     <quest13 name="Power shortage" condition="Buy a lightbulb"></quest13>

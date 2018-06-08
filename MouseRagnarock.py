@@ -298,7 +298,7 @@ class Ui_MainWindow(QtCore.QObject):
                     frag_xml_tree = ET.parse("locations.xml")
                     root = frag_xml_tree.getroot()
                     for elem in root.iter("mice" + "16"):
-                        elem.set('drop', "Map of Park")
+                        elem.set('drop', "Twilight Cheese x5")
                     frag_xml_tree.write("locations.xml")
                 else:
                     thread = InventoryThread()
@@ -357,10 +357,12 @@ class Ui_MainWindow(QtCore.QObject):
             quest += 1
         if quest == 5 and mouse_drop == "Catcher 2000":
             quest += 1
-        if quest == 6 and mouse_name == "Alco mouse":
+        if quest == 6 and mouse_name == "Alco Mouse":
             quest += 1
         if quest == 7 and device == 2:
             quest += 1
+
+        # не забыть прописать карту парка
 
     def pipe_click(self):
 
@@ -1645,6 +1647,7 @@ except BaseException:
     myfile.write("</res>")
     myfile.close()
     Inventory.Init(Inventory)
+
 
 def setter(exec):
     global energy_exec

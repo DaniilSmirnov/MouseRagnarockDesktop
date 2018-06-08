@@ -1,3 +1,9 @@
 <res i="1">
 <position1 mouse_name="Alco Mouse" mouse_cost="400" mouse_drop=" ">641</position1>
-</res>
+<position2 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop="Key">640</position2>
+<position3 mouse_name="Eshkere Mouse" mouse_cost="10" mouse_drop=" ">639</position3>
+<position4 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">638</position4>
+<position5 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">637</position5>
+<position6 mouse_name="Nothing" mouse_cost="0" mouse_drop=" ">636</position6>
+<position7 mouse_name="Poor mouse" mouse_cost="50" mouse_drop="Coins">635</position7>
+<position8 mouse_name="Felt mouse" mouse_cost="200" mouse_drop=" ">634</position8>
