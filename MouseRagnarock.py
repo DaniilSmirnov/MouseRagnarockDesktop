@@ -826,7 +826,17 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
                 Inventory.Init(Inventory)
 
     def assign(self, button):
-        print(str(button))
+        global device
+        print(str(button.text())[6:])
+        if str(button.text())[6:] == "AlphaDevice":
+            device = 1
+            self.close()
+        if str(button.text())[6:] == "Catcher":
+            device = 2
+            self.close()
+        if str(button.text())[6:] == "Catcher 2000":
+            device = 3
+            self.close
 
 
 class Ui_Quests(object):
