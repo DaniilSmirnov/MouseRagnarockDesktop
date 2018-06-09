@@ -11,9 +11,8 @@
         <mice9 cost="300" drop="Russian Cheese x10" icon="mice9.jpg" name="Robber Mouse" power="100" />
         <mice10 cost="100" drop="Coins" icon="mice10.jpg" name="Grey Mouse" power="300" />
         <mice11 cost="10" drop="Key" icon="mice1.jpg" name="Eshkere Mouse" power="500" />
-
     </location1>
-    <location2 amount="8" cheese="Russian Cheese" drop_amount="1" name="Outdoors" start="12" state="open">
+    <location2 amount="9" cheese="Russian Cheese" drop_amount="1" name="Outdoors" start="12" state="open">
         <mice12 cost="0" icon="mice11.jpg" name="Nothing" power="0" />
         <mice13 cost="1000" drop="Cable" icon="mice1.jpg" name="Cable Mouse" power="1000" />
         <mice14 cost="1000" drop="Cable" icon="mice1.jpg" name="Cable Mouse" power="1000" />
@@ -25,7 +24,7 @@
         <mice20 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Graffiti Mouse" power="1000" />
         <mice21 cost="2500" drop="Twilight Cheese x5" icon="mice8.jpg" name="Strange Mouse" power="1000" />
     </location2>
-    <location3 amount="0" name="Park" state="close" cheese="Twilight Cheese"/>
+    <location3 amount="8" name="Park" state="close" cheese="Twilight Cheese" drop_amount="1" start="22" />
         <mice22 cost="0" icon="mice11.jpg" name="Nothing" power="0" />
         <mice23 cost="1000" drop="Twilight Cheese x5" icon="mice1.jpg" name="Monumental Mouse" power="1000" />
         <mice24 cost="400" drop="Twilight Cheese x1" icon="mice7.jpg" name="Laying Mouse" power="500" />
@@ -44,5 +43,4 @@
     <location10 amount="1" name="Air Gate of North City" state="close">
         <mice1 cost="10000" name="V.V Mouse" />
     </location10>
-
 </zone1>
