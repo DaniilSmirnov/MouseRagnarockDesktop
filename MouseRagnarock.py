@@ -356,10 +356,12 @@ class Ui_MainWindow(QtCore.QObject):
 
         if quest == 1 and int(Quests.GetJournalI(Quests)) > 0:
             quest += 1
+            self.quest_alert()
         if quest == 2 and money > 15000:
             quest += 1
         if quest == 3 and Inventory.Check(Inventory, "Key"):
             quest += 1
+            self.quest_alert()
             frag_xml_tree = ET.parse("locations.xml")
             root = frag_xml_tree.getroot()
             for elem in root.iter("location" + "2"):
@@ -367,6 +369,7 @@ class Ui_MainWindow(QtCore.QObject):
             frag_xml_tree.write("locations.xml")
         if quest == 4 and location == 2:
             quest += 1
+            self.quest_alert()
             frag_xml_tree = ET.parse("locations.xml")
             root = frag_xml_tree.getroot()
             for elem in root.iter("mice" + "13"):
@@ -384,6 +387,7 @@ class Ui_MainWindow(QtCore.QObject):
             frag_xml_tree.write("locations.xml")
         if quest == 5 and Inventory.Check(Inventory, "Catcher 2000"):
             quest += 1
+            self.quest_alert()
             frag_xml_tree = ET.parse("locations.xml")
             root = frag_xml_tree.getroot()
             for elem in root.iter("mice" + "13"):
@@ -400,8 +404,10 @@ class Ui_MainWindow(QtCore.QObject):
                 elem.set('drop', "Russian Cheese x10")
         if quest == 6 and mouse_name.find("Alco Mouse") != -1:
             quest += 1
+            self.quest_alert()
         if quest == 7 and device == 3:
             quest += 1
+            self.quest_alert()
         if quest == 8:
             index = 0
             Inventory.Close(Inventory)
@@ -411,6 +417,7 @@ class Ui_MainWindow(QtCore.QObject):
                 if GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", index, 0) == "Cable":
                     if GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "amount", index, 0) == "30":
                         quest += 1
+                        self.quest_alert()
             Inventory.Init(Inventory)
         if quest == 9:
             index = 0
@@ -421,6 +428,7 @@ class Ui_MainWindow(QtCore.QObject):
                 if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", index, 0) == "Cable":
                     if GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", index, 0) == "50":
                         quest += 1
+                        self.quest_alert()
                         frag_xml_tree = ET.parse("locations.xml")
                         root = frag_xml_tree.getroot()
                         for elem in root.iter("mice" + "17"):
@@ -439,6 +447,7 @@ class Ui_MainWindow(QtCore.QObject):
                 elem.set('drop', "Twilight Cheese x5")
             frag_xml_tree.write("locations.xml")
             quest += 1
+            self.quest_alert()
 
     def pipe_click(self):
 
@@ -490,7 +499,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.update_ui()
 
     def quest_alert(self):
-        alert = AlertWindow()
+        alert = QuestAlertWindow()
         alert.exec_()
         self.update_ui()
 
@@ -539,7 +548,7 @@ class QuestAlertWindow(QtWidgets.QDialog, Ui_Alert):
 
     def __init__(self, parent=None):
 
-        super(AlertWindow, self).__init__(parent)
+        super(QuestAlertWindow, self).__init__(parent)
         self.setupUi(self)
         self.label.setText("You have completed Quest!")
         self.pushButton.clicked.connect(self.close)
