@@ -272,7 +272,7 @@ class Ui_MainWindow(QtCore.QObject):
         amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
         number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*amount)
 
-        if int(GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "power", number, 0)) <= power:
+        if int(GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "power", number, 0)) <= power and cheese == GameLogic.ReadDataFromXML(self, "locations.xml", "location", "cheese", location, 0):
 
             if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
                 mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
@@ -779,6 +779,9 @@ class InventoryWindowUi(object):
         self.ok_button = QtWidgets.QPushButton(InventoryWindowUi)
         self.ok_button.setObjectName("ok_button")
         self.gridLayout.addWidget(self.ok_button, 2, 0, 1, 2)
+        self.craft_button = QtWidgets.QPushButton(InventoryWindowUi)
+        self.craft_button.setObjectName("craft_button")
+        self.gridLayout.addWidget(self.craft_button, 3, 0, 1, 2)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 2)
@@ -792,6 +795,7 @@ class InventoryWindowUi(object):
         _translate = QtCore.QCoreApplication.translate
         InventoryWindowUi.setWindowTitle(_translate("JournalWindowUi", "Dialog"))
         self.ok_button.setText(_translate("JournalWindowUi", "OK"))
+        self.craft_button.setText(_translate("InventroyWindowUi", "Craft"))
 
 
 class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):

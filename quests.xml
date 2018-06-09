@@ -11,7 +11,7 @@
     <quest10 name="The Journey Begins" condition="Find the park map"></quest10>
     <quest11 name="What are you waiting for?" condition="Go to the park"></quest11>
     <quest12 name="Money Maker 2" condition="Earn 100k"></quest12>
-    <quest13 name="Power shortage" condition="Buy a lightbulb"></quest13>
+    <quest13 name="Power shortage" condition="Find a lightbulb"></quest13>
     <quest14 name="A light in the darkness" condition="Create a flashlight"></quest14>
     <quest15 name="Moving further" condition="Find a board"></quest15>
     <quest16 name="Sale" condition="Move to the shopping centre"></quest16>
