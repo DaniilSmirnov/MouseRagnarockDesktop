@@ -1,5 +1,0 @@
-<res>
-    <position1 name="AlphaDevice" power="500" type="device"></position1>
-    <position2 name="Catcher" power="500" type="device"></position2>
-    <position3 name="Catcher 2000" power="1000" type="device"></position3>
-</res>

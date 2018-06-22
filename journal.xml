@@ -1,4 +1,30 @@
-<res i="1">
+<res i="14">
 <position1 mouse_name="Whoops! Graffiti Mouse
  ate your chesse and fled" mouse_cost="-2500" mouse_drop=" ">614</position1>
+<position2 mouse_name="Whoops! Graffiti Mouse
+ ate your chesse and fled" mouse_cost="-2500" mouse_drop=" ">613</position2>
+<position3 mouse_name="Whoops! Actor mouse
+ ate your chesse and fled" mouse_cost="-250" mouse_drop=" ">612</position3>
+<position4 mouse_name="Whoops! Insta Mouse
+ ate your chesse and fled" mouse_cost="-1000" mouse_drop=" ">611</position4>
+<position5 mouse_name="Whoops! Ninja mouse
+ ate your chesse and fled" mouse_cost="-5500" mouse_drop=" ">610</position5>
+<position6 mouse_name="Whoops! Graffiti Mouse
+ ate your chesse and fled" mouse_cost="-2500" mouse_drop=" ">609</position6>
+<position7 mouse_name="Tourist Mouse has
+ been caught!" mouse_cost="1000" mouse_drop=" ">608</position7>
+<position8 mouse_name="Nothing has
+ been caught!" mouse_cost="0" mouse_drop=" ">607</position8>
+<position9 mouse_name="Tourist Mouse has
+ been caught!" mouse_cost="1000" mouse_drop=" ">606</position9>
+<position10 mouse_name="Laying Mouse has
+ been caught!" mouse_cost="400" mouse_drop=" ">605</position10>
+<position11 mouse_name="Insta Mouse has
+ been caught!" mouse_cost="1000" mouse_drop=" ">604</position11>
+<position12 mouse_name="Laying Mouse has
+ been caught!" mouse_cost="400" mouse_drop=" ">603</position12>
+<position13 mouse_name="Whoops! Cable Mouse
+ ate your chesse and fled" mouse_cost="-1000" mouse_drop=" ">602</position13>
+<position14 mouse_name="Whoops! Cable Mouse
+ ate your chesse and fled" mouse_cost="-1000" mouse_drop=" ">601</position14>
 </res>

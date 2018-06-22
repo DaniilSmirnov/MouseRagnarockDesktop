@@ -8,6 +8,8 @@ from yattag import Doc, indent
 from PIL import Image
 import xml.etree.cElementTree as ET
 
+import wget
+
 exec = False
 starter = True
 
@@ -448,6 +450,9 @@ class Ui_MainWindow(QtCore.QObject):
             frag_xml_tree.write("locations.xml")
             quest += 1
             self.quest_alert()
+        if quest == 11 and location == 3:
+            quest += 1
+            self.quest_alert()
 
     def pipe_click(self):
 
@@ -481,7 +486,7 @@ class Ui_MainWindow(QtCore.QObject):
     def open_locations(self):
         locations = LocationsWindow()
         locations.exec_()
-        self.update_ui()
+        self.init()
 
     def open_about_locations(self):
         locations = AboutLocationWindow()
@@ -981,7 +986,7 @@ class GameLogic(object):
         return itemlist[index].attributes[str(name)].value
 
     def ReadUserData(self, position, index):
-        xmldoc = minidom.parse('userdata.xml')
+        xmldoc = minidom.parse('res/userdata/userdata.xml')
         itemlist = xmldoc.getElementsByTagName(str("user"))
         return itemlist[index].attributes[position].value
 
@@ -1019,9 +1024,9 @@ class GameLogic(object):
             elem.set('amount', str(amount))
         frag_xml_tree.write(file)
 
-    def ReadI(self, file):
+    def ReadI(self, file, tag):
         xmldoc = minidom.parse(file)
-        itemlist = xmldoc.getElementsByTagName(str("res"))
+        itemlist = xmldoc.getElementsByTagName(str(tag))
         return itemlist[0].attributes["i"].value
 
 
@@ -1101,15 +1106,15 @@ class Journal(object):
     global i
 
     def Read(self, position, index):
-        xmldoc = minidom.parse('journal.xml')
-        itemlist = xmldoc.getElementsByTagName("position"+str(index))
+        xmldoc = minidom.parse('res/userdata/userdata.xml')
+        itemlist = xmldoc.getElementsByTagName("jposition"+str(index))
         return itemlist[0].attributes[str(position)].value
 
     def Write(self, name, cost, drop):
         global i
         i += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(i), mouse_name=name, mouse_cost=cost, mouse_drop=drop):
+        with tag('jposition'+str(i), mouse_name=name, mouse_cost=cost, mouse_drop=drop):
             text(str(energy))
 
         result = indent(
@@ -1117,7 +1122,7 @@ class Journal(object):
             indentation=' ' * 4,
             newline='\r\n')
 
-        filename = 'journal.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'a')
         myfile.write(result)
         myfile.write("\n")
@@ -1125,7 +1130,7 @@ class Journal(object):
         print(result)
 
     def Init(self):
-        filename = 'journal.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
@@ -1135,66 +1140,66 @@ class Journal(object):
 
         myfile = open(filename, 'w')
         for line in lines:
-            if line != "</res>":
+            if line != "</journal>":
                 myfile.write(line)
         myfile.close()
 
     def Close(self):
         global i
 
-        filename = 'journal.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
 
         myfile = open(filename, 'w')
         for line in lines:
-            if line.find("<res") != -1:
-                myfile.write("<res " + "i=" + '"' + str(i) + '"' + ">" + "\n")
+            if line.find("<journal") != -1:
+                myfile.write("<journal " + "i=" + '"' + str(i) + '"' + ">" + "\n")
             else:
                 myfile.write(line)
         myfile.close()
 
-        filename = 'journal.xml'
-        myfile = open(filename, 'a')
-        myfile.write("</res>")
-        myfile.close()
+        #filename = 'journal.xml'
+        #myfile = open(filename, 'a')
+        #myfile.write("</res>")
+        #myfile.close()
 
 
 class Inventory(object):
 
     def Read(self, position, index):
-        xmldoc = minidom.parse('inventory.xml')
-        itemlist = xmldoc.getElementsByTagName("position"+str(index))
+        xmldoc = minidom.parse('res/userdata/userdata.xml')
+        itemlist = xmldoc.getElementsByTagName("iposition"+str(index))
         return itemlist[0].attributes[str(position)].value
 
     def Init(self):
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
 
         global k
-        k = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
+        k = int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml'"))
 
         myfile = open(filename, 'w')
         for line in lines:
-            if line != "</res>":
+            if line != "</inventory>":
                 myfile.write(line)
         myfile.close()
 
     def Close(self):
         global k
 
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
 
         myfile = open(filename, 'w')
         for line in lines:
-            if line.find("<res") != -1:
-                myfile.write("<res " + "i=" + '"' + str(k) + '"' + ">" + "\n")
+            if line.find("<inventory") != -1:
+                myfile.write("<inventory " + "i=" + '"' + str(k) + '"' + ">" + "\n")
             else:
                 myfile.write(line)
         myfile.close()
@@ -1207,7 +1212,7 @@ class Inventory(object):
         global k
         k += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(k), item=drop, amount="1"):
+        with tag('iposition'+str(k), item=drop, amount="1"):
             text(str(energy))
 
         result = indent(
@@ -1215,7 +1220,7 @@ class Inventory(object):
             indentation=' ' * 4,
             newline='\r\n')
 
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'a')
         myfile.write(result)
         myfile.write("\n")
@@ -1226,7 +1231,7 @@ class Inventory(object):
         global k
         k += 1
         doc, tag, text = Doc().tagtext()
-        with tag('position'+str(k), item=drop, amount="1", power=str(power)):
+        with tag('iposition'+str(k), item=drop, amount="1", power=str(power)):
             text(str(energy))
 
         result = indent(
@@ -1234,7 +1239,7 @@ class Inventory(object):
             indentation=' ' * 4,
             newline='\r\n')
 
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'a')
         myfile.write(result)
         myfile.write("\n")
@@ -1242,7 +1247,7 @@ class Inventory(object):
         print(result)
 
     def Check(self, item):
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
@@ -1687,7 +1692,7 @@ money = int(GameLogic.ReadUserData(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadUserData(GameLogic, "diamonds", 0))
 cheese = GameLogic.ReadUserData(GameLogic, "cheese", 0)
 
-filename = 'shop.xml'
+filename = 'res/shop.xml'
 myfile = open(filename, 'r')
 lines = myfile.readlines()
 myfile.close()
@@ -1699,12 +1704,12 @@ for line in lines:
         break
     cheese_index += 1
 
-cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
+cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "res/shop.xml", "item", "amount", cheese_index, 0))
 mouse_cost = GameLogic.ReadUserData(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadUserData(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadUserData(GameLogic, "last_drop", 0)
 location = int(GameLogic.ReadUserData(GameLogic, "location", 0))
-location_name = GameLogic.ReadDataFromXML(GameLogic,"locations.xml", "location", "name", location, 0)
+location_name = GameLogic.ReadDataFromXML(GameLogic,"res/locations.xml", "location", "name", location, 0)
 mouse_icon = GameLogic.ReadUserData(GameLogic, "last_icon", 0)
 device = GameLogic.ReadUserData(GameLogic, "device", 0)
 energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
