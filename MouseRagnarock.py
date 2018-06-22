@@ -255,8 +255,8 @@ class Ui_MainWindow(QtCore.QObject):
             login = LoginWindow()
             login.exec_()
 
-        device_img = Image.open(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", device, 0) + ".png")
-        back_img = Image.open(location_name + ".jpg")
+        device_img = Image.open("res/images/" + GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", device, 0) + ".png")
+        back_img = Image.open("res/images/" + location_name + ".jpg")
 
         back_img.paste(device_img, (0, 0), device_img)
         back_img.save('result.png')
@@ -1113,38 +1113,39 @@ class Journal(object):
     def Write(self, name, cost, drop):
         global i
         i += 1
-        doc, tag, text = Doc().tagtext()
-        with tag('jposition'+str(i), mouse_name=name, mouse_cost=cost, mouse_drop=drop):
-            text(str(energy))
 
-        result = indent(
-            doc.getvalue(),
-            indentation=' ' * 4,
-            newline='\r\n')
+        tree = ET.parse('res/userdata/userdata.xml')
+        root = tree.getroot()
+        new_element = ET.Element('journal')
+        new_subelement = ET.SubElement(new_element, 'jposition' + str(i))
+        new_subelement.text = '0'
+        root.append(new_element)
+        for elem in root.iter('jposition'+str(i)):
+            elem.set('name', str(name))
+        for elem in root.iter('jposition'+str(i)):
+            elem.set('cost', str(cost))
+        for elem in root.iter('jposition'+str(i)):
+            elem.set('drop', str(drop))
+        print (root)
+        tree.write('res/userdata/userdata.xml')
 
-        filename = 'res/userdata/userdata.xml'
-        myfile = open(filename, 'a')
-        myfile.write(result)
-        myfile.write("\n")
-        myfile.close()
-        print(result)
 
-    def Init(self):
-        filename = 'res/userdata/userdata.xml'
-        myfile = open(filename, 'r')
-        lines = myfile.readlines()
-        myfile.close()
+#def Init(self):
+#        filename = 'res/userdata/userdata.xml'
+#        myfile = open(filename, 'r')
+#        lines = myfile.readlines()
+#        myfile.close()
 
-        global i
-        i = int(GameLogic.ReadI(GameLogic, "journal.xml"))
+#        global i
+#        i = int(GameLogic.ReadI(GameLogic, 'res/userdata/userdata.xml'))
 
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line != "</journal>":
-                myfile.write(line)
-        myfile.close()
+#        myfile = open(filename, 'w')
+#        for line in lines:
+#            if line != "</journal>":
+#                myfile.write(line)
+#        myfile.close()
 
-    def Close(self):
+"""    def Close(self):
         global i
 
         filename = 'res/userdata/userdata.xml'
@@ -1164,6 +1165,7 @@ class Journal(object):
         #myfile = open(filename, 'a')
         #myfile.write("</res>")
         #myfile.close()
+"""
 
 
 class Inventory(object):
@@ -1716,34 +1718,34 @@ energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
 board = GameLogic.ReadUserData(GameLogic, "board", 0)
 quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
 
-try:
-    Journal.Init(Journal)
-except BaseException:
-    filename = 'journal.xml'
-    myfile = open(filename, 'r')
-    lines = myfile.readlines()
-    myfile.close()
+#try:
+#    Journal.Init(Journal)
+#except BaseException:
+ #   filename = 'journal.xml'
+  #  myfile = open(filename, 'r')
+   # lines = myfile.readlines()
+    #myfile.close()
 
-    myfile = open(filename, 'w')
-    for line in lines:
-        myfile.write(line)
-    myfile.write("</res>")
-    myfile.close()
-    Journal.Init(Journal)
-try:
-    Inventory.Init(Inventory)
-except BaseException:
-    filename = 'inventory.xml'
-    myfile = open(filename, 'r')
-    lines = myfile.readlines()
-    myfile.close()
+    #myfile = open(filename, 'w')
+    #for line in lines:
+    #    myfile.write(line)
+    #myfile.write("</res>")
+    #myfile.close()
+    #Journal.Init(Journal)
+#try:
+ #   Inventory.Init(Inventory)
+#except BaseException:
+ #   filename = 'inventory.xml'
+  #  myfile = open(filename, 'r')
+   # lines = myfile.readlines()
+    #myfile.close()
 
-    myfile = open(filename, 'w')
-    for line in lines:
-        myfile.write(line)
-    myfile.write("</res>")
-    myfile.close()
-    Inventory.Init(Inventory)
+    #myfile = open(filename, 'w')
+    #for line in lines:
+     #   myfile.write(line)
+    #myfile.write("</res>")
+    #myfile.close()
+    #Inventory.Init(Inventory)
 
 
 def setter(exec):
@@ -1772,4 +1774,4 @@ if __name__ == "__main__":
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
 
     MainWindow.setPalette(palette)
-    sys.exit(app.exec_(), GameLogic.WriteUserData(GameLogic), Journal.Close(Journal), Inventory.Close(Inventory), setter(False))
+    sys.exit(app.exec_(), GameLogic.WriteUserData(GameLogic), setter(False))
