@@ -269,62 +269,62 @@ class Ui_MainWindow(QtCore.QObject):
     def catch_mouse(self):
         global money, cheese_amount, mouse_name, mouse_cost, location, mouse_drop, mouse_icon
 
-        power = int(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", device, 0))
+        power = int(GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "power", device, 0))
 
-        amount = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "amount", location, 0))
-        number = int(GameLogic.ReadDataFromXML(self, "locations.xml", "location", "start", location, 0)) + int(random()*amount)
+        amount = int(GameLogic.ReadDataFromXML(self, "res/locations.xml", "location", "amount", location, 0))
+        number = int(GameLogic.ReadDataFromXML(self, "res/locations.xml", "location", "start", location, 0)) + int(random()*amount)
 
-        if int(GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "power", number, 0)) <= power and cheese == GameLogic.ReadDataFromXML(self, "locations.xml", "location", "cheese", location, 0):
+        if int(GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "power", number, 0)) <= power and cheese == GameLogic.ReadDataFromXML(self, "res/locations.xml", "location", "cheese", location, 0):
 
             if (((number != 1) and (location == 1)) or ((number != 12) and (location == 2))) and (1+int(random()*5) > 4):
-                mouse_drop = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "drop", number, 0)
+                mouse_drop = GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "drop", number, 0)
 
                 if mouse_drop.find("Coins") != -1:
                     money += 100
                 elif mouse_drop.find("Russian Cheese x10") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", 1, 10)
+                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 1, 10)
                 elif mouse_drop.find("Russian Cheese x5") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", 1, 5)
+                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 1, 5)
                 elif mouse_drop.find("Twilight Cheese x5") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", 3, 5)
+                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 3, 5)
                 elif mouse_drop.find("Twilight Cheese x1") != -1:
-                    GameLogic.editXML(GameLogic, "shop.xml", "item", 3, 1)
+                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 3, 1)
                 elif mouse_drop.find("Key") != -1:
                     thread = InventoryThread()
                     thread.start()
-                    frag_xml_tree = ET.parse("locations.xml")
+                    frag_xml_tree = ET.parse("res/locations.xml")
                     root = frag_xml_tree.getroot()
                     for elem in root.iter("mice" + "11"):
                         elem.set('drop', "Coins")
-                    frag_xml_tree.write("locations.xml")
+                    frag_xml_tree.write("res/locations.xml")
                 elif mouse_drop.find("Catcher 2000") != -1:
-                    power = GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", 3, 0)
+                    power = GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "power", 3, 0)
                     Inventory.WriteDevice(Inventory, mouse_drop, power)
-                    frag_xml_tree = ET.parse("locations.xml")
+                    frag_xml_tree = ET.parse("res/locations.xml")
                     root = frag_xml_tree.getroot()
                     for elem in root.iter("mice" + "16"):
                         elem.set('drop', "Twilight Cheese x5")
-                    frag_xml_tree.write("locations.xml")
+                    frag_xml_tree.write("res/locations.xml")
                 else:
                     thread = InventoryThread()
                     thread.start()
                 mouse_drop = 'Has dropped ' + mouse_drop
             else:
                 mouse_drop = " "
-            mouse_name = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + " has\n been caught!"
-            mouse_cost = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
+            mouse_name = GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "name", number, 0) + " has\n been caught!"
+            mouse_cost = GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "cost", number, 0)
         else:
-            mouse_name = "Whoops! " + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "name", number, 0) + "\n ate your chesse and fled"
+            mouse_name = "Whoops! " + GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "name", number, 0) + "\n ate your chesse and fled"
             mouse_drop = " "
-            mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "cost", number, 0)
+            mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "cost", number, 0)
 
-        mouse_icon = GameLogic.ReadDataFromXML(self, "locations.xml", "mice", "icon", number, 0)
+        mouse_icon = GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "icon", number, 0)
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
         money += int(mouse_cost)
         self.moneylabel.setText(str(money))
         if number != 1:
-            GameLogic.editXML(GameLogic, "shop.xml", "item", cheese_index, -1)
+            GameLogic.editXML(GameLogic, "res/shop.xml", "item", cheese_index, -1)
         Journal.Write(self, mouse_name, mouse_cost, mouse_drop)
 
     def update_ui(self):
@@ -332,18 +332,18 @@ class Ui_MainWindow(QtCore.QObject):
         global energy, cheese_index, cheese_amount, quest
         self.energybar.setMaximum(energy_max)
         self.energybar.setValue(energy)
-        self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))
+        self.cheese_label.setText(cheese + ": " + GameLogic.ReadDataFromXML(GameLogic, "res/shop.xml", "item", "amount", cheese_index, 0))
         self.diamondslabel.setText(str(diamonds))
         self.moneylabel.setText(str(money))
         self.mousename.setText(mouse_name)
         self.mousecost.setText(mouse_cost)
         self.mouseattachment.setText(mouse_drop)
-        self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "name", location, 0))
+        self.location_label.setText(GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "name", location, 0))
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
         self.board_label.setText("Board: " + str(board))
-        self.device_label.setText("Device: " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", device, 0))
-        self.devicesbox.setTitle("Devices power: " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", device, 0))
+        self.device_label.setText("Device: " + GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", device, 0))
+        self.devicesbox.setTitle("Devices power: " + GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "power", device, 0))
 
         global starter
 
@@ -458,7 +458,7 @@ class Ui_MainWindow(QtCore.QObject):
 
         global energy, energy_max
 
-        if energy > 0 and int((GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", cheese_index, 0))) > 0:
+        if energy > 0 and int((GameLogic.ReadDataFromXML(GameLogic, "res/shop.xml", "item", "amount", cheese_index, 0))) > 0:
             energy -= 1
             self.catch_mouse()
         else:
@@ -761,15 +761,14 @@ class JournalWindow(QtWidgets.QDialog, JournalWindowUi):
 
         self.ok_button.clicked.connect(self.close)
 
-        Journal.Close(Journal)
-        i = int(GameLogic.ReadI(GameLogic, 'journal.xml'))
+        i = int(GameLogic.ReadI(GameLogic, 'res/userdata/userdata.xml', 'journal'))
 
         if i > 10:
             j = i-10
         else:
             j = 1
         while j <= i:
-            self.textBrowser.append(Journal.Read(Journal, "mouse_name", j) + " " + Journal.Read(Journal, "mouse_cost", j) + " " + Journal.Read(Journal, "mouse_drop", j))
+            self.textBrowser.append(Journal.Read(Journal, "name", j) + " " + Journal.Read(Journal, "cost", j) + " " + Journal.Read(Journal, "drop", j))
             j += 1
         Journal.Init(Journal)
 
@@ -904,25 +903,21 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
 
     def create(self):
         i = 0
-        Inventory.Close(Inventory)
-        amount = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
-        Inventory.Init(Inventory)
+        amount = int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml", "inventory"))
         while i < amount:
             i += 1
             j = 0
             while j < 3:
                 j += 1
-                Inventory.Close(Inventory)
                 if GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0):
                     self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", j, 0))
-                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0))
+                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "iposition", "item", i, 0))
                     self.item_label.setSizePolicy(self.sizePolicy)
                     self.item_button.setSizePolicy(self.sizePolicy)
 
                     self.verticalLayout.addWidget(self.item_label)
                     self.verticalLayout.addWidget(self.item_button)
                     self.item_button.clicked.connect(lambda state, button=self.item_button: self.assign(button))
-                Inventory.Init(Inventory)
 
     def assign(self, button):
         global device
@@ -992,7 +987,7 @@ class GameLogic(object):
 
     def WriteUserData(self):
         doc, tag, text = Doc().tagtext()
-        with tag('user', energy=str(energy),energy_max=str(energy_max),
+        with tag('user', energy=str(energy), energy_max=str(energy_max),
                  location=str(location), money=str(money),
                  diamonds=str(diamonds), cheese=cheese,
                  cheese_amount=str(cheese_amount),
@@ -1097,9 +1092,7 @@ class InventoryThread(Thread):
         if index == len(lines):
             Inventory.Write(Inventory, mouse_drop)
         else:
-            Inventory.Close(Inventory)
-            GameLogic.editXML(GameLogic, "inventory.xml", "position", index, 1)
-            Inventory.Init(Inventory)
+            GameLogic.editXML(GameLogic, "res/userdata/userdata.xml", "iposition", index, 1)
 
 
 class Journal(object):
@@ -1119,53 +1112,32 @@ class Journal(object):
         new_element = ET.Element('journal')
         new_subelement = ET.SubElement(new_element, 'jposition' + str(i))
         new_subelement.text = '0'
-        root.append(new_element)
+        for elem in root.iter('journal'):
+            elem.append(new_subelement)
+            elem.set('i', str(i))
         for elem in root.iter('jposition'+str(i)):
             elem.set('name', str(name))
         for elem in root.iter('jposition'+str(i)):
             elem.set('cost', str(cost))
         for elem in root.iter('jposition'+str(i)):
             elem.set('drop', str(drop))
-        print (root)
         tree.write('res/userdata/userdata.xml')
 
 
-#def Init(self):
-#        filename = 'res/userdata/userdata.xml'
-#        myfile = open(filename, 'r')
-#        lines = myfile.readlines()
-#        myfile.close()
-
-#        global i
-#        i = int(GameLogic.ReadI(GameLogic, 'res/userdata/userdata.xml'))
-
-#        myfile = open(filename, 'w')
-#        for line in lines:
-#            if line != "</journal>":
-#                myfile.write(line)
-#        myfile.close()
-
-"""    def Close(self):
-        global i
-
+    def Init(self):
         filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
 
+        global i
+        i = int(GameLogic.ReadI(GameLogic, 'res/userdata/userdata.xml', 'journal'))
+
         myfile = open(filename, 'w')
         for line in lines:
-            if line.find("<journal") != -1:
-                myfile.write("<journal " + "i=" + '"' + str(i) + '"' + ">" + "\n")
-            else:
+            if line != "</journal>":
                 myfile.write(line)
         myfile.close()
-
-        #filename = 'journal.xml'
-        #myfile = open(filename, 'a')
-        #myfile.write("</res>")
-        #myfile.close()
-"""
 
 
 class Inventory(object):
@@ -1182,71 +1154,40 @@ class Inventory(object):
         myfile.close()
 
         global k
-        k = int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml'"))
-
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line != "</inventory>":
-                myfile.write(line)
-        myfile.close()
-
-    def Close(self):
-        global k
-
-        filename = 'res/userdata/userdata.xml'
-        myfile = open(filename, 'r')
-        lines = myfile.readlines()
-        myfile.close()
-
-        myfile = open(filename, 'w')
-        for line in lines:
-            if line.find("<inventory") != -1:
-                myfile.write("<inventory " + "i=" + '"' + str(k) + '"' + ">" + "\n")
-            else:
-                myfile.write(line)
-        myfile.close()
-
-        myfile = open(filename, 'a')
-        myfile.write("</res>")
-        myfile.close()
+        k = int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml", "inventory"))
 
     def Write(self, drop):
         global k
         k += 1
-        doc, tag, text = Doc().tagtext()
-        with tag('iposition'+str(k), item=drop, amount="1"):
-            text(str(energy))
 
-        result = indent(
-            doc.getvalue(),
-            indentation=' ' * 4,
-            newline='\r\n')
-
-        filename = 'res/userdata/userdata.xml'
-        myfile = open(filename, 'a')
-        myfile.write(result)
-        myfile.write("\n")
-        myfile.close()
-        print(result)
+        tree = ET.parse('res/userdata/userdata.xml')
+        root = tree.getroot()
+        new_element = ET.Element('inventory')
+        new_subelement = ET.SubElement(new_element, 'iposition' + str(i))
+        new_subelement.text = '0'
+        for elem in root.iter('inventory'):
+            elem.append(new_subelement)
+            elem.set('i', str(i))
+        for elem in root.iter('iposition' + str(i)):
+            elem.set('drop', str(drop))
+        tree.write('res/userdata/userdata.xml')
 
     def WriteDevice(self, drop, power):
         global k
         k += 1
-        doc, tag, text = Doc().tagtext()
-        with tag('iposition'+str(k), item=drop, amount="1", power=str(power)):
-            text(str(energy))
-
-        result = indent(
-            doc.getvalue(),
-            indentation=' ' * 4,
-            newline='\r\n')
-
-        filename = 'res/userdata/userdata.xml'
-        myfile = open(filename, 'a')
-        myfile.write(result)
-        myfile.write("\n")
-        myfile.close()
-        print(result)
+        tree = ET.parse('res/userdata/userdata.xml')
+        root = tree.getroot()
+        new_element = ET.Element('inventory')
+        new_subelement = ET.SubElement(new_element, 'iposition' + str(i))
+        new_subelement.text = '0'
+        for elem in root.iter('inventory'):
+            elem.append(new_subelement)
+            elem.set('i', str(i))
+        for elem in root.iter('iposition' + str(i)):
+            elem.set('drop', str(drop))
+        for elem in root.iter('iposition' + str(i)):
+            elem.set('power', str(power))
+        tree.write('res/userdata/userdata.xml')
 
     def Check(self, item):
         filename = 'res/userdata/userdata.xml'
@@ -1718,34 +1659,8 @@ energy_max = int(GameLogic.ReadUserData(GameLogic, "energy_max", 0))
 board = GameLogic.ReadUserData(GameLogic, "board", 0)
 quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
 
-#try:
-#    Journal.Init(Journal)
-#except BaseException:
- #   filename = 'journal.xml'
-  #  myfile = open(filename, 'r')
-   # lines = myfile.readlines()
-    #myfile.close()
-
-    #myfile = open(filename, 'w')
-    #for line in lines:
-    #    myfile.write(line)
-    #myfile.write("</res>")
-    #myfile.close()
-    #Journal.Init(Journal)
-#try:
- #   Inventory.Init(Inventory)
-#except BaseException:
- #   filename = 'inventory.xml'
-  #  myfile = open(filename, 'r')
-   # lines = myfile.readlines()
-    #myfile.close()
-
-    #myfile = open(filename, 'w')
-    #for line in lines:
-     #   myfile.write(line)
-    #myfile.write("</res>")
-    #myfile.close()
-    #Inventory.Init(Inventory)
+Journal.Init(Journal)
+Inventory.Init(Inventory)
 
 
 def setter(exec):
@@ -1768,7 +1683,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     app.setStyle("windowsvista")
-    oImage = QtGui.QImage("mainback.jpg")
+    oImage = QtGui.QImage("res/images/mainback.jpg")
     sImage = oImage.scaled(QtCore.QSize(800, 600))
     palette = QtGui.QPalette()
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
