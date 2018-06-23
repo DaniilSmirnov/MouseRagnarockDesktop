@@ -809,8 +809,7 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
 
         self.ok_button.clicked.connect(self.close)
 
-        Inventory.Close(Inventory)
-        i = int(GameLogic.ReadI(GameLogic, "inventory.xml"))
+        i = int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml", 'inventory'))
         j = 1
         while j <= i:
             self.item_label = QtWidgets.QLabel(Inventory.Read(Inventory, "item", j) + " " + Inventory.Read(Inventory, "amount", j) + "x")
@@ -818,7 +817,6 @@ class InventoryWindow(QtWidgets.QDialog, InventoryWindowUi):
             self.verticalLayout.addWidget(self.item_label)
 
             j += 1
-        Inventory.Init(Inventory)
 
 
 class AboutLocationWindowUi(object):
