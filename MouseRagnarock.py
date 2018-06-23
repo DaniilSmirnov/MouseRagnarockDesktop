@@ -676,10 +676,10 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
+        while i < int(GameLogic.ReadI(GameLogic, "res/shop.xml", "res")):
             i += 1
-            key = GameLogic.ReadDataFromXML(self, "shop.xml", "item", "name", i, 0)
-            value = GameLogic.ReadDataFromXML(self, "shop.xml", "item", "cost", i, 0)
+            key = GameLogic.ReadDataFromXML(self, "res/shop.xml", "item", "name", i, 0)
+            value = GameLogic.ReadDataFromXML(self, "res/shop.xml", "item", "cost", i, 0)
             self.items.update({str(key): str(value)})
 
         self.create()
@@ -690,7 +690,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
         for item in self.items:
             i += 1
 
-            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item) + " You already have: " + GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "amount", i, 0))
+            self.item_label = QtWidgets.QLabel(item + " Cost: " + self.items.get(item))
             self.item_button = QtWidgets.QPushButton("Buy " + item)
 
             self.item_label.setSizePolicy(self.sizePolicy)
@@ -720,14 +720,17 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
 
         i = 0
 
-        while i < int(GameLogic.ReadI(GameLogic, "shop.xml")):
+        while i < int(GameLogic.ReadI(GameLogic, "res/shop.xml", "res")):
 
             i += 1
-            item = GameLogic.ReadDataFromXML(GameLogic, "shop.xml", "item", "name", i, 0)
+            item = GameLogic.ReadDataFromXML(GameLogic, "res/shop.xml", "item", "name", i, 0)
             money_w = money - int(self.items.get(item))
             if (str(button.text())[4:]) == item and (money_w > 0):
                 money -= int(self.items.get(item))
-                GameLogic.editXML(self, "shop.xml", "item", i, 1)
+                global mouse_drop
+                mouse_drop = item
+                thread = InventoryThread()
+                thread.start()
                 self.update_ui()
 
 
@@ -1071,22 +1074,18 @@ class InventoryThread(Thread):
     def run(self):
         """Запуск потока"""
         global mouse_drop
-
-        filename = 'inventory.xml'
+        filename = 'res/userdata/userdata.xml'
         myfile = open(filename, 'r')
         lines = myfile.readlines()
         myfile.close()
-
         index = 0
-
         i = 0
-
         for line in lines:
             if line.find(mouse_drop) != -1:
                 break
             index += 1
             i += 1
-
+        print("Ready to Write")
         if index == len(lines):
             Inventory.Write(Inventory, mouse_drop)
         else:
@@ -1168,6 +1167,7 @@ class Inventory(object):
             elem.set('i', str(i))
         for elem in root.iter('iposition' + str(i)):
             elem.set('drop', str(drop))
+            elem.set('amount', 1)
         tree.write('res/userdata/userdata.xml')
 
     def WriteDevice(self, drop, power):
@@ -1633,19 +1633,26 @@ money = int(GameLogic.ReadUserData(GameLogic, "money", 0))
 diamonds = int(GameLogic.ReadUserData(GameLogic, "diamonds", 0))
 cheese = GameLogic.ReadUserData(GameLogic, "cheese", 0)
 
-filename = 'res/shop.xml'
+filename = 'res/userdata/userdata.xml'
 myfile = open(filename, 'r')
 lines = myfile.readlines()
 myfile.close()
 
 cheese_index = 0
+line_index = 0
 
 for line in lines:
-    if line.find(cheese) != -1:
-        break
-    cheese_index += 1
+    if line.find("inventory"):
+        line_index += 1
+        if line.find(cheese) != -1:
+            break
 
-cheese_amount = int(GameLogic.ReadDataFromXML(GameLogic, "res/shop.xml", "item", "amount", cheese_index, 0))
+while line_index < int(GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml", "inventory")):
+    cheese_index += 1
+    if line[line_index].find != -1:
+        break;
+
+cheese_amount = int(Inventory.Read(Inventory, "amount", cheese_index))
 mouse_cost = GameLogic.ReadUserData(GameLogic, "last_cost", 0)
 mouse_name = GameLogic.ReadUserData(GameLogic, "last_mouse", 0)
 mouse_drop = GameLogic.ReadUserData(GameLogic, "last_drop", 0)
