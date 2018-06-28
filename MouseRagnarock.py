@@ -622,7 +622,7 @@ class LoginWindow(QtWidgets.QDialog, Ui_Login):
         login = self.login_enter.text()
         password = self.password_login.text()
         if exec:
-            LoginData.WriteFile(LoginData)
+            GameLogic.WriteUserData(GameLogic)
             self.close()
 
 
@@ -906,9 +906,9 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
             j = 0
             while j < 3:
                 j += 1
-                if GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "position", "item", i, 0):
-                    self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "devices.xml", "position", "power", j, 0))
-                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "inventory.xml", "iposition", "item", i, 0))
+                if GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "res/userdata/userdata.xml", "position", "item", i, 0):
+                    self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "power", j, 0))
+                    self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "res/userdata/userdata.xml", "iposition", "item", i, 0))
                     self.item_label.setSizePolicy(self.sizePolicy)
                     self.item_button.setSizePolicy(self.sizePolicy)
 
@@ -987,6 +987,8 @@ class GameLogic(object):
         frag_xml_tree = ET.parse('res/userdata/userdata.xml')
         root = frag_xml_tree.getroot()
         for elem in root.iter("user"):
+            elem.set('login', str(login))
+            elem.set('password', str(password))
             elem.set('energy', str(energy))
             elem.set('energy_max', str(energy_max))
             elem.set('money', str(money))
@@ -1023,25 +1025,9 @@ class GameLogic(object):
 class LoginData(object):
 
     def ReadFile(self, position, index):
-        xmldoc = minidom.parse('logindata.xml')
+        xmldoc = minidom.parse('res/userdata/userdata.xml')
         itemlist = xmldoc.getElementsByTagName(str("user"))
         return itemlist[index].attributes[position].value
-
-    def WriteFile(self):
-        doc, tag, text = Doc().tagtext()
-        with tag('user', login=str(login), password=str(password)):
-            text(str(energy))
-
-        result = indent(
-            doc.getvalue(),
-            indentation=' ' * 4,
-            newline='\r\n')
-
-        filename = 'logindata.xml'
-        myfile = open(filename, 'w')
-        myfile.write(result)
-        myfile.close()
-        print(result)
 
 
 class EnergyThread(Thread):
@@ -1552,43 +1538,43 @@ class LocationsWindow(QtWidgets.QDialog, Ui_Locations):
         super(LocationsWindow, self).__init__(parent)
         self.setupUi(self)
 
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 1, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 1, 0) == "close":
             self.location1.setEnabled(False)
         else:
             self.location1.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 2, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 2, 0) == "close":
             self.location2.setEnabled(False)
         else:
             self.location2.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 3, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 3, 0) == "close":
             self.location3.setEnabled(False)
         else:
             self.location3.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 4, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 4, 0) == "close":
             self.location4.setEnabled(False)
         else:
             self.location4.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 5, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 5, 0) == "close":
             self.location5.setEnabled(False)
         else:
             self.location5.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 6, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 6, 0) == "close":
             self.location6.setEnabled(False)
         else:
             self.location6.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 7, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 7, 0) == "close":
             self.location7.setEnabled(False)
         else:
             self.location7.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 8, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 8, 0) == "close":
             self.location8.setEnabled(False)
         else:
             self.location8.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 9, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 9, 0) == "close":
             self.location9.setEnabled(False)
         else:
             self.location9.setEnabled(True)
-        if GameLogic.ReadDataFromXML(GameLogic, "locations.xml", "location", "state", 10, 0) == "close":
+        if GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "state", 10, 0) == "close":
             self.location10.setEnabled(False)
         else:
             self.location10.setEnabled(True)
@@ -1611,16 +1597,14 @@ class Quests(object):
 
     def LoadQuest(self, attr):
         global quest
-        xmldoc = minidom.parse('quests.xml')
+        xmldoc = minidom.parse('res/quests.xml')
         itemlist = xmldoc.getElementsByTagName(str("quest")+str(quest))
         return itemlist[0].attributes[str(attr)].value
 
     def GetJournalI(self):
-        Journal.Close(Journal)
-        xmldoc = minidom.parse('journal.xml')
-        itemlist = xmldoc.getElementsByTagName("res")
+        xmldoc = minidom.parse('res/userdata/userdata.xml')
+        itemlist = xmldoc.getElementsByTagName("journal")
         returner = itemlist[0].attributes["i"].value
-        Journal.Init(Journal)
         return returner
 
 
