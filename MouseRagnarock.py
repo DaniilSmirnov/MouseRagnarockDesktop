@@ -857,7 +857,7 @@ class AboutLocationWindow(QtWidgets.QDialog, AboutLocationWindowUi):
         amount += start-1
         j = start
         while j <= amount:
-            self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "mice", "name", j, 0) + " " + GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "cheese", location, 0))
+            self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "mice", "name",j , 0) + " " + GameLogic.ReadDataFromXML(GameLogic, "res/locations.xml", "location", "cheese", location, 0))
 
             self.item_label.setSizePolicy(self.sizePolicy)
             self.verticalLayout.addWidget(self.item_label)
@@ -1068,7 +1068,7 @@ class InventoryThread(Thread):
                 line_index = line_index[1].split(" ")
                 index = line_index[0]
         print("Ready to Write")
-        if index == len(lines):
+        if index == len(myfile):
             Inventory.Write(Inventory, mouse_drop)
         else:
             GameLogic.editXML(GameLogic, "res/userdata/userdata.xml", "iposition", index, 1)
@@ -1658,6 +1658,32 @@ energy_exec = setter(True)
 thread = EnergyThread()
 thread.start()
 
+
+def indent(elem, level=0):
+    i = "\n" + level*"  "
+    j = "\n" + (level-1)*"  "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for subelem in elem:
+            indent(subelem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = j
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = j
+    return elem
+
+
+def indenter():
+    frag_xml_tree = ET.parse("res/userdata/userdata.xml")
+    root = frag_xml_tree.getroot()
+    root = indent(root)
+    frag_xml_tree.write("res/userdata/userdata.xml")
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -1672,4 +1698,4 @@ if __name__ == "__main__":
     palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(sImage))
 
     MainWindow.setPalette(palette)
-    sys.exit(app.exec_(), GameLogic.WriteUserData(GameLogic), setter(False))
+    sys.exit(app.exec_(), GameLogic.WriteUserData(GameLogic), setter(False), indenter())
