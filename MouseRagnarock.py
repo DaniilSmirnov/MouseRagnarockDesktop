@@ -906,7 +906,7 @@ class DevicesWindow(QtWidgets.QDialog, Ui_Devices):
             j = 0
             while j < 3:
                 j += 1
-                if GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "res/userdata/userdata.xml", "position", "item", i, 0):
+                if GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", j, 0) == GameLogic.ReadDataFromXML(GameLogic, "res/userdata/userdata.xml", "iposition", "item", i, 0):
                     self.item_label = QtWidgets.QLabel(GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "name", j, 0) + " Power " + GameLogic.ReadDataFromXML(GameLogic, "res/devices.xml", "position", "power", j, 0))
                     self.item_button = QtWidgets.QPushButton("Place " + GameLogic.ReadDataFromXML(GameLogic, "res/userdata/userdata.xml", "iposition", "item", i, 0))
                     self.item_label.setSizePolicy(self.sizePolicy)
