@@ -282,9 +282,9 @@ class Ui_MainWindow(QtCore.QObject):
                 if mouse_drop.find("Coins") != -1:
                     money += 100
                 elif mouse_drop.find("Russian Cheese x10") != -1:
-                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 1, 10)
+                    GameLogic.editXML(GameLogic, "res/userdata/userdata.xml", "iposition", rucheese_index, 10)
                 elif mouse_drop.find("Russian Cheese x5") != -1:
-                    GameLogic.editXML(GameLogic, "res/shop.xml", "item", 1, 5)
+                    GameLogic.editXML(GameLogic, "res/userdata/userdata.xml", "iposition", rucheese_index, 5)
                 elif mouse_drop.find("Twilight Cheese x5") != -1:
                     GameLogic.editXML(GameLogic, "res/shop.xml", "item", 3, 5)
                 elif mouse_drop.find("Twilight Cheese x1") != -1:
@@ -1059,19 +1059,27 @@ class InventoryThread(Thread):
         lines = myfile.readlines()
         myfile.close()
         line_index = 0
+        index = len(lines)
         index_exec = False
         for line in lines:
             if line.find("inventory") != -1:
                 index_exec = True
+            if line.find("journal") != -1:
+                index_exec = False
             if line.find(mouse_drop) != -1 and index_exec:
                 line_index = line.split("iposition")
-                line_index = line_index[1].split(" ")
+                line_index = line_index[0]
+                line_index = line_index.split(" ")
                 index = line_index[0]
+                break
+        mouse_drop = mouse_drop[12:]
         print("Ready to Write")
-        if index == len(myfile):
+        if index == len(lines):
             Inventory.Write(Inventory, mouse_drop)
+            print("writed")
         else:
             GameLogic.editXML(GameLogic, "res/userdata/userdata.xml", "iposition", index, 1)
+            print("Added")
 
 
 class Journal(object):
@@ -1142,14 +1150,14 @@ class Inventory(object):
         tree = ET.parse('res/userdata/userdata.xml')
         root = tree.getroot()
         new_element = ET.Element('inventory')
-        new_subelement = ET.SubElement(new_element, 'iposition' + str(i))
+        new_subelement = ET.SubElement(new_element, 'iposition' + str(k))
         new_subelement.text = '0'
-        root[2].append(new_subelement)
+        root[0].append(new_subelement)
         for elem in root.iter('inventory'):
-            elem.set('i', str(i))
-        for elem in root.iter('iposition' + str(i)):
-            elem.set('drop', str(drop))
-            elem.set('amount', 1)
+            elem.set('i', str(k))
+        for elem in root.iter('iposition' + str(k)):
+            elem.set('item', str(drop))
+            elem.set('amount', str(1))
         tree.write('res/userdata/userdata.xml')
 
     def WriteDevice(self, drop, power):
@@ -1158,14 +1166,14 @@ class Inventory(object):
         tree = ET.parse('res/userdata/userdata.xml')
         root = tree.getroot()
         new_element = ET.Element('inventory')
-        new_subelement = ET.SubElement(new_element, 'iposition' + str(i))
+        new_subelement = ET.SubElement(new_element, 'iposition' + str(k))
         new_subelement.text = '0'
-        root[2].append(new_subelement)
+        root[0].append(new_subelement)
         for elem in root.iter('inventory'):
-            elem.set('i', str(i))
-        for elem in root.iter('iposition' + str(i)):
-            elem.set('drop', str(drop))
-        for elem in root.iter('iposition' + str(i)):
+            elem.set('i', str(k))
+        for elem in root.iter('iposition' + str(k)):
+            elem.set('item', str(drop))
+        for elem in root.iter('iposition' + str(k)):
             elem.set('power', str(power))
         tree.write('res/userdata/userdata.xml')
 
@@ -1630,6 +1638,7 @@ for line in lines:
        line_index = line.split("iposition")
        line_index = line_index[1].split(" ")
        cheese_index = line_index[0]
+       break
 
 cheese_amount = int(Inventory.Read(Inventory, "amount", cheese_index))
 mouse_cost = GameLogic.ReadUserData(GameLogic, "last_cost", 0)
@@ -1645,6 +1654,17 @@ quest = int(GameLogic.ReadUserData(GameLogic, "quest", 0))
 
 Journal.Init(Journal)
 Inventory.Init(Inventory)
+
+index_exec = False
+
+for line in lines:
+    if line.find("inventory") != -1:
+        index_exec = True
+    if line.find("Russian Cheese") != -1 and index_exec:
+       line_index = line.split("iposition")
+       line_index = line_index[1].split(" ")
+       rucheese_index = line_index[0]
+       break
 
 
 def setter(exec):
@@ -1685,6 +1705,7 @@ def indenter():
 
 
 if __name__ == "__main__":
+    indenter()
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
