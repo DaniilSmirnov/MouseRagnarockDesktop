@@ -82,7 +82,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.pipe.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.pipe.setObjectName("pipe")
         self.gridLayout.addWidget(self.pipe, 0, 1, 1, 2)
-        self.pipe.setIcon(QtGui.QIcon('pipe.png'))
+        self.pipe.setIcon(QtGui.QIcon('res/images/pipe.png'))
         self.pipe.setIconSize(QtCore.QSize(392, 101))
 
         self.bossesbutton = QtWidgets.QPushButton(self.layoutWidget)
@@ -318,7 +318,7 @@ class Ui_MainWindow(QtCore.QObject):
             mouse_drop = " "
             mouse_cost = "-" + GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "cost", number, 0)
 
-        mouse_icon = GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "icon", number, 0)
+        mouse_icon = "res/images/" + GameLogic.ReadDataFromXML(self, "res/locations.xml", "mice", "icon", number, 0)
         pixmap = QtGui.QPixmap(mouse_icon)
         self.mouse_image.setPixmap(pixmap)
         money += int(mouse_cost)
@@ -408,8 +408,9 @@ class Ui_MainWindow(QtCore.QObject):
             quest += 1
             self.quest_alert()
         if quest == 7 and device == 3:
-            quest += 1
-            self.quest_alert()
+            #quest += 1
+            #self.quest_alert()
+            print("WIP")
         if quest == 8:
             index = 0
             amount = GameLogic.ReadI(GameLogic, "res/userdata/userdata.xml", "inventory")
