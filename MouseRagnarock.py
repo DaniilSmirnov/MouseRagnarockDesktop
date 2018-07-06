@@ -9,6 +9,7 @@ from PIL import Image
 import xml.etree.cElementTree as ET
 
 import wget
+import  os
 
 exec = False
 starter = True
@@ -725,7 +726,7 @@ class ShopWindow(QtWidgets.QDialog, ShopWindowUi):
             if (str(button.text())[4:]) == item and (money_w > 0):
                 money -= int(self.items.get(item))
                 global mouse_drop
-                mouse_drop = item
+                mouse_drop = "Has dropped "+item
                 thread = InventoryThread()
                 thread.start()
                 self.update_ui()
@@ -1067,9 +1068,9 @@ class InventoryThread(Thread):
                 index_exec = True
             if line.find("journal") != -1:
                 index_exec = False
-            if line.find(mouse_drop) != -1 and index_exec:
+            if line.find(mouse_drop[12:]) != -1 and index_exec:
                 line_index = line.split("iposition")
-                line_index = line_index[0]
+                line_index = line_index[1]
                 line_index = line_index.split(" ")
                 index = line_index[0]
                 break
@@ -1616,6 +1617,18 @@ class Quests(object):
         returner = itemlist[0].attributes["i"].value
         return returner
 
+try:
+    os.remove("current")
+except FileNotFoundError:
+    print("Remake current")
+current = 8.1
+
+wget.download("https://daniilsmirnov.github.io/MouseRagnarok/current")
+myfile = open("current", 'r')
+lines = myfile.readlines()
+for line in lines:
+    if line != str(current):
+        exit()
 
 energy = int(GameLogic.ReadUserData(GameLogic, "energy", 0))
 money = int(GameLogic.ReadUserData(GameLogic, "money", 0))
@@ -1706,6 +1719,7 @@ def indenter():
 
 
 if __name__ == "__main__":
+
     indenter()
     import sys
     app = QtWidgets.QApplication(sys.argv)
